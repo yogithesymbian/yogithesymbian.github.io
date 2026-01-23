@@ -216,6 +216,49 @@
             0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
             100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
         }
+
+        /* SPACE CLICK EXPLOSION */
+        .space-explosion {
+            position: fixed; pointer-events: none; z-index: 99999;
+            top: 0; left: 0; width: 0; height: 0;
+        }
+        .black-hole-core {
+            position: absolute; top: 0; left: 0;
+            width: 10px; height: 10px; border-radius: 50%;
+            background: black;
+            box-shadow: 0 0 15px 5px rgb(var(--color-primary)), 0 0 30px 10px white;
+            transform: translate(-50%, -50%) scale(0);
+            animation: bhExpand 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes bhExpand {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            30% { transform: translate(-50%, -50%) scale(4); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+        }
+        .milky-way-spiral {
+            position: absolute; top: 0; left: 0;
+            width: 10px; height: 10px; border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent, rgb(var(--color-primary)), purple, transparent);
+            transform: translate(-50%, -50%) scale(0);
+            filter: blur(2px);
+            animation: galaxySpin 1s ease-out forwards;
+        }
+        @keyframes galaxySpin {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(15) rotate(540deg); opacity: 0; }
+        }
+        .light-beam {
+            position: absolute; top: 0; left: 0;
+            width: 150px; height: 2px;
+            background: linear-gradient(90deg, white, transparent);
+            transform-origin: left center;
+            opacity: 0;
+            animation: beamShoot 0.5s ease-out forwards;
+        }
+        @keyframes beamShoot {
+            0% { transform: rotate(var(--angle)) scaleX(0); opacity: 1; }
+            100% { transform: rotate(var(--angle)) scaleX(1.5) translateX(100px); opacity: 0; }
+        }
     </style>
 </head>
 <body id="main-body" class="bg-slate-950 text-slate-300 font-sans antialiased overflow-x-hidden relative">
@@ -287,7 +330,7 @@
         <section id="work" class="max-w-5xl mx-auto px-6">
             <h2 class="text-sm font-bold text-primary tracking-widest uppercase mb-12 drop-shadow-[0_0_5px_rgb(var(--color-primary))]">Featured Projects</h2>
             <div class="grid md:grid-cols-2 gap-6">
-                <a href="#" onclick="playFuturisticSound()" class="block glass p-1 rounded-2xl hover:bg-white/5 transition-all duration-300 group cursor-pointer hover:border-primary/50 hover:-translate-y-2 hover:shadow-[0_0_30px_rgb(var(--color-primary)/0.15)] focus:outline-none focus:ring-2 focus:ring-primary/50">
+                <a href="#" class="block glass p-1 rounded-2xl hover:bg-white/5 transition-all duration-300 group cursor-pointer hover:border-primary/50 hover:-translate-y-2 hover:shadow-[0_0_30px_rgb(var(--color-primary)/0.15)] focus:outline-none focus:ring-2 focus:ring-primary/50">
                     <div class="bg-slate-900/50 rounded-xl p-8 h-full border border-white/5 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/30 transition-all duration-500"></div>
                         <div class="relative z-10">
@@ -303,7 +346,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="#" onclick="playFuturisticSound()" class="block glass p-1 rounded-2xl hover:bg-white/5 transition-all duration-300 group cursor-pointer hover:border-primary/50 hover:-translate-y-2 hover:shadow-[0_0_30px_rgb(var(--color-primary)/0.15)] focus:outline-none focus:ring-2 focus:ring-primary/50">
+                <a href="#" class="block glass p-1 rounded-2xl hover:bg-white/5 transition-all duration-300 group cursor-pointer hover:border-primary/50 hover:-translate-y-2 hover:shadow-[0_0_30px_rgb(var(--color-primary)/0.15)] focus:outline-none focus:ring-2 focus:ring-primary/50">
                     <div class="bg-slate-900/50 rounded-xl p-8 h-full border border-white/5 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/30 transition-all duration-500"></div>
                         <div class="relative z-10">
@@ -521,6 +564,40 @@
                 document.body.appendChild(spark);
                 setTimeout(() => spark.remove(), 600);
             }
+        }
+
+        // --- CLICK SPACE EXPLOSION LOGIC ---
+        document.addEventListener('click', (e) => {
+            createSpaceExplosion(e.clientX, e.clientY);
+            playFuturisticSound();
+        });
+
+        function createSpaceExplosion(x, y) {
+            const container = document.createElement('div');
+            container.classList.add('space-explosion');
+            container.style.left = x + 'px';
+            container.style.top = y + 'px';
+            document.body.appendChild(container);
+
+            // 1. Milky Way Spiral
+            const galaxy = document.createElement('div');
+            galaxy.classList.add('milky-way-spiral');
+            container.appendChild(galaxy);
+
+            // 2. Black Hole Core
+            const core = document.createElement('div');
+            core.classList.add('black-hole-core');
+            container.appendChild(core);
+
+            // 3. Light Beams
+            for(let i=0; i<12; i++) {
+                const beam = document.createElement('div');
+                beam.classList.add('light-beam');
+                beam.style.setProperty('--angle', (i * 30) + 'deg');
+                container.appendChild(beam);
+            }
+
+            setTimeout(() => container.remove(), 1000);
         }
 
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
