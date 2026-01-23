@@ -1,32 +1,322 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>CodePen - Portfolio Page</title>
-    <meta content="#181d23" name="theme-color" />
-    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
-    <meta name="author" content="Yago Estévez X Yogi Arif Widodo" />
-    <meta
-      name="description"
-      content="Portfolio Website by Yago Estévez X Yogi Arif Widodo"
-    />
-    <meta
-      name="keywords"
-      content="portfolio, css, javascript, software, coding, programming, web, development, developer, fullstack, frontend, freecodecamp, es2015"
-    />
-    <link rel="stylesheet" href="./css/normalize.min.css" />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-    />
-    <link rel="stylesheet" href="./style.css" />
-  </head>
-  <body>
-    <!-- partial:index.partial.html -->
-    <div id="app"></div>
-    <!-- partial -->
-    <script src="./js/react.production.min.js"></script>
-    <script src="./js/react-dom.production.min.js"></script>
-    <script src="./script.js"></script>
-  </body>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yogi AW | Software Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        },
+                        // Menggunakan variable CSS agar reaktif
+                        primary: 'rgb(var(--color-primary) / <alpha-value>)',
+                    },
+                    fontFamily: {
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --color-primary: 56, 189, 248; /* Default: Cyber Blue */
+        }
+
+        /* Transisi Global yang Smooth */
+        body {
+            transition: background-color 0.7s ease, color 0.5s ease;
+        }
+        
+        /* Elemen yang berubah warna */
+        div, nav, button, svg, path, span, a {
+            transition: border-color 0.5s ease, stroke 0.5s ease, fill 0.5s ease, box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Teks Neon yang PASTI KELIHATAN (Hapus bg-clip-text yang bikin bug) */
+        .neon-text {
+            color: rgb(var(--color-primary));
+            text-shadow: 0 0 30px rgb(var(--color-primary) / 0.8);
+            font-weight: 800; /* Extra bold biar jelas */
+        }
+
+        /* Animasi Berdenyut SATU HALAMAN (System Pulse) */
+        @keyframes systemPulse {
+            0% { filter: brightness(1) contrast(1); transform: scale(1); }
+            50% { filter: brightness(1.3) contrast(1.1) drop-shadow(0 0 20px rgb(var(--color-primary) / 0.3)); transform: scale(1.005); }
+            100% { filter: brightness(1) contrast(1); transform: scale(1); }
+        }
+
+        .system-reboot {
+            animation: systemPulse 0.4s ease-in-out 2; /* Berdenyut 2 kali */
+        }
+
+        /* Style Tombol Pallet */
+        .pallet-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .pallet-btn:hover { transform: scale(1.2); }
+        .pallet-btn.active {
+            transform: scale(1.3);
+            box-shadow: 0 0 25px rgb(var(--color-primary));
+            border-color: white;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body id="main-body" class="bg-slate-950 text-slate-300 font-sans antialiased overflow-x-hidden relative selection:bg-primary selection:text-slate-900">
+
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <svg class="absolute inset-0 w-full h-full stroke-white/5 [mask-image:radial-gradient(100%_100%_at_top_center,white,transparent)]" aria-hidden="true">
+            <defs>
+                <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M0 40L0 0L40 0" fill="none" />
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid-pattern)" />
+        </svg>
+
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[800px] bg-primary/10 rounded-full blur-[120px] opacity-70 transition-colors duration-700"></div>
+        
+        <div class="absolute bottom-0 right-0 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[100px] opacity-40 transition-colors duration-700"></div>
+    </div>
+
+    <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-slate-950/70 backdrop-blur-md">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-primary rounded-full animate-pulse shadow-[0_0_10px_rgb(var(--color-primary))]"></div>
+                <span class="font-bold text-white tracking-tight">Yogi<span class="text-slate-500">.dev</span></span>
+            </div>
+            
+            <div class="flex gap-6 text-sm font-medium text-slate-400">
+                <a href="#work" class="hover:text-primary transition-colors hover:drop-shadow-[0_0_8px_rgb(var(--color-primary))]">Work</a>
+                <a href="#contact" class="hover:text-primary transition-colors hover:drop-shadow-[0_0_8px_rgb(var(--color-primary))]">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 pt-32 pb-40">
+        
+        <section class="max-w-4xl mx-auto px-6 mb-32 text-center md:text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-medium mb-8 mx-auto md:mx-0 shadow-[0_0_15px_rgb(var(--color-primary)/0.2)]">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                Open for Collaboration
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-6">
+                Building digital <br />
+                <span id="scramble-target" data-value="EXPERIENCES" class="neon-text font-mono inline-block min-w-[320px]">EXPERIENCES</span> 
+                <br class="md:hidden" /> that matter.
+            </h1>
+            
+            <p class="text-lg text-slate-400 max-w-2xl leading-relaxed mb-10 mx-auto md:mx-0">
+                I am a Software Engineer focused on crafting scalable applications and intuitive interfaces. Combining technical precision with modern aesthetics.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <a href="#contact" class="px-6 py-3 bg-white text-slate-950 font-bold rounded hover:bg-slate-200 transition-all hover:scale-105 active:scale-95 duration-200 shadow-lg shadow-white/10">
+                    Let's Talk
+                </a>
+                <a href="https://github.com/yogithesymbian" target="_blank" class="px-6 py-3 glass text-white font-medium rounded hover:bg-white/10 transition-all flex items-center justify-center gap-2 hover:border-primary/50 hover:text-primary hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.2)]">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    GitHub
+                </a>
+            </div>
+        </section>
+
+        <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-20"></div>
+
+        <section id="work" class="max-w-5xl mx-auto px-6">
+            <h2 class="text-sm font-bold text-primary tracking-widest uppercase mb-12 drop-shadow-[0_0_5px_rgb(var(--color-primary))]">Featured Projects</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="glass p-1 rounded-2xl hover:bg-white/5 transition-colors group cursor-pointer hover:border-primary/50">
+                    <div class="bg-slate-900/50 rounded-xl p-8 h-full border border-white/5 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/30 transition-all duration-500"></div>
+                        <div class="relative z-10">
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Internal Dashboard System</h3>
+                            <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+                                A comprehensive monitoring tool for server metrics, featuring real-time data visualization.
+                            </p>
+                            <div class="flex gap-2 mb-6">
+                              <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Next.js</span>
+                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Vue.js</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass p-1 rounded-2xl hover:bg-white/5 transition-colors group cursor-pointer hover:border-primary/50">
+                    <div class="bg-slate-900/50 rounded-xl p-8 h-full border border-white/5 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/30 transition-all duration-500"></div>
+                        <div class="relative z-10">
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">E-Commerce API</h3>
+                            <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+                                Robust backend architecture handling high-concurrency transaction requests.
+                            </p>
+                            <div class="flex gap-2 mb-6">
+                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Rust</span>
+                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">PostgreSQL</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="max-w-5xl mx-auto px-6 mt-32 border-t border-white/5 pt-12 mb-20">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div>
+                    <h3 class="text-white font-bold text-lg">Yogi AW</h3>
+                    <p class="text-slate-500 text-sm">Software Engineer</p>
+                </div>
+                <div class="flex gap-6">
+                    <a href="mailto:yogi@yogiveloper.com" class="text-slate-400 hover:text-primary transition-colors text-sm">Email</a>
+                    <a href="https://linkedin.com" class="text-slate-400 hover:text-primary transition-colors text-sm">LinkedIn</a>
+                </div>
+            </div>
+            <div class="text-center text-slate-700 text-xs mt-12 mb-4">
+                &copy; 2026 Yogi Arif Widodo.
+            </div>
+        </section>
+
+    </main>
+
+    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
+        <div class="glass px-6 py-4 rounded-full flex items-center gap-5 shadow-2xl shadow-black/80 border border-white/10 backdrop-blur-xl">
+            
+            <button onclick="changeTheme('56, 189, 248', this)" class="pallet-btn active w-6 h-6 rounded-full bg-[#38bdf8] border-2 border-transparent relative" title="Cyber Blue" data-color="56, 189, 248">
+                <span class="absolute inset-0 rounded-full bg-[#38bdf8] blur-sm opacity-50"></span>
+            </button>
+
+            <button onclick="changeTheme('192, 132, 252', this)" class="pallet-btn w-6 h-6 rounded-full bg-[#c084fc] border-2 border-transparent relative" title="Neon Purple" data-color="192, 132, 252">
+                <span class="absolute inset-0 rounded-full bg-[#c084fc] blur-sm opacity-50"></span>
+            </button>
+
+            <button onclick="changeTheme('74, 222, 128', this)" class="pallet-btn w-6 h-6 rounded-full bg-[#4ade80] border-2 border-transparent relative" title="Matrix Green" data-color="74, 222, 128">
+                <span class="absolute inset-0 rounded-full bg-[#4ade80] blur-sm opacity-50"></span>
+            </button>
+
+            <button onclick="changeTheme('251, 146, 60', this)" class="pallet-btn w-6 h-6 rounded-full bg-[#fb923c] border-2 border-transparent relative" title="Solar Orange" data-color="251, 146, 60">
+                <span class="absolute inset-0 rounded-full bg-[#fb923c] blur-sm opacity-50"></span>
+            </button>
+
+            <button onclick="changeTheme('248, 113, 113', this)" class="pallet-btn w-6 h-6 rounded-full bg-[#f87171] border-2 border-transparent relative" title="Crimson Red" data-color="248, 113, 113">
+                <span class="absolute inset-0 rounded-full bg-[#f87171] blur-sm opacity-50"></span>
+            </button>
+            
+        </div>
+    </div>
+
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playFuturisticSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            // Sound Effect Design
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.3); // Nada turun
+            
+            gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.3);
+        }
+
+        // Logic Scramble
+        function scrambleText(element) {
+            // Karakter campuran huruf, angka, dan simbol tech
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/[]*"; 
+            const originalText = element.dataset.value; 
+            let iteration = 0;
+            
+            if(element.interval) clearInterval(element.interval);
+            
+            element.interval = setInterval(() => {
+                element.innerText = originalText
+                    .split("")
+                    .map((letter, index) => {
+                        if(index < iteration) {
+                            return originalText[index];
+                        }
+                        return chars[Math.floor(Math.random() * chars.length)];
+                    })
+                    .join("");
+                
+                if(iteration >= originalText.length) { 
+                    clearInterval(element.interval);
+                }
+                
+                iteration += 1 / 2; // Kecepatan efek (makin kecil makin lambat)
+            }, 50); // Frame rate animasi
+        }
+
+        function changeTheme(colorValue, btnElement) {
+            // 1. Update CSS Variable
+            document.documentElement.style.setProperty('--color-primary', colorValue);
+
+            // 2. Update Tombol Panel
+            document.querySelectorAll('.pallet-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.borderColor = 'transparent';
+            });
+            if(btnElement) btnElement.classList.add('active');
+
+            // 3. EFEK BERDENYUT PADA SELURUH HALAMAN (Fix UI Impact)
+            const body = document.body;
+            
+            // Reset animasi biar bisa diputar ulang
+            body.classList.remove('system-reboot');
+            void body.offsetWidth; // Force Reflow
+            body.classList.add('system-reboot'); // Tambah class animasi denyut
+
+            // 4. Sound & Scramble
+            playFuturisticSound();
+            const titleElement = document.getElementById('scramble-target');
+            if(titleElement) scrambleText(titleElement);
+
+            // 5. Simpan Theme
+            localStorage.setItem('user-theme', colorValue);
+        }
+
+        // Jalankan saat load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedColor = localStorage.getItem('user-theme');
+            if (savedColor) {
+                const btn = document.querySelector(`button[data-color="${savedColor}"]`);
+                if (btn) {
+                    changeTheme(savedColor, btn);
+                }
+            } else {
+                // Intro effect jika belum ada save
+                const titleElement = document.getElementById('scramble-target');
+                if(titleElement) scrambleText(titleElement);
+            }
+        });
+    </script>
+</body>
 </html>
