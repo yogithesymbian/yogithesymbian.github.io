@@ -10,32 +10,31 @@
             theme: {
                 extend: {
                     colors: {
-                        slate: {
-                            850: '#1e293b',
-                            900: '#0f172a',
-                            950: '#020617',
-                        },
-                        // Menggunakan variable CSS agar reaktif
+                        slate: { 850: '#1e293b', 900: '#0f172a', 950: '#020617' },
                         primary: 'rgb(var(--color-primary) / <alpha-value>)',
                     },
                     fontFamily: {
                         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
+                    },
+                    cursor: {
+                        'none': 'none', // Opsi jika ingin menyembunyikan cursor asli
                     }
                 }
             }
         }
     </script>
     <style>
-        :root {
-            --color-primary: 56, 189, 248; /* Default: Cyber Blue */
+        :root { --color-primary: 56, 189, 248; }
+
+        /* FUTURISTIC SELECTION STYLE */
+        ::selection {
+            background: rgba(var(--color-primary), 0.15);
+            color: white;
+            text-shadow: 0 0 10px rgb(var(--color-primary)), 0 0 20px rgb(var(--color-primary)), 0 0 30px white;
         }
 
-        /* Transisi Global yang Smooth */
-        body {
-            transition: background-color 0.7s ease, color 0.5s ease;
-        }
+        body { transition: background-color 0.7s ease, color 0.5s ease; cursor: default; }
         
-        /* Elemen yang berubah warna */
         div, nav, button, svg, path, span, a {
             transition: border-color 0.5s ease, stroke 0.5s ease, fill 0.5s ease, box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
         }
@@ -46,40 +45,185 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
         
-        /* Teks Neon yang PASTI KELIHATAN (Hapus bg-clip-text yang bikin bug) */
         .neon-text {
             color: rgb(var(--color-primary));
             text-shadow: 0 0 30px rgb(var(--color-primary) / 0.8);
-            font-weight: 800; /* Extra bold biar jelas */
+            font-weight: 800;
         }
 
-        /* Animasi Berdenyut SATU HALAMAN (System Pulse) */
         @keyframes systemPulse {
             0% { filter: brightness(1) contrast(1); transform: scale(1); }
             50% { filter: brightness(1.3) contrast(1.1) drop-shadow(0 0 20px rgb(var(--color-primary) / 0.3)); transform: scale(1.005); }
             100% { filter: brightness(1) contrast(1); transform: scale(1); }
         }
+        .system-reboot { animation: systemPulse 0.4s ease-in-out 2; }
 
-        .system-reboot {
-            animation: systemPulse 0.4s ease-in-out 2; /* Berdenyut 2 kali */
-        }
-
-        /* Style Tombol Pallet */
-        .pallet-btn {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .pallet-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .pallet-btn:hover { transform: scale(1.2); }
-        .pallet-btn.active {
-            transform: scale(1.3);
-            box-shadow: 0 0 25px rgb(var(--color-primary));
-            border-color: white;
-            z-index: 10;
+        .pallet-btn.active { transform: scale(1.3); box-shadow: 0 0 25px rgb(var(--color-primary)); border-color: white; z-index: 10; }
+
+        /* CURSOR TRAIL STYLES */
+        .cursor-circle {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background-color: rgb(var(--color-primary));
+            position: fixed; 
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: screen; /* Efek menyatu dengan background */
+            box-shadow: 0 0 20px rgb(var(--color-primary));
+            filter: blur(4px);
+            animation: nebulaPulse 1.5s infinite alternate ease-in-out;
+        }
+        @keyframes nebulaPulse {
+            0% { box-shadow: 0 0 15px rgb(var(--color-primary)); filter: blur(4px); opacity: 0.9; }
+            100% { box-shadow: 0 0 35px 5px rgb(var(--color-primary)); filter: blur(8px); opacity: 0.5; }
+        }
+
+        .visualizer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 15vh;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.1;
+            mask-image: linear-gradient(to top, black 50%, transparent 100%);
+        }
+
+        .bar {
+            width: 2%;
+            background-color: rgb(var(--color-primary));
+            animation: pulse 1.5s infinite alternate ease-in-out;
+            box-shadow: 0 0 10px rgb(var(--color-primary) / 0.5), 0 0 20px rgb(var(--color-primary) / 0.3);
+        }
+
+        @keyframes pulse {
+            from {
+                height: 1%;
+            }
+            to {
+                height: 100%;
+            }
+        }
+        .bar:nth-child(1) { animation-delay: 0.0s; }
+        .bar:nth-child(2) { animation-delay: 0.1s; }
+        .bar:nth-child(3) { animation-delay: 0.2s; }
+        .bar:nth-child(4) { animation-delay: 0.3s; }
+        .bar:nth-child(5) { animation-delay: 0.4s; }
+        .bar:nth-child(6) { animation-delay: 0.5s; }
+        .bar:nth-child(7) { animation-delay: 0.6s; }
+        .bar:nth-child(8) { animation-delay: 0.7s; }
+        .bar:nth-child(9) { animation-delay: 0.8s; }
+        .bar:nth-child(10) { animation-delay: 0.9s; }
+        .bar:nth-child(11) { animation-delay: 1.0s; }
+        .bar:nth-child(12) { animation-delay: 1.1s; }
+        .bar:nth-child(13) { animation-delay: 1.2s; }
+        .bar:nth-child(14) { animation-delay: 1.3s; }
+        .bar:nth-child(15) { animation-delay: 1.4s; }
+        .bar:nth-child(16) { animation-delay: 1.5s; }
+        .bar:nth-child(17) { animation-delay: 1.6s; }
+        .bar:nth-child(18) { animation-delay: 1.7s; }
+        .bar:nth-child(19) { animation-delay: 1.8s; }
+        .bar:nth-child(20) { animation-delay: 1.9s; }
+        .bar:nth-child(21) { animation-delay: 2.0s; }
+        .bar:nth-child(22) { animation-delay: 2.1s; }
+        .bar:nth-child(23) { animation-delay: 2.2s; }
+        .bar:nth-child(24) { animation-delay: 2.3s; }
+        .bar:nth-child(25) { animation-delay: 2.4s; }
+        .bar:nth-child(26) { animation-delay: 2.5s; }
+        .bar:nth-child(27) { animation-delay: 2.6s; }
+        .bar:nth-child(28) { animation-delay: 2.7s; }
+        .bar:nth-child(29) { animation-delay: 2.8s; }
+        .bar:nth-child(30) { animation-delay: 2.9s; }
+        .bar:nth-child(31) { animation-delay: 3.0s; }
+        .bar:nth-child(32) { animation-delay: 3.1s; }
+        .bar:nth-child(33) { animation-delay: 3.2s; }
+        .bar:nth-child(34) { animation-delay: 3.3s; }
+        .bar:nth-child(35) { animation-delay: 3.4s; }
+        .bar:nth-child(36) { animation-delay: 3.5s; }
+        .bar:nth-child(37) { animation-delay: 3.6s; }
+        .bar:nth-child(38) { animation-delay: 3.7s; }
+        .bar:nth-child(39) { animation-delay: 3.8s; }
+        .bar:nth-child(40) { animation-delay: 3.9s; }
+
+        /* MARQUEE & ROTATOR STYLES */
+        .marquee-wrapper {
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        .marquee-track {
+            display: flex;
+            gap: 1.5rem;
+            width: max-content;
+            animation: scroll 30s linear infinite;
+        }
+        .marquee-track:hover { animation-play-state: paused; }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-50% - 0.75rem)); }
+        }
+        
+        .rotator-cursor {
+            position: fixed; top: 0; left: 0; width: 120px; height: 120px;
+            pointer-events: none; z-index: 9999; opacity: 0; transform: translate(-50%, -50%) scale(0);
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; align-items: center; justify-content: center;
+            mix-blend-mode: exclusion;
+        }
+        .rotator-cursor.active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .rotator-text { animation: spinText 10s linear infinite; transform-origin: center; }
+        @keyframes spinText { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* COSMIC NEBULA STYLE */
+        .cosmic-nebula {
+            position: absolute;
+            top: 0; left: 0;
+            width: 600px; height: 400px;
+            background: radial-gradient(closest-side, rgba(var(--color-primary), 0.5), transparent 100%);
+            filter: blur(60px);
+            border-radius: 50%;
+            /* mix-blend-mode: screen; */
+            animation: nebulaFly 15s linear infinite;
+            opacity: 0;
+        }
+        @keyframes nebulaFly {
+            0% { transform: translate(-50%, -20%) scale(0.5) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.6; }
+            50% { transform: translate(50vw, 50vh) scale(1.2) rotate(180deg); opacity: 0.8; }
+            80% { opacity: 0.6; }
+            100% { transform: translate(110vw, 110vh) scale(0.5) rotate(360deg); opacity: 0; }
+        }
+
+        /* DRAG SPARK PARTICLES */
+        .drag-spark {
+            position: fixed;
+            width: 4px; height: 4px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            box-shadow: 0 0 10px rgb(var(--color-primary)), 0 0 20px rgb(var(--color-primary));
+            animation: sparkFly 0.6s ease-out forwards;
+        }
+        @keyframes sparkFly {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
         }
     </style>
 </head>
-<body id="main-body" class="bg-slate-950 text-slate-300 font-sans antialiased overflow-x-hidden relative selection:bg-primary selection:text-slate-900">
+<body id="main-body" class="bg-slate-950 text-slate-300 font-sans antialiased overflow-x-hidden relative">
 
     <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="visualizer">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
         <svg class="absolute inset-0 w-full h-full stroke-white/5 [mask-image:radial-gradient(100%_100%_at_top_center,white,transparent)]" aria-hidden="true">
             <defs>
                 <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -88,16 +232,15 @@
             </defs>
             <rect width="100%" height="100%" fill="url(#grid-pattern)" />
         </svg>
-
         <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[800px] bg-primary/10 rounded-full blur-[120px] opacity-70 transition-colors duration-700"></div>
-        
         <div class="absolute bottom-0 right-0 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[100px] opacity-40 transition-colors duration-700"></div>
+        <div class="cosmic-nebula"></div>
     </div>
 
     <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-slate-950/70 backdrop-blur-md">
         <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <div class="w-2 h-2 bg-primary rounded-full animate-pulse shadow-[0_0_10px_rgb(var(--color-primary))]"></div>
+                <div class="w-3 h-3 rounded-full animate-pulse shadow-[0_0_10px_rgb(var(--color-primary))]" style="background-color: rgb(var(--color-primary))"></div>
                 <span class="font-bold text-white tracking-tight">Yogi<span class="text-slate-500">.dev</span></span>
             </div>
             
@@ -112,9 +255,9 @@
         
         <section class="max-w-4xl mx-auto px-6 mb-32 text-center md:text-left">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-medium mb-8 mx-auto md:mx-0 shadow-[0_0_15px_rgb(var(--color-primary)/0.2)]">
-                <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background-color: rgb(var(--color-primary))"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3" style="background-color: rgb(var(--color-primary))"></span>
                 </span>
                 Open for Collaboration
             </div>
@@ -134,7 +277,6 @@
                     Let's Talk
                 </a>
                 <a href="https://github.com/yogithesymbian" target="_blank" class="px-6 py-3 glass text-white font-medium rounded hover:bg-white/10 transition-all flex items-center justify-center gap-2 hover:border-primary/50 hover:text-primary hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.2)]">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                     GitHub
                 </a>
             </div>
@@ -144,38 +286,85 @@
 
         <section id="work" class="max-w-5xl mx-auto px-6">
             <h2 class="text-sm font-bold text-primary tracking-widest uppercase mb-12 drop-shadow-[0_0_5px_rgb(var(--color-primary))]">Featured Projects</h2>
-            
             <div class="grid md:grid-cols-2 gap-6">
-                <div class="glass p-1 rounded-2xl hover:bg-white/5 transition-colors group cursor-pointer hover:border-primary/50">
+                <a href="#" onclick="playFuturisticSound()" class="block glass p-1 rounded-2xl hover:bg-white/5 transition-all duration-300 group cursor-pointer hover:border-primary/50 hover:-translate-y-2 hover:shadow-[0_0_30px_rgb(var(--color-primary)/0.15)] focus:outline-none focus:ring-2 focus:ring-primary/50">
                     <div class="bg-slate-900/50 rounded-xl p-8 h-full border border-white/5 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/30 transition-all duration-500"></div>
                         <div class="relative z-10">
-                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Internal Dashboard System</h3>
-                            <p class="text-slate-400 text-sm mb-6 leading-relaxed">
-                                A comprehensive monitoring tool for server metrics, featuring real-time data visualization.
-                            </p>
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Internal Dashboard System</h3>
+                                <svg class="w-6 h-6 text-slate-600 group-hover:text-primary group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </div>
+                            <p class="text-slate-400 text-sm mb-6 leading-relaxed">A comprehensive monitoring tool for server metrics, featuring real-time data visualization.</p>
                             <div class="flex gap-2 mb-6">
-                              <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Next.js</span>
-                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Vue.js</span>
+                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Stability</span>
+                              <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">High Performance</span>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
+                <a href="#" onclick="playFuturisticSound()" class="block glass p-1 rounded-2xl hover:bg-white/5 transition-all duration-300 group cursor-pointer hover:border-primary/50 hover:-translate-y-2 hover:shadow-[0_0_30px_rgb(var(--color-primary)/0.15)] focus:outline-none focus:ring-2 focus:ring-primary/50">
+                    <div class="bg-slate-900/50 rounded-xl p-8 h-full border border-white/5 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/30 transition-all duration-500"></div>
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">E-Commerce API</h3>
+                                <svg class="w-6 h-6 text-slate-600 group-hover:text-primary group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </div>
+                            <p class="text-slate-400 text-sm mb-6 leading-relaxed">Robust backend architecture handling high-concurrency transaction requests.</p>
+                            <div class="flex gap-2 mb-6">
+                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Auto Self-Healing</span>
+                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Retry Policy</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
 
-                <div class="glass p-1 rounded-2xl hover:bg-white/5 transition-colors group cursor-pointer hover:border-primary/50">
-                    <div class="bg-slate-900/50 rounded-xl p-8 h-full border border-white/5 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/30 transition-all duration-500"></div>
-                        <div class="relative z-10">
-                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">E-Commerce API</h3>
-                            <p class="text-slate-400 text-sm mb-6 leading-relaxed">
-                                Robust backend architecture handling high-concurrency transaction requests.
-                            </p>
-                            <div class="flex gap-2 mb-6">
-                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Rust</span>
-                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">PostgreSQL</span>
-                            </div>
-                        </div>
-                    </div>
+        <!-- OPEN SOURCE MARQUEE SECTION -->
+        <section id="opensource" class="py-20 relative overflow-hidden" onmouseenter="toggleRotator(true)" onmouseleave="toggleRotator(false)">
+            <div class="max-w-5xl mx-auto px-6 mb-10">
+                <h2 class="text-sm font-bold text-primary tracking-widest uppercase drop-shadow-[0_0_5px_rgb(var(--color-primary))]">Open Source Experiments</h2>
+            </div>
+            
+            <div class="marquee-wrapper w-full py-6">
+                <div class="marquee-track">
+                    <!-- Items Set 1 -->
+                    <a href="#" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
+                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">MIT</span></div>
+                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors">Hyper-UI</h3><p class="text-xs text-slate-400 mt-1">Lightweight component library.</p></div>
+                    </a>
+                    <a href="#" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
+                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">v1.0.2</span></div>
+                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors">Rust-Shield</h3><p class="text-xs text-slate-400 mt-1">Actix-web JWT Middleware.</p></div>
+                    </a>
+                    <a href="#" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
+                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">Beta</span></div>
+                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors">Neon-DB-Client</h3><p class="text-xs text-slate-400 mt-1">Serverless Postgres Wrapper.</p></div>
+                    </a>
+                    <a href="#" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
+                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">Exp</span></div>
+                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors">Algo-Viz</h3><p class="text-xs text-slate-400 mt-1">Sorting algorithm visualizer.</p></div>
+                    </a>
+
+                    <!-- Items Set 2 (Duplicate for Seamless Loop) -->
+                    <a href="#" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
+                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">MIT</span></div>
+                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors">Hyper-UI</h3><p class="text-xs text-slate-400 mt-1">Lightweight component library.</p></div>
+                    </a>
+                    <a href="#" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
+                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">v1.0.2</span></div>
+                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors">Rust-Shield</h3><p class="text-xs text-slate-400 mt-1">Actix-web JWT Middleware.</p></div>
+                    </a>
+                    <a href="#" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
+                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">Beta</span></div>
+                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors">Neon-DB-Client</h3><p class="text-xs text-slate-400 mt-1">Serverless Postgres Wrapper.</p></div>
+                    </a>
+                    <a href="#" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
+                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">Exp</span></div>
+                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors">Algo-Viz</h3><p class="text-xs text-slate-400 mt-1">Sorting algorithm visualizer.</p></div>
+                    </a>
                 </div>
             </div>
         </section>
@@ -188,43 +377,152 @@
                 </div>
                 <div class="flex gap-6">
                     <a href="mailto:yogi@yogiveloper.com" class="text-slate-400 hover:text-primary transition-colors text-sm">Email</a>
-                    <a href="https://linkedin.com" class="text-slate-400 hover:text-primary transition-colors text-sm">LinkedIn</a>
+                    <a href="https://linkedin.com/in/yogi-arif-widodo" class="text-slate-400 hover:text-primary transition-colors text-sm">LinkedIn</a>
+                    <a href="https://yogiveloper.com" class="text-slate-400 hover:text-primary transition-colors text-sm">Yogiveloper</a>
                 </div>
             </div>
-            <div class="text-center text-slate-700 text-xs mt-12 mb-4">
-                &copy; 2026 Yogi Arif Widodo.
-            </div>
+            <div class="text-center text-slate-700 text-xs mt-12 mb-4">&copy; 2026 Yogi Arif Widodo.</div>
         </section>
 
     </main>
 
     <div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
         <div class="glass px-6 py-4 rounded-full flex items-center gap-5 shadow-2xl shadow-black/80 border border-white/10 backdrop-blur-xl">
-            
             <button onclick="changeTheme('56, 189, 248', this)" class="pallet-btn active w-6 h-6 rounded-full bg-[#38bdf8] border-2 border-transparent relative" title="Cyber Blue" data-color="56, 189, 248">
                 <span class="absolute inset-0 rounded-full bg-[#38bdf8] blur-sm opacity-50"></span>
             </button>
-
             <button onclick="changeTheme('192, 132, 252', this)" class="pallet-btn w-6 h-6 rounded-full bg-[#c084fc] border-2 border-transparent relative" title="Neon Purple" data-color="192, 132, 252">
                 <span class="absolute inset-0 rounded-full bg-[#c084fc] blur-sm opacity-50"></span>
             </button>
-
             <button onclick="changeTheme('74, 222, 128', this)" class="pallet-btn w-6 h-6 rounded-full bg-[#4ade80] border-2 border-transparent relative" title="Matrix Green" data-color="74, 222, 128">
                 <span class="absolute inset-0 rounded-full bg-[#4ade80] blur-sm opacity-50"></span>
             </button>
-
             <button onclick="changeTheme('251, 146, 60', this)" class="pallet-btn w-6 h-6 rounded-full bg-[#fb923c] border-2 border-transparent relative" title="Solar Orange" data-color="251, 146, 60">
                 <span class="absolute inset-0 rounded-full bg-[#fb923c] blur-sm opacity-50"></span>
             </button>
-
             <button onclick="changeTheme('248, 113, 113', this)" class="pallet-btn w-6 h-6 rounded-full bg-[#f87171] border-2 border-transparent relative" title="Crimson Red" data-color="248, 113, 113">
                 <span class="absolute inset-0 rounded-full bg-[#f87171] blur-sm opacity-50"></span>
             </button>
-            
         </div>
     </div>
 
+    <!-- ROTATOR CURSOR ELEMENT -->
+    <div id="rotator-cursor" class="rotator-cursor">
+        <svg class="w-full h-full rotator-text" viewBox="0 0 100 100">
+            <defs>
+                <path id="circlePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" />
+            </defs>
+            <text font-size="13" font-family="monospace" font-weight="bold" fill="rgb(var(--color-primary))" letter-spacing="4">
+                <textPath xlink:href="#circlePath">VIEW PROJECT • OPEN SOURCE •</textPath>
+            </text>
+        </svg>
+        <div class="absolute inset-0 m-auto w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_rgb(var(--color-primary))]"></div>
+    </div>
+
     <script>
+        // --- 1. CURSOR TRAIL LOGIC (Mobile Legends Effect) ---
+        const coords = { x: 0, y: 0 };
+        const circles = [];
+        const colors = [];
+        
+        // Generate 20 bola untuk trail nebula yang lebih panjang
+        const numberOfCircles = 20;
+
+        for(let i = 0; i < numberOfCircles; i++) {
+            const circle = document.createElement("div");
+            circle.classList.add("cursor-circle");
+            document.body.appendChild(circle);
+            circles.push(circle);
+            
+            // Set initial state
+            circle.x = 0;
+            circle.y = 0;
+            
+            // Mengatur ukuran: Bola pertama besar, makin ke belakang makin kecil
+            // Scale: 1 -> 0.2
+            const scale = (numberOfCircles - i) / numberOfCircles; 
+            circle.style.transform = `scale(${scale})`;
+            
+            // Mengatur opacity: Depan terang, belakang pudar
+            circle.style.opacity = (numberOfCircles - i) / numberOfCircles; 
+            
+            // Variasi delay animasi agar denyutan terlihat organik
+            circle.style.animationDelay = (i * 0.1) + 's';
+        }
+
+        // Update koordinat mouse
+        window.addEventListener("mousemove", function(e){
+            coords.x = e.clientX;
+            coords.y = e.clientY;
+            
+            // Update Rotator Position
+            const rotator = document.getElementById('rotator-cursor');
+            if(rotator && rotator.classList.contains('active')) {
+                rotator.style.left = e.clientX + 'px';
+                rotator.style.top = e.clientY + 'px';
+            }
+
+            // Create Sparks if Dragging
+            if(isMouseDown) {
+                createDragSparks(e.clientX, e.clientY);
+            }
+        });
+
+        // Animasi Loop
+        function animateCircles() {
+            let x = coords.x;
+            let y = coords.y;
+            
+            circles.forEach(function (circle, index) {
+                // Posisi lingkaran saat ini di-offset supaya tengah lingkaran ada di ujung mouse
+                // -10 karena width/height adalah 20px
+                circle.style.left = x - 10 + "px";
+                circle.style.top = y - 10 + "px";
+                
+                // Scale lagi untuk memastikan konsistensi
+                const scale = (numberOfCircles - index) / numberOfCircles;
+                circle.style.transform = `scale(${scale})`;
+                
+                // Logic "Follow":
+                // Koordinat bola berikutnya = posisi bola saat ini + (selisih jarak) * kecepatan delay
+                // Semakin kecil angkanya, semakin "lambat/malas" trail-nya (efek nebula mengambang)
+                circle.x = x;
+                circle.y = y;
+
+                const nextCircle = circles[index + 1] || circles[0];
+                x += (nextCircle.x - x) * 0.25;
+                y += (nextCircle.y - y) * 0.25;
+            });
+            
+            requestAnimationFrame(animateCircles);
+        }
+        
+        animateCircles();
+        // --- END CURSOR LOGIC ---
+
+        // --- DRAG EXPLOSION LOGIC ---
+        let isMouseDown = false;
+        document.addEventListener('mousedown', () => isMouseDown = true);
+        document.addEventListener('mouseup', () => isMouseDown = false);
+
+        function createDragSparks(x, y) {
+            // Spawn 2 particles per frame for explosion effect
+            for(let i=0; i<2; i++) {
+                const spark = document.createElement('div');
+                spark.classList.add('drag-spark');
+                spark.style.left = x + 'px';
+                spark.style.top = y + 'px';
+                
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 30 + Math.random() * 50; // Random distance
+                spark.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
+                spark.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
+                
+                document.body.appendChild(spark);
+                setTimeout(() => spark.remove(), 600);
+            }
+        }
+
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         
         function playFuturisticSound() {
@@ -232,10 +530,9 @@
             const oscillator = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
             
-            // Sound Effect Design
             oscillator.type = 'sine';
             oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
-            oscillator.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.3); // Nada turun
+            oscillator.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.3);
             
             gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
             gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
@@ -247,72 +544,56 @@
             oscillator.stop(audioCtx.currentTime + 0.3);
         }
 
-        // Logic Scramble
         function scrambleText(element) {
-            // Karakter campuran huruf, angka, dan simbol tech
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/[]*"; 
             const originalText = element.dataset.value; 
             let iteration = 0;
-            
             if(element.interval) clearInterval(element.interval);
-            
             element.interval = setInterval(() => {
                 element.innerText = originalText
                     .split("")
                     .map((letter, index) => {
-                        if(index < iteration) {
-                            return originalText[index];
-                        }
+                        if(index < iteration) return originalText[index];
                         return chars[Math.floor(Math.random() * chars.length)];
                     })
                     .join("");
-                
-                if(iteration >= originalText.length) { 
-                    clearInterval(element.interval);
-                }
-                
-                iteration += 1 / 2; // Kecepatan efek (makin kecil makin lambat)
-            }, 50); // Frame rate animasi
+                if(iteration >= originalText.length) clearInterval(element.interval);
+                iteration += 1 / 2;
+            }, 50);
         }
 
         function changeTheme(colorValue, btnElement) {
-            // 1. Update CSS Variable
             document.documentElement.style.setProperty('--color-primary', colorValue);
-
-            // 2. Update Tombol Panel
             document.querySelectorAll('.pallet-btn').forEach(btn => {
                 btn.classList.remove('active');
                 btn.style.borderColor = 'transparent';
             });
             if(btnElement) btnElement.classList.add('active');
 
-            // 3. EFEK BERDENYUT PADA SELURUH HALAMAN (Fix UI Impact)
             const body = document.body;
-            
-            // Reset animasi biar bisa diputar ulang
             body.classList.remove('system-reboot');
-            void body.offsetWidth; // Force Reflow
-            body.classList.add('system-reboot'); // Tambah class animasi denyut
+            void body.offsetWidth; 
+            body.classList.add('system-reboot');
 
-            // 4. Sound & Scramble
             playFuturisticSound();
             const titleElement = document.getElementById('scramble-target');
             if(titleElement) scrambleText(titleElement);
 
-            // 5. Simpan Theme
             localStorage.setItem('user-theme', colorValue);
         }
 
-        // Jalankan saat load
+        function toggleRotator(show) {
+            const rotator = document.getElementById('rotator-cursor');
+            if(show) rotator.classList.add('active');
+            else rotator.classList.remove('active');
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             const savedColor = localStorage.getItem('user-theme');
             if (savedColor) {
                 const btn = document.querySelector(`button[data-color="${savedColor}"]`);
-                if (btn) {
-                    changeTheme(savedColor, btn);
-                }
+                if (btn) changeTheme(savedColor, btn);
             } else {
-                // Intro effect jika belum ada save
                 const titleElement = document.getElementById('scramble-target');
                 if(titleElement) scrambleText(titleElement);
             }
