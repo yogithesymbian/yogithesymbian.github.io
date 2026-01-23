@@ -226,38 +226,45 @@
             position: absolute; top: 0; left: 0;
             width: 10px; height: 10px; border-radius: 50%;
             background: black;
-            box-shadow: 0 0 15px 5px rgb(var(--color-primary)), 0 0 30px 10px white;
+            border: 2px solid rgb(var(--color-primary));
+            box-shadow: 0 0 20px rgb(var(--color-primary)), 0 0 40px white;
             transform: translate(-50%, -50%) scale(0);
-            animation: bhExpand 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: bhSuckExplode 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
         }
-        @keyframes bhExpand {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-            30% { transform: translate(-50%, -50%) scale(4); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+        @keyframes bhSuckExplode {
+            0% { transform: translate(-50%, -50%) scale(5); opacity: 0; border-width: 1px; }
+            30% { transform: translate(-50%, -50%) scale(0.1); opacity: 1; border-width: 5px; box-shadow: 0 0 50px white; }
+            40% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(8); opacity: 0; border-width: 0; }
         }
         .milky-way-spiral {
             position: absolute; top: 0; left: 0;
             width: 10px; height: 10px; border-radius: 50%;
-            background: conic-gradient(from 0deg, transparent, rgb(var(--color-primary)), purple, transparent);
+            background: conic-gradient(from 0deg, transparent, rgb(var(--color-primary)), white, transparent);
             transform: translate(-50%, -50%) scale(0);
-            filter: blur(2px);
-            animation: galaxySpin 1s ease-out forwards;
+            filter: blur(1px);
+            mix-blend-mode: screen;
+            animation: galaxySpin 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            animation-delay: 0.2s;
         }
         @keyframes galaxySpin {
-            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(15) rotate(540deg); opacity: 0; }
+            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(20) rotate(720deg); opacity: 0; }
         }
         .light-beam {
             position: absolute; top: 0; left: 0;
-            width: 150px; height: 2px;
-            background: linear-gradient(90deg, white, transparent);
+            width: 200px; height: 3px;
+            background: linear-gradient(90deg, white, rgb(var(--color-primary)), transparent);
             transform-origin: left center;
             opacity: 0;
-            animation: beamShoot 0.5s ease-out forwards;
+            border-radius: 100%;
+            animation: beamSpiral 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            animation-delay: 0.25s;
         }
-        @keyframes beamShoot {
+        @keyframes beamSpiral {
             0% { transform: rotate(var(--angle)) scaleX(0); opacity: 1; }
-            100% { transform: rotate(var(--angle)) scaleX(1.5) translateX(100px); opacity: 0; }
+            100% { transform: rotate(calc(var(--angle) + 360deg)) scaleX(1.5) translateX(150px); opacity: 0; }
         }
     </style>
 </head>
@@ -590,10 +597,10 @@
             container.appendChild(core);
 
             // 3. Light Beams
-            for(let i=0; i<12; i++) {
+            for(let i=0; i<16; i++) {
                 const beam = document.createElement('div');
                 beam.classList.add('light-beam');
-                beam.style.setProperty('--angle', (i * 30) + 'deg');
+                beam.style.setProperty('--angle', (i * 22.5) + 'deg');
                 container.appendChild(beam);
             }
 
