@@ -87,6 +87,7 @@
             box-shadow: 0 0 20px rgb(var(--color-primary));
             filter: blur(4px);
             animation: nebulaPulse 1.5s infinite alternate ease-in-out;
+            will-change: transform;
         }
         @keyframes nebulaPulse {
             0% { box-shadow: 0 0 15px rgb(var(--color-primary)); filter: blur(4px); opacity: 0.9; }
@@ -110,17 +111,20 @@
 
         .bar {
             width: 2%;
+            height: 100%;
             background-color: rgb(var(--color-primary));
             animation: pulse 1.5s infinite alternate ease-in-out;
             box-shadow: 0 0 10px rgb(var(--color-primary) / 0.5), 0 0 20px rgb(var(--color-primary) / 0.3);
+            transform-origin: bottom;
+            will-change: transform;
         }
 
         @keyframes pulse {
             from {
-                height: 1%;
+                transform: scaleY(0.01);
             }
             to {
-                height: 100%;
+                transform: scaleY(1);
             }
         }
         .bar:nth-child(1) { animation-delay: 0.0s; }
@@ -193,14 +197,13 @@
         @keyframes spinText { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         /* COSMIC NEBULA STYLE */
-        .cosmic-nebula {
+        /* .cosmic-nebula {
             position: absolute;
             top: 0; left: 0;
             width: 600px; height: 400px;
             background: radial-gradient(closest-side, rgba(var(--color-primary), 0.5), transparent 100%);
             filter: blur(60px);
             border-radius: 50%;
-            /* mix-blend-mode: screen; */
             animation: nebulaFly 15s linear infinite;
             opacity: 0;
         }
@@ -210,7 +213,7 @@
             50% { transform: translate(50vw, 50vh) scale(1.2) rotate(180deg); opacity: 0.8; }
             80% { opacity: 0.6; }
             100% { transform: translate(110vw, 110vh) scale(0.5) rotate(360deg); opacity: 0; }
-        }
+        } */
 
         /* DRAG SPARK PARTICLES */
         .drag-spark {
@@ -366,9 +369,6 @@
 <body id="main-body" class="bg-slate-950 text-slate-300 font-sans antialiased overflow-x-hidden relative">
 
     <div id="bg-wrapper" class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div class="visualizer">
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        </div>
         <div class="grid-3d-container">
             <div class="grid-3d-plane"></div>
             <div class="grid-spotlight"></div>
@@ -376,7 +376,7 @@
         </div>
         <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[800px] bg-primary/10 rounded-full blur-[120px] opacity-70 transition-colors duration-700"></div>
         <div class="absolute bottom-0 right-0 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[100px] opacity-40 transition-colors duration-700"></div>
-        <div class="cosmic-nebula"></div>
+        <!-- <div class="cosmic-nebula"></div> -->
     </div>
 
     <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-slate-950/70 backdrop-blur-md">
@@ -571,7 +571,7 @@
 
     <script>
         // --- 1. CURSOR TRAIL LOGIC (Mobile Legends Effect) ---
-        const coords = { x: 0, y: 0 };
+        const coords = { x: 0, y: 0, clientX: 0, clientY: 0 };
         const circles = [];
         const colors = [];
         
@@ -601,26 +601,20 @@
         }
 
         // Update koordinat mouse
+        let lastSparkTime = 0;
         window.addEventListener("mousemove", function(e){
             coords.x = e.pageX;
             coords.y = e.pageY;
-            
-            // Update Rotator Position
-            const rotator = document.getElementById('rotator-cursor');
-            if(rotator && rotator.classList.contains('active')) {
-                rotator.style.left = e.pageX + 'px';
-                rotator.style.top = e.pageY + 'px';
-            }
+            coords.clientX = e.clientX;
+            coords.clientY = e.clientY;
 
             // Create Sparks if Dragging
             if(isMouseDown) {
-                createDragSparks(e.pageX, e.pageY);
-            }
-            // Update Grid Spotlight Position (using clientX/Y because grid is fixed)
-            const spotlight = document.querySelector('.grid-spotlight');
-            if(spotlight) {
-                spotlight.style.setProperty('--x', e.clientX + 'px');
-                spotlight.style.setProperty('--y', e.clientY + 'px');
+                const now = Date.now();
+                if (now - lastSparkTime > 40) {
+                    createDragSparks(e.pageX, e.pageY);
+                    lastSparkTime = now;
+                }
             }
         });
 
@@ -628,16 +622,29 @@
         function animateCircles() {
             let x = coords.x;
             let y = coords.y;
+
+            // Update Rotator Position (Synced with RAF)
+            const rotator = document.getElementById('rotator-cursor');
+            if(rotator && rotator.classList.contains('active')) {
+                rotator.style.left = x + 'px';
+                rotator.style.top = y + 'px';
+            }
+
+            // Update Grid Spotlight Position (Synced with RAF)
+            const spotlight = document.querySelector('.grid-spotlight');
+            if(spotlight) {
+                spotlight.style.setProperty('--x', coords.clientX + 'px');
+                spotlight.style.setProperty('--y', coords.clientY + 'px');
+            }
             
             circles.forEach(function (circle, index) {
                 // Posisi lingkaran saat ini di-offset supaya tengah lingkaran ada di ujung mouse
                 // -10 karena width/height adalah 20px
-                circle.style.left = x - 10 + "px";
-                circle.style.top = y - 10 + "px";
                 
                 // Scale lagi untuk memastikan konsistensi
                 const scale = (numberOfCircles - index) / numberOfCircles;
-                circle.style.transform = `scale(${scale})`;
+                // Use translate3d for GPU acceleration and avoid layout thrashing
+                circle.style.transform = `translate3d(${x - 10}px, ${y - 10}px, 0) scale(${scale})`;
                 
                 // Logic "Follow":
                 // Koordinat bola berikutnya = posisi bola saat ini + (selisih jarak) * kecepatan delay
