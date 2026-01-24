@@ -62,13 +62,23 @@
         .pallet-btn:hover { transform: scale(1.2); }
         .pallet-btn.active { transform: scale(1.3); box-shadow: 0 0 25px rgb(var(--color-primary)); border-color: white; z-index: 10; }
 
+        /* KINETIX MICRO-INTERACTIONS */
+        .kinetix-active {
+            animation: kinetixPress 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        @keyframes kinetixPress {
+            0% { transform: scale(0.96); filter: brightness(1.3); }
+            50% { transform: scale(0.98); }
+            100% { transform: scale(1); filter: brightness(1); }
+        }
+
         /* CURSOR TRAIL STYLES */
         .cursor-circle {
             height: 20px;
             width: 20px;
             border-radius: 50%;
             background-color: rgb(var(--color-primary));
-            position: fixed; 
+            position: absolute; 
             top: 0;
             left: 0;
             pointer-events: none;
@@ -172,7 +182,7 @@
         }
         
         .rotator-cursor {
-            position: fixed; top: 0; left: 0; width: 120px; height: 120px;
+            position: absolute; top: 0; left: 0; width: 120px; height: 120px;
             pointer-events: none; z-index: 9999; opacity: 0; transform: translate(-50%, -50%) scale(0);
             transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex; align-items: center; justify-content: center;
@@ -204,7 +214,7 @@
 
         /* DRAG SPARK PARTICLES */
         .drag-spark {
-            position: fixed;
+            position: absolute;
             width: 4px; height: 4px;
             background: white;
             border-radius: 50%;
@@ -219,7 +229,7 @@
 
         /* SPACE CLICK EXPLOSION */
         .space-explosion {
-            position: fixed; pointer-events: none; z-index: 99999;
+            position: absolute; pointer-events: none; z-index: 99999;
             top: 0; left: 0; width: 0; height: 0;
         }
         .black-hole-core {
@@ -266,22 +276,104 @@
             0% { transform: rotate(var(--angle)) scaleX(0); opacity: 1; }
             100% { transform: rotate(calc(var(--angle) + 360deg)) scaleX(1.5) translateX(150px); opacity: 0; }
         }
+
+        /* GRID GLOW SPOTLIGHT */
+        .grid-spotlight {
+            position: absolute; inset: 0; z-index: 2;
+            background: radial-gradient(circle 400px at var(--x, 50%) var(--y, 50%), rgba(var(--color-primary), 0.2), transparent 70%);
+            mix-blend-mode: color-dodge; /* Membuat garis grid menyala */
+            pointer-events: none;
+        }
+        .horizon-glow {
+            position: absolute; bottom: -20%; left: 0; width: 100%; height: 80%;
+            background: radial-gradient(ellipse at bottom center, rgba(var(--color-primary), 0.6), transparent 60%);
+            mix-blend-mode: color-dodge;
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(40px);
+            transform-origin: bottom center;
+            animation: horizonPulse 6s ease-in-out infinite;
+        }
+        @keyframes horizonPulse {
+            0%, 100% { opacity: 0.5; transform: scaleY(1); }
+            50% { opacity: 0.8; transform: scaleY(1.2); }
+        }
+
+        .grid-shockwave {
+            position: absolute; top: 0; left: 0;
+            width: 10px; height: 10px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(var(--color-primary), 1) 0%, transparent 70%);
+            mix-blend-mode: color-dodge;
+            transform: translate(-50%, -50%);
+            animation: gridShock 0.8s ease-out forwards;
+            pointer-events: none; z-index: 3;
+        }
+        @keyframes gridShock {
+            0% { width: 10px; height: 10px; opacity: 1; }
+            100% { width: 1500px; height: 1500px; opacity: 0; }
+        }
+        @keyframes screenShake {
+            10%, 90% { transform: translate3d(-1px, 1px, 0); }
+            20%, 80% { transform: translate3d(2px, -1px, 0); }
+            30%, 50%, 70% { transform: translate3d(-2px, 2px, 0); }
+            40%, 60% { transform: translate3d(2px, -2px, 0); }
+        }
+
+        /* SLOW MOTION EFFECT */
+        body.slow-motion main,
+        body.slow-motion nav {
+            animation: chromaticAberration 2s ease-in-out infinite;
+        }
+        @keyframes chromaticAberration {
+            0% { text-shadow: 4px 0 rgba(255,0,0,0.5), -4px 0 rgba(0,255,255,0.5); }
+            50% { text-shadow: -4px 0 rgba(255,0,0,0.5), 4px 0 rgba(0,255,255,0.5); }
+            100% { text-shadow: 4px 0 rgba(255,0,0,0.5), -4px 0 rgba(0,255,255,0.5); }
+        }
+        body.slow-motion .bar,
+        body.slow-motion .marquee-track,
+        body.slow-motion .rotator-text,
+        body.slow-motion .cosmic-nebula,
+        body.slow-motion .cursor-circle,
+        body.slow-motion .animate-pulse,
+        body.slow-motion .animate-ping {
+            animation-duration: 10s !important;
+        }
+        body.slow-motion .marquee-track { animation-duration: 300s !important; }
+        body.slow-motion .cosmic-nebula { animation-duration: 150s !important; }
+        body.slow-motion .grid-3d-plane { animation-duration: 80s !important; }
+
+        /* 3D SCROLLING GRID */
+        .grid-3d-container {
+            position: absolute; inset: 0; perspective: 500px; overflow: hidden;
+        }
+        .grid-3d-plane {
+            position: absolute; width: 300%; height: 300%; left: -100%; top: -100%;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: rotateX(60deg) translateY(0) translateZ(-100px);
+            transform-origin: center center;
+            animation: gridScroll 8s linear infinite;
+            mask-image: radial-gradient(circle at center, white 0%, transparent 70%);
+        }
+        @keyframes gridScroll {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 60px; }
+        }
     </style>
 </head>
 <body id="main-body" class="bg-slate-950 text-slate-300 font-sans antialiased overflow-x-hidden relative">
 
-    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <div id="bg-wrapper" class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div class="visualizer">
             <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
         </div>
-        <svg class="absolute inset-0 w-full h-full stroke-white/5 [mask-image:radial-gradient(100%_100%_at_top_center,white,transparent)]" aria-hidden="true">
-            <defs>
-                <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M0 40L0 0L40 0" fill="none" />
-                </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid-pattern)" />
-        </svg>
+        <div class="grid-3d-container">
+            <div class="grid-3d-plane"></div>
+            <div class="grid-spotlight"></div>
+            <div class="horizon-glow"></div>
+        </div>
         <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[800px] bg-primary/10 rounded-full blur-[120px] opacity-70 transition-colors duration-700"></div>
         <div class="absolute bottom-0 right-0 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[100px] opacity-40 transition-colors duration-700"></div>
         <div class="cosmic-nebula"></div>
@@ -347,8 +439,8 @@
                             </div>
                             <p class="text-slate-400 text-sm mb-6 leading-relaxed">A comprehensive monitoring tool for server metrics, featuring real-time data visualization.</p>
                             <div class="flex gap-2 mb-6">
-                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Stability</span>
-                              <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">High Performance</span>
+                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Next.js</span>
+                              <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">React</span>
                             </div>
                         </div>
                     </div>
@@ -363,8 +455,8 @@
                             </div>
                             <p class="text-slate-400 text-sm mb-6 leading-relaxed">Robust backend architecture handling high-concurrency transaction requests.</p>
                             <div class="flex gap-2 mb-6">
-                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Auto Self-Healing</span>
-                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Retry Policy</span>
+                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Rust</span>
+                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Actix-web</span>
                             </div>
                         </div>
                     </div>
@@ -502,19 +594,25 @@
 
         // Update koordinat mouse
         window.addEventListener("mousemove", function(e){
-            coords.x = e.clientX;
-            coords.y = e.clientY;
+            coords.x = e.pageX;
+            coords.y = e.pageY;
             
             // Update Rotator Position
             const rotator = document.getElementById('rotator-cursor');
             if(rotator && rotator.classList.contains('active')) {
-                rotator.style.left = e.clientX + 'px';
-                rotator.style.top = e.clientY + 'px';
+                rotator.style.left = e.pageX + 'px';
+                rotator.style.top = e.pageY + 'px';
             }
 
             // Create Sparks if Dragging
             if(isMouseDown) {
-                createDragSparks(e.clientX, e.clientY);
+                createDragSparks(e.pageX, e.pageY);
+            }
+            // Update Grid Spotlight Position (using clientX/Y because grid is fixed)
+            const spotlight = document.querySelector('.grid-spotlight');
+            if(spotlight) {
+                spotlight.style.setProperty('--x', e.clientX + 'px');
+                spotlight.style.setProperty('--y', e.clientY + 'px');
             }
         });
 
@@ -575,8 +673,17 @@
 
         // --- CLICK SPACE EXPLOSION LOGIC ---
         document.addEventListener('click', (e) => {
-            createSpaceExplosion(e.clientX, e.clientY);
-            playFuturisticSound();
+            // Kinetix Micro-interaction: Immediate Tactile Feedback
+            const target = e.target.closest('a, button, .interactive');
+            if (target) {
+                target.classList.remove('kinetix-active');
+                void target.offsetWidth; // Trigger reflow
+                target.classList.add('kinetix-active');
+            }
+
+            createSpaceExplosion(e.pageX, e.pageY);
+            playSpaceClickSound();
+            triggerSlowMotion();
         });
 
         function createSpaceExplosion(x, y) {
@@ -607,6 +714,30 @@
             setTimeout(() => container.remove(), 1000);
         }
 
+        // Trigger Grid Shockwave on Click
+        function triggerGridShockwave(x, y) {
+            const gridContainer = document.querySelector('.grid-3d-container');
+            if(gridContainer) {
+                const shock = document.createElement('div');
+                shock.classList.add('grid-shockwave');
+                shock.style.left = x + 'px';
+                shock.style.top = y + 'px';
+                gridContainer.appendChild(shock);
+                setTimeout(() => shock.remove(), 1000);
+            }
+        }
+
+        function triggerSlowMotion() {
+            const body = document.getElementById('main-body');
+            // Trigger slow motion right when the explosion "bang" happens (approx 300ms)
+            setTimeout(() => body.classList.add('slow-motion'), 300);
+            // Restore normal speed after 1.5s
+            setTimeout(() => body.classList.remove('slow-motion'), 1800);
+            
+            // Trigger grid shockwave slightly after click to match explosion
+            setTimeout(() => triggerGridShockwave(event.clientX, event.clientY), 300);
+        }
+
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         
         function playFuturisticSound() {
@@ -626,6 +757,41 @@
             
             oscillator.start();
             oscillator.stop(audioCtx.currentTime + 0.3);
+        }
+
+        function playSpaceClickSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const t = audioCtx.currentTime;
+
+            // 1. REVERSE SUCTION (Charging phase - menyedot energi)
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.type = 'triangle';
+            osc1.frequency.setValueAtTime(50, t);
+            osc1.frequency.exponentialRampToValueAtTime(800, t + 0.3); // Pitch naik
+            
+            gain1.gain.setValueAtTime(0, t);
+            gain1.gain.linearRampToValueAtTime(0.15, t + 0.3); // Volume naik
+            
+            osc1.connect(gain1);
+            gain1.connect(audioCtx.destination);
+            osc1.start(t);
+            osc1.stop(t + 0.3);
+
+            // 2. MAIN EXPLOSION (Impact phase - ledakan)
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.type = 'sawtooth'; // Waveform kasar untuk ledakan
+            osc2.frequency.setValueAtTime(300, t + 0.3);
+            osc2.frequency.exponentialRampToValueAtTime(10, t + 0.8); // Pitch drop tajam
+            
+            gain2.gain.setValueAtTime(0.2, t + 0.3);
+            gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.8);
+
+            osc2.connect(gain2);
+            gain2.connect(audioCtx.destination);
+            osc2.start(t + 0.3);
+            osc2.stop(t + 0.8);
         }
 
         function scrambleText(element) {
