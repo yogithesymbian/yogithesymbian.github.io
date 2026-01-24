@@ -364,6 +364,18 @@
             0% { background-position: 0 0; }
             100% { background-position: 0 60px; }
         }
+
+        /* SCROLL TILT CARD (n8n effect) */
+        .scroll-tilt-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateX(var(--tilt-x, 0deg));
+            will-change: transform;
+            transition: transform 0.1s linear, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .scroll-tilt-card:hover {
+            transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) translateY(-10px) scale(1.02);
+            box-shadow: 0 0 30px rgb(var(--color-primary) / 0.3) !important;
+        }
     </style>
 </head>
 <body id="main-body" class="bg-slate-950 text-slate-300 font-sans antialiased overflow-x-hidden relative">
@@ -429,7 +441,7 @@
         <section id="work" class="max-w-5xl mx-auto px-6">
             <h2 class="text-sm font-bold text-primary tracking-widest uppercase mb-12 drop-shadow-[0_0_5px_rgb(var(--color-primary))]">Featured Projects</h2>
             <div class="grid md:grid-cols-2 gap-6">
-                <a href="#" class="block glass p-1 rounded-2xl hover:bg-white/5 transition-all duration-300 group cursor-pointer hover:border-primary/50 hover:-translate-y-2 hover:shadow-[0_0_30px_rgb(var(--color-primary)/0.15)] focus:outline-none focus:ring-2 focus:ring-primary/50">
+                <a href="#" class="scroll-tilt-card block glass p-1 rounded-2xl hover:bg-white/5 group cursor-pointer hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/50">
                     <div class="bg-slate-900/50 rounded-xl p-8 h-full border border-white/5 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/30 transition-all duration-500"></div>
                         <div class="relative z-10">
@@ -445,7 +457,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="#" class="block glass p-1 rounded-2xl hover:bg-white/5 transition-all duration-300 group cursor-pointer hover:border-primary/50 hover:-translate-y-2 hover:shadow-[0_0_30px_rgb(var(--color-primary)/0.15)] focus:outline-none focus:ring-2 focus:ring-primary/50">
+                <a href="#" class="scroll-tilt-card block glass p-1 rounded-2xl hover:bg-white/5 group cursor-pointer hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/50">
                     <div class="bg-slate-900/50 rounded-xl p-8 h-full border border-white/5 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/30 transition-all duration-500"></div>
                         <div class="relative z-10">
@@ -470,7 +482,7 @@
                 <h2 class="text-sm font-bold text-primary tracking-widest uppercase drop-shadow-[0_0_5px_rgb(var(--color-primary))]">Open Source Experiments</h2>
             </div>
             
-            <div class="marquee-wrapper w-full py-6">
+            <div class="marquee-wrapper w-full py-6 scroll-tilt-card">
                 <div class="marquee-track">
                     <!-- Items Set 1 -->
                     <a href="https://gist.github.com/yogithesymbian/b476ef3640cb4f1343ef3816064be8be" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
@@ -863,6 +875,27 @@
                 if(titleElement) scrambleText(titleElement);
             }
         });
+
+        // --- SCROLL TILT EFFECT ---
+        const tiltCards = document.querySelectorAll('.scroll-tilt-card');
+        function animateTilt() {
+            const centerY = window.innerHeight / 2;
+            tiltCards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                // Only animate if in viewport (with buffer)
+                if (rect.top < window.innerHeight + 100 && rect.bottom > -100) {
+                    const cardCenterY = rect.top + rect.height / 2;
+                    // Normalized position: -1 (top) to 0 (center) to 1 (bottom)
+                    const normalizedY = (cardCenterY - centerY) / (window.innerHeight / 2);
+                    
+                    // Calculate tilt angle (max 25 degrees)
+                    const tilt = normalizedY * 25; 
+                    card.style.setProperty('--tilt-x', `${tilt}deg`);
+                }
+            });
+            requestAnimationFrame(animateTilt);
+        }
+        animateTilt();
     </script>
 </body>
 </html>
