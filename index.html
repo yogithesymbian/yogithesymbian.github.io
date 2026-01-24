@@ -322,29 +322,6 @@
             40%, 60% { transform: translate3d(2px, -2px, 0); }
         }
 
-        /* SLOW MOTION EFFECT */
-        body.slow-motion main,
-        body.slow-motion nav {
-            animation: chromaticAberration 2s ease-in-out infinite;
-        }
-        @keyframes chromaticAberration {
-            0% { text-shadow: 4px 0 rgba(255,0,0,0.5), -4px 0 rgba(0,255,255,0.5); }
-            50% { text-shadow: -4px 0 rgba(255,0,0,0.5), 4px 0 rgba(0,255,255,0.5); }
-            100% { text-shadow: 4px 0 rgba(255,0,0,0.5), -4px 0 rgba(0,255,255,0.5); }
-        }
-        body.slow-motion .bar,
-        body.slow-motion .marquee-track,
-        body.slow-motion .rotator-text,
-        body.slow-motion .cosmic-nebula,
-        body.slow-motion .cursor-circle,
-        body.slow-motion .animate-pulse,
-        body.slow-motion .animate-ping {
-            animation-duration: 10s !important;
-        }
-        body.slow-motion .marquee-track { animation-duration: 300s !important; }
-        body.slow-motion .cosmic-nebula { animation-duration: 150s !important; }
-        body.slow-motion .grid-3d-plane { animation-duration: 80s !important; }
-
         /* 3D SCROLLING GRID */
         .grid-3d-container {
             position: absolute; inset: 0; perspective: 500px; overflow: hidden;
@@ -352,8 +329,8 @@
         .grid-3d-plane {
             position: absolute; width: 300%; height: 300%; left: -100%; top: -100%;
             background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+                linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
             background-size: 60px 60px;
             transform: rotateX(60deg) translateY(0) translateZ(-100px);
             transform-origin: center center;
@@ -368,12 +345,12 @@
         /* SCROLL TILT CARD (n8n effect) */
         .scroll-tilt-card {
             transform-style: preserve-3d;
-            transform: perspective(1000px) rotateX(var(--tilt-x, 0deg));
+            transform: perspective(700px) rotateX(var(--tilt-x, 0deg));
             will-change: transform;
             transition: transform 0.1s linear, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .scroll-tilt-card:hover {
-            transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) translateY(-10px) scale(1.02);
+            transform: perspective(700px) rotateX(var(--tilt-x, 0deg)) translateY(-10px) scale(1.02);
             box-shadow: 0 0 30px rgb(var(--color-primary) / 0.3) !important;
         }
     </style>
@@ -386,8 +363,8 @@
             <div class="grid-spotlight"></div>
             <div class="horizon-glow"></div>
         </div>
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[800px] bg-primary/10 rounded-full blur-[120px] opacity-70 transition-colors duration-700"></div>
-        <div class="absolute bottom-0 right-0 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[100px] opacity-40 transition-colors duration-700"></div>
+        <div id="blob-1" class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[800px] bg-primary/10 rounded-full blur-[120px] opacity-70 transition-colors duration-700"></div>
+        <div id="blob-2" class="absolute bottom-0 right-0 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[100px] opacity-40 transition-colors duration-700"></div>
         <!-- <div class="cosmic-nebula"></div> -->
     </div>
 
@@ -436,7 +413,7 @@
             </div>
         </section>
 
-        <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-20"></div>
+        
 
         <section id="work" class="max-w-5xl mx-auto px-6">
             <h2 class="text-sm font-bold text-primary tracking-widest uppercase mb-12 drop-shadow-[0_0_5px_rgb(var(--color-primary))]">Featured Projects</h2>
@@ -710,7 +687,6 @@
 
             createSpaceExplosion(e.pageX, e.pageY);
             playSpaceClickSound();
-            triggerSlowMotion();
         });
 
         function createSpaceExplosion(x, y) {
@@ -752,17 +728,6 @@
                 gridContainer.appendChild(shock);
                 setTimeout(() => shock.remove(), 1000);
             }
-        }
-
-        function triggerSlowMotion() {
-            const body = document.getElementById('main-body');
-            // Trigger slow motion right when the explosion "bang" happens (approx 300ms)
-            setTimeout(() => body.classList.add('slow-motion'), 300);
-            // Restore normal speed after 1.5s
-            setTimeout(() => body.classList.remove('slow-motion'), 1800);
-            
-            // Trigger grid shockwave slightly after click to match explosion
-            setTimeout(() => triggerGridShockwave(event.clientX, event.clientY), 300);
         }
 
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -878,8 +843,17 @@
 
         // --- SCROLL TILT EFFECT ---
         const tiltCards = document.querySelectorAll('.scroll-tilt-card');
+        const blob1 = document.getElementById('blob-1');
+        const blob2 = document.getElementById('blob-2');
+
         function animateTilt() {
             const centerY = window.innerHeight / 2;
+            const scrollY = window.scrollY;
+
+            // Parallax Background
+            if(blob1) blob1.style.transform = `translate3d(-50%, calc(-50% + ${scrollY * 0.2}px), 0)`;
+            if(blob2) blob2.style.transform = `translate3d(0, ${-scrollY * 0.1}px, 0)`;
+
             tiltCards.forEach(card => {
                 const rect = card.getBoundingClientRect();
                 // Only animate if in viewport (with buffer)
@@ -888,8 +862,8 @@
                     // Normalized position: -1 (top) to 0 (center) to 1 (bottom)
                     const normalizedY = (cardCenterY - centerY) / (window.innerHeight / 2);
                     
-                    // Calculate tilt angle (max 25 degrees)
-                    const tilt = normalizedY * 25; 
+                    // Calculate tilt angle (max 45 degrees)
+                    const tilt = normalizedY * 45; 
                     card.style.setProperty('--tilt-x', `${tilt}deg`);
                 }
             });
