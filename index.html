@@ -34,18 +34,15 @@
             background-color: #020617;
             color: #cbd5e1;
             cursor: default;
-            overflow-x: hidden; /* Prevent horizontal scrollbars from animations */
+            overflow-x: hidden;
         }
         
-        /* PERFORMANCE FIX: Removed global transitions on div/span/etc. 
-           Only apply transitions to specific interactive elements */
         a, button, .pallet-btn, .scroll-tilt-card {
             transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
         }
 
         .glass {
             background: rgba(255, 255, 255, 0.03);
-            /* PERFORMANCE FIX: Reduced blur radius for mobile/slower devices */
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -74,21 +71,21 @@
             100% { transform: scale(1); filter: brightness(1); }
         }
 
-        /* CURSOR TRAIL */
+        /* --- CURSOR TRAIL (FIXED TO VIEWPORT) --- */
         .cursor-circle {
             height: 20px; width: 20px;
             border-radius: 50%;
             background-color: rgb(var(--color-primary));
-            position: fixed; /* Fixed prevents layout recalculation on scroll */
+            position: fixed; /* STAYS ON SCREEN */
             top: 0; left: 0;
             pointer-events: none; z-index: 9999;
             mix-blend-mode: screen;
             box-shadow: 0 0 15px rgb(var(--color-primary));
             filter: blur(4px);
-            will-change: transform; /* Hint to browser to promote to GPU layer */
+            will-change: transform;
         }
 
-        /* ROTATOR CURSOR */
+        /* --- ROTATOR CURSOR (FIXED TO VIEWPORT) --- */
         .rotator-cursor {
             position: fixed; top: 0; left: 0; width: 120px; height: 120px;
             pointer-events: none; z-index: 9999; opacity: 0; 
@@ -101,9 +98,10 @@
         .rotator-text { animation: spinText 10s linear infinite; transform-origin: center; }
         @keyframes spinText { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* OPTIMIZED PARTICLES */
+        /* --- SPARKS (ABSOLUTE TO DOCUMENT) --- */
+        /* FIX: Changed from fixed to absolute so they stick to the page content */
         .drag-spark {
-            position: fixed; width: 4px; height: 4px; background: white;
+            position: absolute; width: 4px; height: 4px; background: white;
             border-radius: 50%; pointer-events: none; z-index: 9999;
             box-shadow: 0 0 10px rgb(var(--color-primary));
             will-change: transform, opacity;
@@ -114,9 +112,10 @@
             100% { transform: translate3d(var(--tx), var(--ty), 0) scale(0); opacity: 0; }
         }
 
-        /* EXPLOSION */
+        /* --- EXPLOSION (ABSOLUTE TO DOCUMENT) --- */
+        /* FIX: Changed from fixed to absolute */
         .space-explosion {
-            position: fixed; pointer-events: none; z-index: 99999;
+            position: absolute; pointer-events: none; z-index: 99999;
             top: 0; left: 0; width: 0; height: 0;
         }
         .black-hole-core {
@@ -154,7 +153,6 @@
             transform: rotateX(60deg) translateY(0) translateZ(-100px);
             animation: gridScroll 8s linear infinite;
             mask-image: radial-gradient(circle at center, white 0%, transparent 70%);
-            /* GPU Hint */
             will-change: transform; 
         }
         @keyframes gridScroll {
@@ -162,16 +160,25 @@
             100% { transform: rotateX(60deg) translateY(60px) translateZ(-100px); }
         }
 
+        /* FIX: Gentle Breathing Animation for Blobs instead of Scroll-Parallax */
+        @keyframes blobBreath {
+            0%, 100% { transform: translate3d(-50%, -50%, 0) scale(1); opacity: 0.7; }
+            50% { transform: translate3d(-50%, -50%, 0) scale(1.1); opacity: 0.5; }
+        }
+        @keyframes blobBreath2 {
+            0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.4; }
+            50% { transform: translate3d(0, 0, 0) scale(1.15); opacity: 0.2; }
+        }
+
         .scroll-tilt-card {
             transform-style: preserve-3d;
             transform: perspective(700px) rotateX(var(--tilt-x, 0deg));
-            will-change: transform; /* Important for scroll performance */
+            will-change: transform; 
         }
         .scroll-tilt-card:hover {
             transform: perspective(700px) rotateX(var(--tilt-x, 0deg)) translateY(-10px) scale(1.02);
         }
 
-        /* HIDE HEAVY EFFECTS ON MOBILE */
         @media (max-width: 768px) {
             .cursor-circle, .rotator-cursor, .drag-spark { display: none !important; }
             .grid-3d-plane { animation: none; }
@@ -184,8 +191,8 @@
         <div class="grid-3d-container">
             <div class="grid-3d-plane"></div>
         </div>
-        <div id="blob-1" class="absolute top-0 left-1/2 w-[1000px] h-[800px] bg-primary/10 rounded-full blur-[120px] opacity-70 transition-colors duration-700" style="transform: translate3d(-50%, -50%, 0)"></div>
-        <div id="blob-2" class="absolute bottom-0 right-0 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[100px] opacity-40 transition-colors duration-700" style="transform: translate3d(0, 0, 0)"></div>
+        <div id="blob-1" class="absolute top-0 left-1/2 w-[1000px] h-[800px] bg-primary/10 rounded-full blur-[120px] transition-colors duration-700" style="animation: blobBreath 10s infinite ease-in-out;"></div>
+        <div id="blob-2" class="absolute bottom-0 right-0 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[100px] transition-colors duration-700" style="animation: blobBreath2 12s infinite ease-in-out;"></div>
     </div>
 
     <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-slate-950/70 backdrop-blur-md">
@@ -365,11 +372,10 @@
         const coords = { x: 0, y: 0 };
         const circles = [];
         
-        // Optimized: Check mobile once
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
         
         if (!isMobile) {
-            const numberOfCircles = 16; // Reduced count for performance
+            const numberOfCircles = 16;
             
             for(let i = 0; i < numberOfCircles; i++) {
                 const circle = document.createElement("div");
@@ -381,33 +387,31 @@
             }
         }
 
-        // Throttle spark creation
         let lastSparkTime = 0;
         let isMouseDown = false;
         const rotator = document.getElementById('rotator-cursor');
 
         window.addEventListener("mousemove", function(e){
-            coords.x = e.clientX; // Use clientX for fixed positioning
+            coords.x = e.clientX; 
             coords.y = e.clientY;
 
-            // Update Rotator (Directly, no RAF lag for primary cursor)
+            // Rotator uses fixed client coordinates (follows mouse even if page scrolls)
             if(rotator && rotator.classList.contains('active')) {
                 rotator.style.transform = `translate(${e.clientX}px, ${e.clientY}px) scale(1)`;
             } else if (rotator) {
                 rotator.style.transform = `translate(${e.clientX}px, ${e.clientY}px) scale(0)`;
             }
 
-            // Throttled Sparks
+            // Sparks use page coordinates (FIX: e.pageX, e.pageY)
             if(isMouseDown && !isMobile) {
                 const now = Date.now();
-                if (now - lastSparkTime > 50) { // Limit to 20fps sparks
-                    createDragSparks(e.clientX, e.clientY);
+                if (now - lastSparkTime > 50) {
+                    createDragSparks(e.pageX, e.pageY); // FIX: Use pageX/Y
                     lastSparkTime = now;
                 }
             }
-        }, { passive: true }); // Passive event listener
+        }, { passive: true });
 
-        // Optimized Animation Loop
         function animateCircles() {
             if (isMobile) return;
 
@@ -415,10 +419,8 @@
             let y = coords.y;
             
             circles.forEach(function (circle, index) {
-                // Key Performance Fix: Use translate3d for GPU acceleration
-                // Remove offset from JS, handle in CSS or keep consistent
-                
                 const scale = (circles.length - index) / circles.length;
+                // Cursor trail uses fixed coordinates
                 circle.style.transform = `translate3d(${x - 10}px, ${y - 10}px, 0) scale(${scale})`;
                 
                 circle.x = x;
@@ -437,26 +439,22 @@
         document.addEventListener('mousedown', () => isMouseDown = true, {passive: true});
         document.addEventListener('mouseup', () => isMouseDown = false, {passive: true});
 
-        // Object pooling for sparks could be added here for further optimization
         function createDragSparks(x, y) {
-            // Spawn only 1 spark per tick instead of 2
             const spark = document.createElement('div');
             spark.classList.add('drag-spark');
             
-            // Initial position (GPU optimized class handles this, we just set start pos)
+            // Sparks spawn at absolute page position
             spark.style.left = x + 'px';
             spark.style.top = y + 'px';
             
             const angle = Math.random() * Math.PI * 2;
             const velocity = 30 + Math.random() * 40;
             
-            // Set CSS variables for the animation to read
             spark.style.setProperty('--tx', (Math.cos(angle) * velocity) + 'px');
             spark.style.setProperty('--ty', (Math.sin(angle) * velocity) + 'px');
             
             document.body.appendChild(spark);
             
-            // Clean up
             setTimeout(() => {
                 if(spark.parentNode) spark.parentNode.removeChild(spark);
             }, 600);
@@ -469,7 +467,8 @@
                 void target.offsetWidth; 
                 target.classList.add('kinetix-active');
             }
-            if (!isMobile) createSpaceExplosion(e.clientX, e.clientY);
+            // FIX: Use pageX/Y for explosions so they stay on content
+            if (!isMobile) createSpaceExplosion(e.pageX, e.pageY);
             playSpaceClickSound();
         }, {passive: true});
 
@@ -484,7 +483,6 @@
             core.classList.add('black-hole-core');
             container.appendChild(core);
 
-            // Reduced beam count for performance
             for(let i=0; i<8; i++) {
                 const beam = document.createElement('div');
                 beam.classList.add('light-beam');
@@ -527,7 +525,6 @@
             const ctx = getAudioContext();
             const t = ctx.currentTime;
             
-            // Simplified sound logic for performance
             const osc2 = ctx.createOscillator();
             const gain2 = ctx.createGain();
             osc2.type = 'sawtooth';
@@ -597,26 +594,18 @@
 
         // --- OPTIMIZED SCROLL TILT EFFECT ---
         const tiltCards = document.querySelectorAll('.scroll-tilt-card');
-        const blob1 = document.getElementById('blob-1');
-        const blob2 = document.getElementById('blob-2');
-
+        
         function animateTilt() {
             if(isMobile) return;
 
             const centerY = window.innerHeight / 2;
-            const scrollY = window.scrollY;
-
-            // Parallax with translate3d
-            if(blob1) blob1.style.transform = `translate3d(-50%, calc(-50% + ${scrollY * 0.2}px), 0)`;
-            if(blob2) blob2.style.transform = `translate3d(0, ${-scrollY * 0.1}px, 0)`;
-
-            // Optimization: Only Calculate for cards in view
+            
             tiltCards.forEach(card => {
                 const rect = card.getBoundingClientRect();
                 if (rect.bottom > 0 && rect.top < window.innerHeight) {
                     const cardCenterY = rect.top + rect.height / 2;
                     const normalizedY = (cardCenterY - centerY) / (window.innerHeight / 2);
-                    const tilt = normalizedY * 25; // Reduced tilt angle
+                    const tilt = normalizedY * 25; 
                     card.style.setProperty('--tilt-x', `${tilt}deg`);
                 }
             });
