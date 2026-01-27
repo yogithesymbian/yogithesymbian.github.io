@@ -16,9 +16,7 @@
                     fontFamily: {
                         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
                     },
-                    cursor: {
-                        'none': 'none', // Opsi jika ingin menyembunyikan cursor asli
-                    }
+                    cursor: { 'none': 'none' }
                 }
             }
         }
@@ -26,22 +24,30 @@
     <style>
         :root { --color-primary: 56, 189, 248; }
 
-        /* FUTURISTIC SELECTION STYLE */
         ::selection {
             background: rgba(var(--color-primary), 0.15);
             color: white;
-            text-shadow: 0 0 10px rgb(var(--color-primary)), 0 0 20px rgb(var(--color-primary)), 0 0 30px white;
+            text-shadow: 0 0 10px rgb(var(--color-primary));
         }
 
-        body { transition: background-color 0.7s ease, color 0.5s ease; cursor: default; }
+        body { 
+            background-color: #020617;
+            color: #cbd5e1;
+            cursor: default;
+            overflow-x: hidden; /* Prevent horizontal scrollbars from animations */
+        }
         
-        div, nav, button, svg, path, span, a {
-            transition: border-color 0.5s ease, stroke 0.5s ease, fill 0.5s ease, box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
+        /* PERFORMANCE FIX: Removed global transitions on div/span/etc. 
+           Only apply transitions to specific interactive elements */
+        a, button, .pallet-btn, .scroll-tilt-card {
+            transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
         }
 
         .glass {
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
+            /* PERFORMANCE FIX: Reduced blur radius for mobile/slower devices */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
         
@@ -51,143 +57,42 @@
             font-weight: 800;
         }
 
+        .system-reboot { animation: systemPulse 0.4s ease-in-out 2; will-change: filter, transform; }
         @keyframes systemPulse {
             0% { filter: brightness(1) contrast(1); transform: scale(1); }
-            50% { filter: brightness(1.3) contrast(1.1) drop-shadow(0 0 20px rgb(var(--color-primary) / 0.3)); transform: scale(1.005); }
+            50% { filter: brightness(1.3) contrast(1.1); transform: scale(1.005); }
             100% { filter: brightness(1) contrast(1); transform: scale(1); }
         }
-        .system-reboot { animation: systemPulse 0.4s ease-in-out 2; }
 
-        .pallet-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .pallet-btn:hover { transform: scale(1.2); }
         .pallet-btn.active { transform: scale(1.3); box-shadow: 0 0 25px rgb(var(--color-primary)); border-color: white; z-index: 10; }
 
-        /* KINETIX MICRO-INTERACTIONS */
-        .kinetix-active {
-            animation: kinetixPress 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
+        .kinetix-active { animation: kinetixPress 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         @keyframes kinetixPress {
             0% { transform: scale(0.96); filter: brightness(1.3); }
             50% { transform: scale(0.98); }
             100% { transform: scale(1); filter: brightness(1); }
         }
 
-        /* CURSOR TRAIL STYLES */
+        /* CURSOR TRAIL */
         .cursor-circle {
-            height: 20px;
-            width: 20px;
+            height: 20px; width: 20px;
             border-radius: 50%;
             background-color: rgb(var(--color-primary));
-            position: absolute; 
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: screen; /* Efek menyatu dengan background */
-            box-shadow: 0 0 20px rgb(var(--color-primary));
+            position: fixed; /* Fixed prevents layout recalculation on scroll */
+            top: 0; left: 0;
+            pointer-events: none; z-index: 9999;
+            mix-blend-mode: screen;
+            box-shadow: 0 0 15px rgb(var(--color-primary));
             filter: blur(4px);
-            animation: nebulaPulse 1.5s infinite alternate ease-in-out;
-            will-change: transform;
-        }
-        @keyframes nebulaPulse {
-            0% { box-shadow: 0 0 15px rgb(var(--color-primary)); filter: blur(4px); opacity: 0.9; }
-            100% { box-shadow: 0 0 35px 5px rgb(var(--color-primary)); filter: blur(8px); opacity: 0.5; }
+            will-change: transform; /* Hint to browser to promote to GPU layer */
         }
 
-        .visualizer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 15vh;
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-end;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.1;
-            mask-image: linear-gradient(to top, black 50%, transparent 100%);
-        }
-
-        .bar {
-            width: 2%;
-            height: 100%;
-            background-color: rgb(var(--color-primary));
-            animation: pulse 1.5s infinite alternate ease-in-out;
-            box-shadow: 0 0 10px rgb(var(--color-primary) / 0.5), 0 0 20px rgb(var(--color-primary) / 0.3);
-            transform-origin: bottom;
-            will-change: transform;
-        }
-
-        @keyframes pulse {
-            from {
-                transform: scaleY(0.01);
-            }
-            to {
-                transform: scaleY(1);
-            }
-        }
-        .bar:nth-child(1) { animation-delay: 0.0s; }
-        .bar:nth-child(2) { animation-delay: 0.1s; }
-        .bar:nth-child(3) { animation-delay: 0.2s; }
-        .bar:nth-child(4) { animation-delay: 0.3s; }
-        .bar:nth-child(5) { animation-delay: 0.4s; }
-        .bar:nth-child(6) { animation-delay: 0.5s; }
-        .bar:nth-child(7) { animation-delay: 0.6s; }
-        .bar:nth-child(8) { animation-delay: 0.7s; }
-        .bar:nth-child(9) { animation-delay: 0.8s; }
-        .bar:nth-child(10) { animation-delay: 0.9s; }
-        .bar:nth-child(11) { animation-delay: 1.0s; }
-        .bar:nth-child(12) { animation-delay: 1.1s; }
-        .bar:nth-child(13) { animation-delay: 1.2s; }
-        .bar:nth-child(14) { animation-delay: 1.3s; }
-        .bar:nth-child(15) { animation-delay: 1.4s; }
-        .bar:nth-child(16) { animation-delay: 1.5s; }
-        .bar:nth-child(17) { animation-delay: 1.6s; }
-        .bar:nth-child(18) { animation-delay: 1.7s; }
-        .bar:nth-child(19) { animation-delay: 1.8s; }
-        .bar:nth-child(20) { animation-delay: 1.9s; }
-        .bar:nth-child(21) { animation-delay: 2.0s; }
-        .bar:nth-child(22) { animation-delay: 2.1s; }
-        .bar:nth-child(23) { animation-delay: 2.2s; }
-        .bar:nth-child(24) { animation-delay: 2.3s; }
-        .bar:nth-child(25) { animation-delay: 2.4s; }
-        .bar:nth-child(26) { animation-delay: 2.5s; }
-        .bar:nth-child(27) { animation-delay: 2.6s; }
-        .bar:nth-child(28) { animation-delay: 2.7s; }
-        .bar:nth-child(29) { animation-delay: 2.8s; }
-        .bar:nth-child(30) { animation-delay: 2.9s; }
-        .bar:nth-child(31) { animation-delay: 3.0s; }
-        .bar:nth-child(32) { animation-delay: 3.1s; }
-        .bar:nth-child(33) { animation-delay: 3.2s; }
-        .bar:nth-child(34) { animation-delay: 3.3s; }
-        .bar:nth-child(35) { animation-delay: 3.4s; }
-        .bar:nth-child(36) { animation-delay: 3.5s; }
-        .bar:nth-child(37) { animation-delay: 3.6s; }
-        .bar:nth-child(38) { animation-delay: 3.7s; }
-        .bar:nth-child(39) { animation-delay: 3.8s; }
-        .bar:nth-child(40) { animation-delay: 3.9s; }
-
-        /* MARQUEE & ROTATOR STYLES */
-        .marquee-wrapper {
-            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        }
-        .marquee-track {
-            display: flex;
-            gap: 1.5rem;
-            width: max-content;
-            animation: scroll 30s linear infinite;
-        }
-        .marquee-track:hover { animation-play-state: paused; }
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-50% - 0.75rem)); }
-        }
-        
+        /* ROTATOR CURSOR */
         .rotator-cursor {
-            position: absolute; top: 0; left: 0; width: 120px; height: 120px;
-            pointer-events: none; z-index: 9999; opacity: 0; transform: translate(-50%, -50%) scale(0);
+            position: fixed; top: 0; left: 0; width: 120px; height: 120px;
+            pointer-events: none; z-index: 9999; opacity: 0; 
+            transform: translate(-50%, -50%) scale(0);
             transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex; align-items: center; justify-content: center;
             mix-blend-mode: exclusion;
@@ -196,176 +101,91 @@
         .rotator-text { animation: spinText 10s linear infinite; transform-origin: center; }
         @keyframes spinText { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* COSMIC NEBULA STYLE */
-        /* .cosmic-nebula {
-            position: absolute;
-            top: 0; left: 0;
-            width: 600px; height: 400px;
-            background: radial-gradient(closest-side, rgba(var(--color-primary), 0.5), transparent 100%);
-            filter: blur(60px);
-            border-radius: 50%;
-            animation: nebulaFly 15s linear infinite;
-            opacity: 0;
-        }
-        @keyframes nebulaFly {
-            0% { transform: translate(-50%, -20%) scale(0.5) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.6; }
-            50% { transform: translate(50vw, 50vh) scale(1.2) rotate(180deg); opacity: 0.8; }
-            80% { opacity: 0.6; }
-            100% { transform: translate(110vw, 110vh) scale(0.5) rotate(360deg); opacity: 0; }
-        } */
-
-        /* DRAG SPARK PARTICLES */
+        /* OPTIMIZED PARTICLES */
         .drag-spark {
-            position: absolute;
-            width: 4px; height: 4px;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none; z-index: 9999;
-            box-shadow: 0 0 10px rgb(var(--color-primary)), 0 0 20px rgb(var(--color-primary));
+            position: fixed; width: 4px; height: 4px; background: white;
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            box-shadow: 0 0 10px rgb(var(--color-primary));
+            will-change: transform, opacity;
             animation: sparkFly 0.6s ease-out forwards;
         }
         @keyframes sparkFly {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+            0% { transform: translate3d(0,0,0) scale(1); opacity: 1; }
+            100% { transform: translate3d(var(--tx), var(--ty), 0) scale(0); opacity: 0; }
         }
 
-        /* SPACE CLICK EXPLOSION */
+        /* EXPLOSION */
         .space-explosion {
-            position: absolute; pointer-events: none; z-index: 99999;
+            position: fixed; pointer-events: none; z-index: 99999;
             top: 0; left: 0; width: 0; height: 0;
         }
         .black-hole-core {
-            position: absolute; top: 0; left: 0;
-            width: 10px; height: 10px; border-radius: 50%;
-            background: black;
-            border: 2px solid rgb(var(--color-primary));
-            box-shadow: 0 0 20px rgb(var(--color-primary)), 0 0 40px white;
+            position: absolute; top: 0; left: 0; width: 10px; height: 10px; border-radius: 50%;
+            background: black; border: 2px solid rgb(var(--color-primary));
+            box-shadow: 0 0 20px rgb(var(--color-primary));
             transform: translate(-50%, -50%) scale(0);
             animation: bhSuckExplode 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
         }
         @keyframes bhSuckExplode {
             0% { transform: translate(-50%, -50%) scale(5); opacity: 0; border-width: 1px; }
-            30% { transform: translate(-50%, -50%) scale(0.1); opacity: 1; border-width: 5px; box-shadow: 0 0 50px white; }
+            30% { transform: translate(-50%, -50%) scale(0.1); opacity: 1; border-width: 5px; }
             40% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
             100% { transform: translate(-50%, -50%) scale(8); opacity: 0; border-width: 0; }
         }
-        .milky-way-spiral {
-            position: absolute; top: 0; left: 0;
-            width: 10px; height: 10px; border-radius: 50%;
-            background: conic-gradient(from 0deg, transparent, rgb(var(--color-primary)), white, transparent);
-            transform: translate(-50%, -50%) scale(0);
-            filter: blur(1px);
-            mix-blend-mode: screen;
-            animation: galaxySpin 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-            animation-delay: 0.2s;
-        }
-        @keyframes galaxySpin {
-            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(20) rotate(720deg); opacity: 0; }
-        }
         .light-beam {
-            position: absolute; top: 0; left: 0;
-            width: 200px; height: 3px;
+            position: absolute; top: 0; left: 0; width: 200px; height: 3px;
             background: linear-gradient(90deg, white, rgb(var(--color-primary)), transparent);
-            transform-origin: left center;
-            opacity: 0;
-            border-radius: 100%;
+            transform-origin: left center; opacity: 0; border-radius: 100%;
             animation: beamSpiral 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-            animation-delay: 0.25s;
         }
         @keyframes beamSpiral {
             0% { transform: rotate(var(--angle)) scaleX(0); opacity: 1; }
             100% { transform: rotate(calc(var(--angle) + 360deg)) scaleX(1.5) translateX(150px); opacity: 0; }
         }
 
-        /* GRID GLOW SPOTLIGHT */
-        .grid-spotlight {
-            position: absolute; inset: 0; z-index: 2;
-            background: radial-gradient(circle 400px at var(--x, 50%) var(--y, 50%), rgba(var(--color-primary), 0.2), transparent 70%);
-            mix-blend-mode: color-dodge; /* Membuat garis grid menyala */
-            pointer-events: none;
-        }
-        .horizon-glow {
-            position: absolute; bottom: -20%; left: 0; width: 100%; height: 80%;
-            background: radial-gradient(ellipse at bottom center, rgba(var(--color-primary), 0.6), transparent 60%);
-            mix-blend-mode: color-dodge;
-            pointer-events: none;
-            z-index: 1;
-            filter: blur(40px);
-            transform-origin: bottom center;
-            animation: horizonPulse 6s ease-in-out infinite;
-        }
-        @keyframes horizonPulse {
-            0%, 100% { opacity: 0.5; transform: scaleY(1); }
-            50% { opacity: 0.8; transform: scaleY(1.2); }
-        }
-
-        .grid-shockwave {
-            position: absolute; top: 0; left: 0;
-            width: 10px; height: 10px; border-radius: 50%;
-            background: radial-gradient(circle, rgba(var(--color-primary), 1) 0%, transparent 70%);
-            mix-blend-mode: color-dodge;
-            transform: translate(-50%, -50%);
-            animation: gridShock 0.8s ease-out forwards;
-            pointer-events: none; z-index: 3;
-        }
-        @keyframes gridShock {
-            0% { width: 10px; height: 10px; opacity: 1; }
-            100% { width: 1500px; height: 1500px; opacity: 0; }
-        }
-        @keyframes screenShake {
-            10%, 90% { transform: translate3d(-1px, 1px, 0); }
-            20%, 80% { transform: translate3d(2px, -1px, 0); }
-            30%, 50%, 70% { transform: translate3d(-2px, 2px, 0); }
-            40%, 60% { transform: translate3d(2px, -2px, 0); }
-        }
-
-        /* 3D SCROLLING GRID */
-        .grid-3d-container {
-            position: absolute; inset: 0; perspective: 500px; overflow: hidden;
-        }
+        /* BACKGROUND ELEMENTS */
+        .grid-3d-container { position: absolute; inset: 0; perspective: 500px; overflow: hidden; pointer-events: none;}
         .grid-3d-plane {
             position: absolute; width: 300%; height: 300%; left: -100%; top: -100%;
             background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
+                linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
             background-size: 60px 60px;
             transform: rotateX(60deg) translateY(0) translateZ(-100px);
-            transform-origin: center center;
             animation: gridScroll 8s linear infinite;
             mask-image: radial-gradient(circle at center, white 0%, transparent 70%);
+            /* GPU Hint */
+            will-change: transform; 
         }
         @keyframes gridScroll {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 60px; }
+            0% { transform: rotateX(60deg) translateY(0) translateZ(-100px); }
+            100% { transform: rotateX(60deg) translateY(60px) translateZ(-100px); }
         }
 
-        /* SCROLL TILT CARD (n8n effect) */
         .scroll-tilt-card {
             transform-style: preserve-3d;
             transform: perspective(700px) rotateX(var(--tilt-x, 0deg));
-            will-change: transform;
-            transition: transform 0.1s linear, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            will-change: transform; /* Important for scroll performance */
         }
         .scroll-tilt-card:hover {
             transform: perspective(700px) rotateX(var(--tilt-x, 0deg)) translateY(-10px) scale(1.02);
-            box-shadow: 0 0 30px rgb(var(--color-primary) / 0.3) !important;
+        }
+
+        /* HIDE HEAVY EFFECTS ON MOBILE */
+        @media (max-width: 768px) {
+            .cursor-circle, .rotator-cursor, .drag-spark { display: none !important; }
+            .grid-3d-plane { animation: none; }
         }
     </style>
 </head>
-<body id="main-body" class="bg-slate-950 text-slate-300 font-sans antialiased overflow-x-hidden relative">
+<body id="main-body" class="bg-slate-950 text-slate-300 font-sans antialiased relative">
 
     <div id="bg-wrapper" class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div class="grid-3d-container">
             <div class="grid-3d-plane"></div>
-            <div class="grid-spotlight"></div>
-            <div class="horizon-glow"></div>
         </div>
-        <div id="blob-1" class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[800px] bg-primary/10 rounded-full blur-[120px] opacity-70 transition-colors duration-700"></div>
-        <div id="blob-2" class="absolute bottom-0 right-0 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[100px] opacity-40 transition-colors duration-700"></div>
-        <!-- <div class="cosmic-nebula"></div> -->
+        <div id="blob-1" class="absolute top-0 left-1/2 w-[1000px] h-[800px] bg-primary/10 rounded-full blur-[120px] opacity-70 transition-colors duration-700" style="transform: translate3d(-50%, -50%, 0)"></div>
+        <div id="blob-2" class="absolute bottom-0 right-0 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[100px] opacity-40 transition-colors duration-700" style="transform: translate3d(0, 0, 0)"></div>
     </div>
 
     <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-slate-950/70 backdrop-blur-md">
@@ -413,12 +233,10 @@
             </div>
         </section>
 
-        
-
         <section id="work" class="max-w-5xl mx-auto px-6">
             <h2 class="text-sm font-bold text-primary tracking-widest uppercase mb-12 drop-shadow-[0_0_5px_rgb(var(--color-primary))]">Featured Projects</h2>
             <div class="grid md:grid-cols-2 gap-6">
-                <a href="#" class="scroll-tilt-card block glass p-1 rounded-2xl hover:bg-white/5 group cursor-pointer hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                <div class="scroll-tilt-card glass p-1 rounded-2xl hover:bg-white/5 group cursor-pointer hover:border-primary/50 transition-all" onclick="void(0)">
                     <div class="bg-slate-900/50 rounded-xl p-8 h-full border border-white/5 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/30 transition-all duration-500"></div>
                         <div class="relative z-10">
@@ -433,8 +251,9 @@
                             </div>
                         </div>
                     </div>
-                </a>
-                <a href="#" class="scroll-tilt-card block glass p-1 rounded-2xl hover:bg-white/5 group cursor-pointer hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                </div>
+                
+                <div class="scroll-tilt-card glass p-1 rounded-2xl hover:bg-white/5 group cursor-pointer hover:border-primary/50 transition-all" onclick="void(0)">
                     <div class="bg-slate-900/50 rounded-xl p-8 h-full border border-white/5 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/30 transition-all duration-500"></div>
                         <div class="relative z-10">
@@ -449,20 +268,25 @@
                             </div>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
         </section>
 
-        <!-- OPEN SOURCE MARQUEE SECTION -->
         <section id="opensource" class="py-20 relative overflow-hidden" onmouseenter="toggleRotator(true)" onmouseleave="toggleRotator(false)">
             <div class="max-w-5xl mx-auto px-6 mb-10">
                 <h2 class="text-sm font-bold text-primary tracking-widest uppercase drop-shadow-[0_0_5px_rgb(var(--color-primary))]">Open Source Experiments</h2>
             </div>
             
+            <style>
+                .marquee-wrapper { mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
+                .marquee-track { display: flex; gap: 1.5rem; width: max-content; animation: scroll 30s linear infinite; }
+                .marquee-track:hover { animation-play-state: paused; }
+                @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-50% - 0.75rem)); } }
+            </style>
+            
             <div class="marquee-wrapper w-full py-6 scroll-tilt-card">
                 <div class="marquee-track">
-                    <!-- Items Set 1 -->
-                    <a href="https://gist.github.com/yogithesymbian/b476ef3640cb4f1343ef3816064be8be" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
+                     <a href="https://gist.github.com/yogithesymbian/b476ef3640cb4f1343ef3816064be8be" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
                         <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">MIT</span></div>
                         <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Android Kotlin Gen</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">Android Kotlin code generator for MVVM</p></div>
                     </a>
@@ -474,16 +298,7 @@
                         <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">Library</span></div>
                         <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Yo Netwatch</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">Rust library for network monitoring</p></div>
                     </a>
-                    <a href="https://github.com/yogithesymbian/bug-hunting-penetration-rgb-hat" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
-                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">Tool</span></div>
-                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Bug Hunting RGB Hat</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">For bug bounty hunters</p></div>
-                    </a>
-                    <a href="https://github.com/pemrogrammer/api-nodejs-sequelize-jwt-mysql-generator" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
-                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">API</span></div>
-                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Sequelize CRUD Gen</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">Auto-generate CRUD operations for Sequelize</p></div>
-                    </a>
-
-                    <!-- Items Set 2 (Duplicate for Seamless Loop) -->
+                    
                     <a href="https://gist.github.com/yogithesymbian/b476ef3640cb4f1343ef3816064be8be" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
                         <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">MIT</span></div>
                         <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Android Kotlin Gen</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">Android Kotlin code generator for MVVM</p></div>
@@ -491,18 +306,6 @@
                     <a href="https://marketplace.visualstudio.com/items?itemName=YoLicenses.yo-webp" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
                         <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">Extension</span></div>
                         <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Yo WebP Converter</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">VS Code extension for WebP conversion</p></div>
-                    </a>
-                    <a href="https://crates.io/crates/yo_netwatch" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
-                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">Library</span></div>
-                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Yo Netwatch</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">Rust library for network monitoring</p></div>
-                    </a>
-                    <a href="https://github.com/yogithesymbian/bug-hunting-penetration-rgb-hat" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
-                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">Tool</span></div>
-                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Bug Hunting RGB Hat</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">For bug bounty hunters</p></div>
-                    </a>
-                    <a href="https://github.com/pemrogrammer/api-nodejs-sequelize-jwt-mysql-generator" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
-                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">API</span></div>
-                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Sequelize CRUD Gen</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">Auto-generate CRUD operations for Sequelize</p></div>
                     </a>
                 </div>
             </div>
@@ -545,7 +348,6 @@
         </div>
     </div>
 
-    <!-- ROTATOR CURSOR ELEMENT -->
     <div id="rotator-cursor" class="rotator-cursor">
         <svg class="w-full h-full rotator-text" viewBox="0 0 100 100">
             <defs>
@@ -559,135 +361,117 @@
     </div>
 
     <script>
-        // --- 1. CURSOR TRAIL LOGIC (Mobile Legends Effect) ---
-        const coords = { x: 0, y: 0, clientX: 0, clientY: 0 };
+        // --- PERFORMANCE OPTIMIZED CURSOR LOGIC ---
+        const coords = { x: 0, y: 0 };
         const circles = [];
-        const colors = [];
         
-        // Generate 20 bola untuk trail nebula yang lebih panjang
-        const numberOfCircles = 20;
-
-        for(let i = 0; i < numberOfCircles; i++) {
-            const circle = document.createElement("div");
-            circle.classList.add("cursor-circle");
-            document.body.appendChild(circle);
-            circles.push(circle);
+        // Optimized: Check mobile once
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        
+        if (!isMobile) {
+            const numberOfCircles = 16; // Reduced count for performance
             
-            // Set initial state
-            circle.x = 0;
-            circle.y = 0;
-            
-            // Mengatur ukuran: Bola pertama besar, makin ke belakang makin kecil
-            // Scale: 1 -> 0.2
-            const scale = (numberOfCircles - i) / numberOfCircles; 
-            circle.style.transform = `scale(${scale})`;
-            
-            // Mengatur opacity: Depan terang, belakang pudar
-            circle.style.opacity = (numberOfCircles - i) / numberOfCircles; 
-            
-            // Variasi delay animasi agar denyutan terlihat organik
-            circle.style.animationDelay = (i * 0.1) + 's';
+            for(let i = 0; i < numberOfCircles; i++) {
+                const circle = document.createElement("div");
+                circle.classList.add("cursor-circle");
+                document.body.appendChild(circle);
+                circles.push(circle);
+                circle.x = 0;
+                circle.y = 0;
+            }
         }
 
-        // Update koordinat mouse
+        // Throttle spark creation
         let lastSparkTime = 0;
-        window.addEventListener("mousemove", function(e){
-            coords.x = e.pageX;
-            coords.y = e.pageY;
-            coords.clientX = e.clientX;
-            coords.clientY = e.clientY;
+        let isMouseDown = false;
+        const rotator = document.getElementById('rotator-cursor');
 
-            // Create Sparks if Dragging
-            if(isMouseDown) {
+        window.addEventListener("mousemove", function(e){
+            coords.x = e.clientX; // Use clientX for fixed positioning
+            coords.y = e.clientY;
+
+            // Update Rotator (Directly, no RAF lag for primary cursor)
+            if(rotator && rotator.classList.contains('active')) {
+                rotator.style.transform = `translate(${e.clientX}px, ${e.clientY}px) scale(1)`;
+            } else if (rotator) {
+                rotator.style.transform = `translate(${e.clientX}px, ${e.clientY}px) scale(0)`;
+            }
+
+            // Throttled Sparks
+            if(isMouseDown && !isMobile) {
                 const now = Date.now();
-                if (now - lastSparkTime > 40) {
-                    createDragSparks(e.pageX, e.pageY);
+                if (now - lastSparkTime > 50) { // Limit to 20fps sparks
+                    createDragSparks(e.clientX, e.clientY);
                     lastSparkTime = now;
                 }
             }
-        });
+        }, { passive: true }); // Passive event listener
 
-        // Animasi Loop
+        // Optimized Animation Loop
         function animateCircles() {
+            if (isMobile) return;
+
             let x = coords.x;
             let y = coords.y;
-
-            // Update Rotator Position (Synced with RAF)
-            const rotator = document.getElementById('rotator-cursor');
-            if(rotator && rotator.classList.contains('active')) {
-                rotator.style.left = x + 'px';
-                rotator.style.top = y + 'px';
-            }
-
-            // Update Grid Spotlight Position (Synced with RAF)
-            const spotlight = document.querySelector('.grid-spotlight');
-            if(spotlight) {
-                spotlight.style.setProperty('--x', coords.clientX + 'px');
-                spotlight.style.setProperty('--y', coords.clientY + 'px');
-            }
             
             circles.forEach(function (circle, index) {
-                // Posisi lingkaran saat ini di-offset supaya tengah lingkaran ada di ujung mouse
-                // -10 karena width/height adalah 20px
+                // Key Performance Fix: Use translate3d for GPU acceleration
+                // Remove offset from JS, handle in CSS or keep consistent
                 
-                // Scale lagi untuk memastikan konsistensi
-                const scale = (numberOfCircles - index) / numberOfCircles;
-                // Use translate3d for GPU acceleration and avoid layout thrashing
+                const scale = (circles.length - index) / circles.length;
                 circle.style.transform = `translate3d(${x - 10}px, ${y - 10}px, 0) scale(${scale})`;
                 
-                // Logic "Follow":
-                // Koordinat bola berikutnya = posisi bola saat ini + (selisih jarak) * kecepatan delay
-                // Semakin kecil angkanya, semakin "lambat/malas" trail-nya (efek nebula mengambang)
                 circle.x = x;
                 circle.y = y;
 
                 const nextCircle = circles[index + 1] || circles[0];
-                x += (nextCircle.x - x) * 0.25;
-                y += (nextCircle.y - y) * 0.25;
+                x += (nextCircle.x - x) * 0.3;
+                y += (nextCircle.y - y) * 0.3;
             });
             
             requestAnimationFrame(animateCircles);
         }
-        
         animateCircles();
-        // --- END CURSOR LOGIC ---
 
-        // --- DRAG EXPLOSION LOGIC ---
-        let isMouseDown = false;
-        document.addEventListener('mousedown', () => isMouseDown = true);
-        document.addEventListener('mouseup', () => isMouseDown = false);
+        // --- EVENTS ---
+        document.addEventListener('mousedown', () => isMouseDown = true, {passive: true});
+        document.addEventListener('mouseup', () => isMouseDown = false, {passive: true});
 
+        // Object pooling for sparks could be added here for further optimization
         function createDragSparks(x, y) {
-            // Spawn 2 particles per frame for explosion effect
-            for(let i=0; i<2; i++) {
-                const spark = document.createElement('div');
-                spark.classList.add('drag-spark');
-                spark.style.left = x + 'px';
-                spark.style.top = y + 'px';
-                
-                const angle = Math.random() * Math.PI * 2;
-                const velocity = 30 + Math.random() * 50; // Random distance
-                spark.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
-                spark.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
-                
-                document.body.appendChild(spark);
-                setTimeout(() => spark.remove(), 600);
-            }
+            // Spawn only 1 spark per tick instead of 2
+            const spark = document.createElement('div');
+            spark.classList.add('drag-spark');
+            
+            // Initial position (GPU optimized class handles this, we just set start pos)
+            spark.style.left = x + 'px';
+            spark.style.top = y + 'px';
+            
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = 30 + Math.random() * 40;
+            
+            // Set CSS variables for the animation to read
+            spark.style.setProperty('--tx', (Math.cos(angle) * velocity) + 'px');
+            spark.style.setProperty('--ty', (Math.sin(angle) * velocity) + 'px');
+            
+            document.body.appendChild(spark);
+            
+            // Clean up
+            setTimeout(() => {
+                if(spark.parentNode) spark.parentNode.removeChild(spark);
+            }, 600);
         }
 
-        // --- CLICK SPACE EXPLOSION LOGIC ---
         document.addEventListener('click', (e) => {
-            // Kinetix Micro-interaction: Immediate Tactile Feedback
             const target = e.target.closest('a, button, .interactive');
             if (target) {
                 target.classList.remove('kinetix-active');
-                void target.offsetWidth; // Trigger reflow
+                void target.offsetWidth; 
                 target.classList.add('kinetix-active');
             }
-
-            createSpaceExplosion(e.pageX, e.pageY);
+            if (!isMobile) createSpaceExplosion(e.clientX, e.clientY);
             playSpaceClickSound();
-        });
+        }, {passive: true});
 
         function createSpaceExplosion(x, y) {
             const container = document.createElement('div');
@@ -696,98 +480,72 @@
             container.style.top = y + 'px';
             document.body.appendChild(container);
 
-            // 1. Milky Way Spiral
-            const galaxy = document.createElement('div');
-            galaxy.classList.add('milky-way-spiral');
-            container.appendChild(galaxy);
-
-            // 2. Black Hole Core
             const core = document.createElement('div');
             core.classList.add('black-hole-core');
             container.appendChild(core);
 
-            // 3. Light Beams
-            for(let i=0; i<16; i++) {
+            // Reduced beam count for performance
+            for(let i=0; i<8; i++) {
                 const beam = document.createElement('div');
                 beam.classList.add('light-beam');
-                beam.style.setProperty('--angle', (i * 22.5) + 'deg');
+                beam.style.setProperty('--angle', (i * 45) + 'deg');
                 container.appendChild(beam);
             }
-
-            setTimeout(() => container.remove(), 1000);
+            setTimeout(() => { if(container.parentNode) container.remove() }, 1000);
         }
 
-        // Trigger Grid Shockwave on Click
-        function triggerGridShockwave(x, y) {
-            const gridContainer = document.querySelector('.grid-3d-container');
-            if(gridContainer) {
-                const shock = document.createElement('div');
-                shock.classList.add('grid-shockwave');
-                shock.style.left = x + 'px';
-                shock.style.top = y + 'px';
-                gridContainer.appendChild(shock);
-                setTimeout(() => shock.remove(), 1000);
+        // --- LAZY LOAD AUDIO ---
+        let audioCtx;
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            return audioCtx;
         }
-
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         
         function playFuturisticSound() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
+            const ctx = getAudioContext();
+            const oscillator = ctx.createOscillator();
+            const gainNode = ctx.createGain();
             
             oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
-            oscillator.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.3);
+            oscillator.frequency.setValueAtTime(600, ctx.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.3);
             
-            gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+            gainNode.gain.setValueAtTime(0.05, ctx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
             
             oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
+            gainNode.connect(ctx.destination);
             
             oscillator.start();
-            oscillator.stop(audioCtx.currentTime + 0.3);
+            oscillator.stop(ctx.currentTime + 0.3);
         }
 
         function playSpaceClickSound() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const t = audioCtx.currentTime;
-
-            // 1. REVERSE SUCTION (Charging phase - menyedot energi)
-            const osc1 = audioCtx.createOscillator();
-            const gain1 = audioCtx.createGain();
-            osc1.type = 'triangle';
-            osc1.frequency.setValueAtTime(50, t);
-            osc1.frequency.exponentialRampToValueAtTime(800, t + 0.3); // Pitch naik
+            const ctx = getAudioContext();
+            const t = ctx.currentTime;
             
-            gain1.gain.setValueAtTime(0, t);
-            gain1.gain.linearRampToValueAtTime(0.15, t + 0.3); // Volume naik
+            // Simplified sound logic for performance
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+            osc2.type = 'sawtooth';
+            osc2.frequency.setValueAtTime(300, t);
+            osc2.frequency.exponentialRampToValueAtTime(10, t + 0.3);
             
-            osc1.connect(gain1);
-            gain1.connect(audioCtx.destination);
-            osc1.start(t);
-            osc1.stop(t + 0.3);
-
-            // 2. MAIN EXPLOSION (Impact phase - ledakan)
-            const osc2 = audioCtx.createOscillator();
-            const gain2 = audioCtx.createGain();
-            osc2.type = 'sawtooth'; // Waveform kasar untuk ledakan
-            osc2.frequency.setValueAtTime(300, t + 0.3);
-            osc2.frequency.exponentialRampToValueAtTime(10, t + 0.8); // Pitch drop tajam
-            
-            gain2.gain.setValueAtTime(0.2, t + 0.3);
-            gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.8);
+            gain2.gain.setValueAtTime(0.1, t);
+            gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
 
             osc2.connect(gain2);
-            gain2.connect(audioCtx.destination);
-            osc2.start(t + 0.3);
-            osc2.stop(t + 0.8);
+            gain2.connect(ctx.destination);
+            osc2.start(t);
+            osc2.stop(t + 0.3);
         }
 
+        // --- UTILS ---
         function scrambleText(element) {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/[]*"; 
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; 
             const originalText = element.dataset.value; 
             let iteration = 0;
             if(element.interval) clearInterval(element.interval);
@@ -806,10 +564,7 @@
 
         function changeTheme(colorValue, btnElement) {
             document.documentElement.style.setProperty('--color-primary', colorValue);
-            document.querySelectorAll('.pallet-btn').forEach(btn => {
-                btn.classList.remove('active');
-                btn.style.borderColor = 'transparent';
-            });
+            document.querySelectorAll('.pallet-btn').forEach(btn => btn.classList.remove('active'));
             if(btnElement) btnElement.classList.add('active');
 
             const body = document.body;
@@ -820,7 +575,6 @@
             playFuturisticSound();
             const titleElement = document.getElementById('scramble-target');
             if(titleElement) scrambleText(titleElement);
-
             localStorage.setItem('user-theme', colorValue);
         }
 
@@ -841,29 +595,28 @@
             }
         });
 
-        // --- SCROLL TILT EFFECT ---
+        // --- OPTIMIZED SCROLL TILT EFFECT ---
         const tiltCards = document.querySelectorAll('.scroll-tilt-card');
         const blob1 = document.getElementById('blob-1');
         const blob2 = document.getElementById('blob-2');
 
         function animateTilt() {
+            if(isMobile) return;
+
             const centerY = window.innerHeight / 2;
             const scrollY = window.scrollY;
 
-            // Parallax Background
+            // Parallax with translate3d
             if(blob1) blob1.style.transform = `translate3d(-50%, calc(-50% + ${scrollY * 0.2}px), 0)`;
             if(blob2) blob2.style.transform = `translate3d(0, ${-scrollY * 0.1}px, 0)`;
 
+            // Optimization: Only Calculate for cards in view
             tiltCards.forEach(card => {
                 const rect = card.getBoundingClientRect();
-                // Only animate if in viewport (with buffer)
-                if (rect.top < window.innerHeight + 100 && rect.bottom > -100) {
+                if (rect.bottom > 0 && rect.top < window.innerHeight) {
                     const cardCenterY = rect.top + rect.height / 2;
-                    // Normalized position: -1 (top) to 0 (center) to 1 (bottom)
                     const normalizedY = (cardCenterY - centerY) / (window.innerHeight / 2);
-                    
-                    // Calculate tilt angle (max 45 degrees)
-                    const tilt = normalizedY * 45; 
+                    const tilt = normalizedY * 25; // Reduced tilt angle
                     card.style.setProperty('--tilt-x', `${tilt}deg`);
                 }
             });
