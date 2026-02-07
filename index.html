@@ -3,615 +3,1586 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yogi AW | Software Engineer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        slate: { 850: '#1e293b', 900: '#0f172a', 950: '#020617' },
-                        primary: 'rgb(var(--color-primary) / <alpha-value>)',
-                    },
-                    fontFamily: {
-                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
-                    },
-                    cursor: { 'none': 'none' }
-                }
+    <title>YoVelos | Ταχύτητα και Ακρίβεια - Speed & Precision</title>
+    <meta name="description" content="YoVelos - The Messenger. Architecting Speed with Divine Precision. High-performance software solutions.">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --void-blue: #0D182E;
+            --deep-cosmos: #0a1322;
+            --victory-gold: #D4AF37;
+            --gold-bright: #F4D03F;
+            --starlight: #f5f5f5;
+            --starlight-dim: rgba(245, 245, 245, 0.7);
+            --accent-orange: #E67E22;
+            --speed-cyan: #00D4FF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: var(--void-blue);
+            color: var(--starlight);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(212, 175, 55, 0.4);
+            color: var(--starlight);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--deep-cosmos);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--victory-gold), var(--accent-orange));
+            border-radius: 4px;
+        }
+
+        /* ========================================
+           STARFIELD PARALLAX BACKGROUND
+        ======================================== */
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 200%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, rgba(212, 175, 55, 0.8), transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(212, 175, 55, 0.5), transparent),
+                radial-gradient(2px 2px at 130px 80px, rgba(255, 255, 255, 0.7), transparent),
+                radial-gradient(1px 1px at 160px 120px, rgba(212, 175, 55, 0.4), transparent),
+                radial-gradient(2px 2px at 200px 50px, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 250px 150px, rgba(212, 175, 55, 0.6), transparent),
+                radial-gradient(2px 2px at 300px 90px, rgba(255, 255, 255, 0.4), transparent);
+            background-size: 350px 350px;
+            animation: parallaxStars 60s linear infinite;
+        }
+
+        .stars-layer-2 {
+            animation-duration: 90s;
+            opacity: 0.6;
+            background-size: 500px 500px;
+        }
+
+        .stars-layer-3 {
+            animation-duration: 120s;
+            opacity: 0.3;
+            background-size: 700px 700px;
+        }
+
+        @keyframes parallaxStars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-50%); }
+        }
+
+        /* ========================================
+           HERO SECTION - THE ARROW LAUNCH
+        ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 30% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(230, 126, 34, 0.05) 0%, transparent 50%),
+                linear-gradient(180deg, transparent 0%, rgba(13, 24, 46, 0.5) 100%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        /* Arrow Animation Container */
+        .arrow-container {
+            position: relative;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .arrow-visual {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* The Golden Arrow */
+        .golden-arrow {
+            position: relative;
+            z-index: 2;
+            animation: arrowLaunch 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            opacity: 0;
+            transform: translateX(-100px) rotate(-5deg);
+        }
+
+        @keyframes arrowLaunch {
+            0% {
+                opacity: 0;
+                transform: translateX(-100px) rotate(-5deg);
+            }
+            60% {
+                opacity: 1;
+                transform: translateX(20px) rotate(2deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) rotate(0deg);
             }
         }
-    </script>
-    <style>
-        :root { --color-primary: 56, 189, 248; }
 
-        ::selection {
-            background: rgba(var(--color-primary), 0.15);
-            color: white;
-            text-shadow: 0 0 10px rgb(var(--color-primary));
+        .arrow-svg {
+            width: 350px;
+            height: auto;
+            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.5));
         }
 
-        body { 
-            background-color: #020617;
-            color: #cbd5e1;
-            cursor: default;
-            overflow-x: hidden;
-        }
-        
-        a, button, .pallet-btn, .scroll-tilt-card {
-            transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .neon-text {
-            color: rgb(var(--color-primary));
-            text-shadow: 0 0 30px rgb(var(--color-primary) / 0.8);
-            font-weight: 800;
+        /* Wind/Trail Effect */
+        .arrow-trail {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--victory-gold), transparent);
+            opacity: 0;
+            animation: trailFade 1.5s ease-out 0.3s forwards;
         }
 
-        .system-reboot { animation: systemPulse 0.4s ease-in-out 2; will-change: filter, transform; }
-        @keyframes systemPulse {
-            0% { filter: brightness(1) contrast(1); transform: scale(1); }
-            50% { filter: brightness(1.3) contrast(1.1); transform: scale(1.005); }
-            100% { filter: brightness(1) contrast(1); transform: scale(1); }
+        @keyframes trailFade {
+            0% { opacity: 0; width: 0; }
+            50% { opacity: 0.8; width: 80%; }
+            100% { opacity: 0; width: 100%; }
         }
 
-        .pallet-btn:hover { transform: scale(1.2); }
-        .pallet-btn.active { transform: scale(1.3); box-shadow: 0 0 25px rgb(var(--color-primary)); border-color: white; z-index: 10; }
-
-        .kinetix-active { animation: kinetixPress 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        @keyframes kinetixPress {
-            0% { transform: scale(0.96); filter: brightness(1.3); }
-            50% { transform: scale(0.98); }
-            100% { transform: scale(1); filter: brightness(1); }
+        /* Particle Effects */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
 
-        /* --- CURSOR TRAIL (FIXED TO VIEWPORT) --- */
-        .cursor-circle {
-            height: 20px; width: 20px;
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--victory-gold);
             border-radius: 50%;
-            background-color: rgb(var(--color-primary));
-            position: fixed; /* STAYS ON SCREEN */
-            top: 0; left: 0;
-            pointer-events: none; z-index: 9999;
-            mix-blend-mode: screen;
-            box-shadow: 0 0 15px rgb(var(--color-primary));
-            filter: blur(4px);
-            will-change: transform;
+            opacity: 0;
+            animation: particleFloat 3s ease-out infinite;
         }
 
-        /* --- ROTATOR CURSOR (FIXED TO VIEWPORT) --- */
-        .rotator-cursor {
-            position: fixed; top: 0; left: 0; width: 120px; height: 120px;
-            pointer-events: none; z-index: 9999; opacity: 0; 
-            transform: translate(-50%, -50%) scale(0);
-            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex; align-items: center; justify-content: center;
-            mix-blend-mode: exclusion;
-        }
-        .rotator-cursor.active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .rotator-text { animation: spinText 10s linear infinite; transform-origin: center; }
-        @keyframes spinText { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .particle:nth-child(1) { left: 20%; top: 30%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 40%; top: 50%; animation-delay: 0.5s; }
+        .particle:nth-child(3) { left: 60%; top: 25%; animation-delay: 1s; }
+        .particle:nth-child(4) { left: 80%; top: 60%; animation-delay: 1.5s; }
+        .particle:nth-child(5) { left: 30%; top: 70%; animation-delay: 2s; }
 
-        /* --- SPARKS (ABSOLUTE TO DOCUMENT) --- */
-        /* FIX: Changed from fixed to absolute so they stick to the page content */
-        .drag-spark {
-            position: absolute; width: 4px; height: 4px; background: white;
-            border-radius: 50%; pointer-events: none; z-index: 9999;
-            box-shadow: 0 0 10px rgb(var(--color-primary));
-            will-change: transform, opacity;
-            animation: sparkFly 0.6s ease-out forwards;
-        }
-        @keyframes sparkFly {
-            0% { transform: translate3d(0,0,0) scale(1); opacity: 1; }
-            100% { transform: translate3d(var(--tx), var(--ty), 0) scale(0); opacity: 0; }
+        @keyframes particleFloat {
+            0% { opacity: 0; transform: translateY(0) scale(0); }
+            20% { opacity: 1; transform: translateY(-10px) scale(1); }
+            100% { opacity: 0; transform: translateY(-50px) scale(0); }
         }
 
-        /* --- EXPLOSION (ABSOLUTE TO DOCUMENT) --- */
-        /* FIX: Changed from fixed to absolute */
-        .space-explosion {
-            position: absolute; pointer-events: none; z-index: 99999;
-            top: 0; left: 0; width: 0; height: 0;
-        }
-        .black-hole-core {
-            position: absolute; top: 0; left: 0; width: 10px; height: 10px; border-radius: 50%;
-            background: black; border: 2px solid rgb(var(--color-primary));
-            box-shadow: 0 0 20px rgb(var(--color-primary));
-            transform: translate(-50%, -50%) scale(0);
-            animation: bhSuckExplode 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-        }
-        @keyframes bhSuckExplode {
-            0% { transform: translate(-50%, -50%) scale(5); opacity: 0; border-width: 1px; }
-            30% { transform: translate(-50%, -50%) scale(0.1); opacity: 1; border-width: 5px; }
-            40% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(8); opacity: 0; border-width: 0; }
-        }
-        .light-beam {
-            position: absolute; top: 0; left: 0; width: 200px; height: 3px;
-            background: linear-gradient(90deg, white, rgb(var(--color-primary)), transparent);
-            transform-origin: left center; opacity: 0; border-radius: 100%;
-            animation: beamSpiral 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-        }
-        @keyframes beamSpiral {
-            0% { transform: rotate(var(--angle)) scaleX(0); opacity: 1; }
-            100% { transform: rotate(calc(var(--angle) + 360deg)) scaleX(1.5) translateX(150px); opacity: 0; }
+        /* Wing Decorations */
+        .wing {
+            position: absolute;
+            width: 100px;
+            height: 60px;
+            opacity: 0;
+            animation: wingAppear 0.8s ease-out 0.8s forwards;
         }
 
-        /* BACKGROUND ELEMENTS */
-        .grid-3d-container { position: absolute; inset: 0; perspective: 500px; overflow: hidden; pointer-events: none;}
-        .grid-3d-plane {
-            position: absolute; width: 300%; height: 300%; left: -100%; top: -100%;
-            background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size: 60px 60px;
-            transform: rotateX(60deg) translateY(0) translateZ(-100px);
-            animation: gridScroll 8s linear infinite;
-            mask-image: radial-gradient(circle at center, white 0%, transparent 70%);
-            will-change: transform; 
-        }
-        @keyframes gridScroll {
-            0% { transform: rotateX(60deg) translateY(0) translateZ(-100px); }
-            100% { transform: rotateX(60deg) translateY(60px) translateZ(-100px); }
+        .wing-left {
+            left: 15%;
+            top: 35%;
+            transform: rotate(-15deg);
         }
 
-        /* FIX: Gentle Breathing Animation for Blobs instead of Scroll-Parallax */
-        @keyframes blobBreath {
-            0%, 100% { transform: translate3d(-50%, -50%, 0) scale(1); opacity: 0.7; }
-            50% { transform: translate3d(-50%, -50%, 0) scale(1.1); opacity: 0.5; }
-        }
-        @keyframes blobBreath2 {
-            0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.4; }
-            50% { transform: translate3d(0, 0, 0) scale(1.15); opacity: 0.2; }
+        .wing-right {
+            right: 15%;
+            top: 35%;
+            transform: rotate(15deg) scaleX(-1);
         }
 
-        .scroll-tilt-card {
-            transform-style: preserve-3d;
-            transform: perspective(700px) rotateX(var(--tilt-x, 0deg));
-            will-change: transform; 
+        @keyframes wingAppear {
+            from { opacity: 0; transform: translateY(20px) rotate(-15deg); }
+            to { opacity: 0.6; transform: translateY(0) rotate(-15deg); }
         }
-        .scroll-tilt-card:hover {
-            transform: perspective(700px) rotateX(var(--tilt-x, 0deg)) translateY(-10px) scale(1.02);
+
+        /* Hero Text */
+        .hero-text {
+            animation: slideInRight 1s ease-out 0.5s backwards;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .brand-name {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: 8px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--victory-gold) 0%, var(--gold-bright) 50%, var(--accent-orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 60px rgba(212, 175, 55, 0.3);
+            position: relative;
+        }
+
+        .brand-name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: repeating-linear-gradient(90deg, 
+                var(--victory-gold) 0px, var(--victory-gold) 20px, 
+                transparent 20px, transparent 30px);
+        }
+
+        .greek-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--victory-gold);
+            letter-spacing: 4px;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .tagline {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--starlight-dim);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .tagline strong {
+            color: var(--victory-gold);
+            font-weight: 600;
+        }
+
+        .description {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: rgba(245, 245, 245, 0.8);
+            margin-bottom: 2rem;
+            max-width: 500px;
+            border-left: 3px solid var(--victory-gold);
+            padding-left: 1.5rem;
+        }
+
+        /* Stats with Monospace */
+        .stats-row {
+            display: flex;
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: left;
+            position: relative;
+            padding-left: 1rem;
+            border-left: 2px solid var(--victory-gold);
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--victory-gold);
+            letter-spacing: 1px;
+        }
+
+        .stat-label {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            color: var(--starlight-dim);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* CTA Buttons */
+        .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--victory-gold) 0%, var(--accent-orange) 100%);
+            color: var(--void-blue);
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--victory-gold);
+            color: var(--victory-gold);
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+        }
+
+        .btn-secondary:hover {
+            background: var(--victory-gold);
+            color: var(--void-blue);
+            transform: translateY(-4px);
+        }
+
+        .btn-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover .btn-icon {
+            transform: translateX(5px);
+        }
+
+        /* ========================================
+           SECTIONS COMMON STYLES
+        ======================================== */
+        .section {
+            position: relative;
+            z-index: 1;
+            padding: 8rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--starlight) 0%, var(--victory-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+        }
+
+        .section-greek {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--victory-gold);
+            letter-spacing: 3px;
+            opacity: 0.8;
+        }
+
+        .divider {
+            width: 120px;
+            height: 3px;
+            margin: 1.5rem auto 0;
+            background: repeating-linear-gradient(90deg,
+                var(--victory-gold) 0px, var(--victory-gold) 15px,
+                transparent 15px, transparent 25px,
+                var(--accent-orange) 25px, var(--accent-orange) 40px,
+                transparent 40px, transparent 50px);
+        }
+
+        /* Chevron Decorations */
+        .chevron-decor {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .chevron {
+            color: var(--victory-gold);
+            font-size: 1.2rem;
+            opacity: 0.6;
+            animation: chevronPulse 2s ease-in-out infinite;
+        }
+
+        .chevron:nth-child(2) { animation-delay: 0.2s; }
+        .chevron:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes chevronPulse {
+            0%, 100% { opacity: 0.3; transform: translateX(0); }
+            50% { opacity: 1; transform: translateX(3px); }
+        }
+
+        /* ========================================
+           FEATURES / PILLARS SECTION
+        ======================================== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(13, 24, 46, 0.8) 0%, rgba(10, 19, 34, 0.9) 100%);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--victory-gold), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 40px 40px 0;
+            border-color: transparent rgba(212, 175, 55, 0.2) transparent transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--victory-gold);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.15);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            position: relative;
+        }
+
+        .feature-icon::after {
+            content: '▸';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--victory-gold);
+            font-size: 1rem;
+            opacity: 0.5;
+        }
+
+        .feature-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--victory-gold);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        .feature-greek {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            color: rgba(212, 175, 55, 0.6);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .feature-desc {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--starlight-dim);
+        }
+
+        /* ========================================
+           METRICS / PERFORMANCE SECTION
+        ======================================== */
+        .metrics-section {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .metrics-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .metric {
+            position: relative;
+        }
+
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--victory-gold);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .metric-label {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            color: var(--starlight-dim);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .metric::after {
+            content: '▸';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--victory-gold);
+            opacity: 0.3;
+            font-size: 1.5rem;
+        }
+
+        .metric:last-child::after {
+            display: none;
+        }
+
+        /* ========================================
+           SERVICES / CAPABILITIES
+        ======================================== */
+        .services-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%);
+            border-left: 4px solid var(--victory-gold);
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover {
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%);
+            transform: translateX(10px);
+            border-left-width: 6px;
+        }
+
+        .service-arrow {
+            font-size: 1.5rem;
+            color: var(--victory-gold);
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .service-item:hover .service-arrow {
+            transform: translateX(5px);
+        }
+
+        .service-content h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--starlight);
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .service-content p {
+            font-size: 1rem;
+            color: var(--starlight-dim);
+            line-height: 1.7;
+        }
+
+        .service-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            padding: 0.4rem 0.8rem;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--victory-gold);
+            clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+        }
+
+        /* ========================================
+           TECH STACK SECTION
+        ======================================== */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .tech-category {
+            background: rgba(13, 24, 46, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .tech-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--victory-gold), transparent);
+        }
+
+        .tech-category h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: var(--victory-gold);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .tech-list {
+            list-style: none;
+        }
+
+        .tech-list li {
+            padding: 0.8rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--starlight-dim);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tech-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--victory-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .tech-list li:hover {
+            color: var(--starlight);
+            padding-left: 2rem;
+        }
+
+        .tech-list li:hover::before {
+            transform: translateX(5px);
+        }
+
+        /* ========================================
+           PHILOSOPHY SECTION
+        ======================================== */
+        .philosophy-section {
+            text-align: center;
+            padding: 8rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .philosophy-quote {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 600;
+            color: var(--starlight);
+            max-width: 900px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .philosophy-quote::before,
+        .philosophy-quote::after {
+            content: '❝';
+            color: var(--victory-gold);
+            opacity: 0.3;
+            font-size: 3rem;
+            position: absolute;
+        }
+
+        .philosophy-quote::before {
+            top: -30px;
+            left: -20px;
+        }
+
+        .philosophy-quote::after {
+            content: '❞';
+            bottom: -30px;
+            right: -20px;
+        }
+
+        .philosophy-greek {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: var(--victory-gold);
+            letter-spacing: 3px;
+        }
+
+        /* ========================================
+           FOOTER
+        ======================================== */
+        footer {
+            background: linear-gradient(180deg, var(--void-blue) 0%, var(--deep-cosmos) 100%);
+            border-top: 3px solid;
+            border-image: repeating-linear-gradient(90deg, 
+                var(--victory-gold) 0px, var(--victory-gold) 30px, 
+                transparent 30px, transparent 40px,
+                var(--accent-orange) 40px, var(--accent-orange) 70px,
+                transparent 70px, transparent 80px) 3;
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-brand {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 6px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--victory-gold) 0%, var(--gold-bright) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-tagline {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--victory-gold);
+            letter-spacing: 3px;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        .footer-cta {
+            font-size: 1.3rem;
+            color: var(--starlight);
+            margin-bottom: 2rem;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .contact-links a {
+            color: var(--victory-gold);
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .contact-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--victory-gold);
+            transition: width 0.3s ease;
+        }
+
+        .contact-links a:hover {
+            color: var(--gold-bright);
+            transform: translateY(-3px);
+        }
+
+        .contact-links a:hover::after {
+            width: 100%;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-bottom p {
+            font-size: 0.9rem;
+            color: rgba(245, 245, 245, 0.6);
+        }
+
+        .back-to-portfolio {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--victory-gold);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-portfolio:hover {
+            transform: translateX(-5px);
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN
+        ======================================== */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .arrow-container {
+                height: 350px;
+                order: -1;
+            }
+
+            .arrow-svg {
+                width: 280px;
+            }
+
+            .hero-text {
+                align-items: center;
+            }
+
+            .description {
+                margin: 0 auto 2rem;
+                text-align: left;
+            }
+
+            .stats-row {
+                justify-content: center;
+            }
+
+            .cta-group {
+                justify-content: center;
+            }
+
+            .wing-left, .wing-right {
+                display: none;
+            }
         }
 
         @media (max-width: 768px) {
-            .cursor-circle, .rotator-cursor, .drag-spark { display: none !important; }
-            .grid-3d-plane { animation: none; }
+            .hero {
+                padding: 1.5rem;
+                min-height: auto;
+                padding-top: 4rem;
+                padding-bottom: 4rem;
+            }
+
+            .brand-name {
+                font-size: 2.8rem;
+                letter-spacing: 4px;
+            }
+
+            .greek-subtitle {
+                font-size: 0.9rem;
+                letter-spacing: 2px;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .section {
+                padding: 5rem 1.5rem;
+            }
+
+            .stats-row {
+                gap: 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .metric-value {
+                font-size: 2rem;
+            }
+
+            .metric::after {
+                display: none;
+            }
+
+            .metrics-grid {
+                gap: 2rem;
+            }
+
+            .feature-card {
+                padding: 2rem;
+            }
+
+            .service-item {
+                padding: 1.5rem;
+            }
+
+            .philosophy-quote {
+                font-size: 1.3rem;
+            }
+
+            .philosophy-quote::before,
+            .philosophy-quote::after {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-name {
+                font-size: 2.2rem;
+                letter-spacing: 2px;
+            }
+
+            .arrow-container {
+                height: 280px;
+            }
+
+            .arrow-svg {
+                width: 220px;
+            }
+
+            .btn {
+                padding: 0.9rem 1.8rem;
+                font-size: 0.8rem;
+            }
+
+            .cta-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                text-align: center;
+                justify-content: center;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .footer-brand {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* ========================================
+           SCROLL ANIMATIONS
+        ======================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* Snappy button interactions */
+        .btn:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
         }
     </style>
 </head>
-<body id="main-body" class="bg-slate-950 text-slate-300 font-sans antialiased relative">
-
-    <div id="bg-wrapper" class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div class="grid-3d-container">
-            <div class="grid-3d-plane"></div>
-        </div>
-        <div id="blob-1" class="absolute top-0 left-1/2 w-[1000px] h-[800px] bg-primary/10 rounded-full blur-[120px] transition-colors duration-700" style="animation: blobBreath 10s infinite ease-in-out;"></div>
-        <div id="blob-2" class="absolute bottom-0 right-0 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[100px] transition-colors duration-700" style="animation: blobBreath2 12s infinite ease-in-out;"></div>
+<body>
+    <!-- Starfield Parallax Background -->
+    <div class="starfield">
+        <div class="stars"></div>
+        <div class="stars stars-layer-2"></div>
+        <div class="stars stars-layer-3"></div>
     </div>
 
-    <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-slate-950/70 backdrop-blur-md">
-        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-3 h-3 rounded-full animate-pulse shadow-[0_0_10px_rgb(var(--color-primary))]" style="background-color: rgb(var(--color-primary))"></div>
-                <span class="font-bold text-white tracking-tight">Yogi<span class="text-slate-500">.dev</span></span>
-            </div>
-            
-            <div class="flex gap-6 text-sm font-medium text-slate-400">
-                <a href="#work" class="hover:text-primary transition-colors hover:drop-shadow-[0_0_8px_rgb(var(--color-primary))]">Work</a>
-                <a href="#contact" class="hover:text-primary transition-colors hover:drop-shadow-[0_0_8px_rgb(var(--color-primary))]">Contact</a>
-            </div>
-        </div>
-    </nav>
-
-    <main class="relative z-10 pt-32 pb-40">
-        
-        <section class="max-w-4xl mx-auto px-6 mb-32 text-center md:text-left">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-medium mb-8 mx-auto md:mx-0 shadow-[0_0_15px_rgb(var(--color-primary)/0.2)]">
-                <span class="relative flex h-3 w-3">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background-color: rgb(var(--color-primary))"></span>
-                  <span class="relative inline-flex rounded-full h-3 w-3" style="background-color: rgb(var(--color-primary))"></span>
-                </span>
-                Open for Collaboration
-            </div>
-            
-            <h1 class="text-5xl md:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-6">
-                Building digital <br />
-                <span id="scramble-target" data-value="EXPERIENCES" class="neon-text font-mono inline-block min-w-[320px]">EXPERIENCES</span> 
-                <br class="md:hidden" /> that matter.
-            </h1>
-            
-            <p class="text-lg text-slate-400 max-w-2xl leading-relaxed mb-10 mx-auto md:mx-0">
-                I am a Software Engineer focused on crafting scalable applications and intuitive interfaces. Combining technical precision with modern aesthetics.
-            </p>
-
-            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <a href="#contact" class="px-6 py-3 bg-white text-slate-950 font-bold rounded hover:bg-slate-200 transition-all hover:scale-105 active:scale-95 duration-200 shadow-lg shadow-white/10">
-                    Let's Talk
-                </a>
-                <a href="https://github.com/yogithesymbian" target="_blank" class="px-6 py-3 glass text-white font-medium rounded hover:bg-white/10 transition-all flex items-center justify-center gap-2 hover:border-primary/50 hover:text-primary hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.2)]">
-                    GitHub
-                </a>
-            </div>
-        </section>
-
-        <section id="work" class="max-w-5xl mx-auto px-6">
-            <h2 class="text-sm font-bold text-primary tracking-widest uppercase mb-12 drop-shadow-[0_0_5px_rgb(var(--color-primary))]">Featured Projects</h2>
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="scroll-tilt-card glass p-1 rounded-2xl hover:bg-white/5 group cursor-pointer hover:border-primary/50 transition-all" onclick="void(0)">
-                    <div class="bg-slate-900/50 rounded-xl p-8 h-full border border-white/5 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/30 transition-all duration-500"></div>
-                        <div class="relative z-10">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Internal Dashboard System</h3>
-                                <svg class="w-6 h-6 text-slate-600 group-hover:text-primary group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </div>
-                            <p class="text-slate-400 text-sm mb-6 leading-relaxed">A comprehensive monitoring tool for server metrics, featuring real-time data visualization.</p>
-                            <div class="flex gap-2 mb-6">
-                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Next.js</span>
-                              <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">React</span>
-                            </div>
-                        </div>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <!-- Arrow Visual -->
+            <div class="arrow-container">
+                <div class="arrow-visual">
+                    <!-- Particles -->
+                    <div class="particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
                     </div>
-                </div>
-                
-                <div class="scroll-tilt-card glass p-1 rounded-2xl hover:bg-white/5 group cursor-pointer hover:border-primary/50 transition-all" onclick="void(0)">
-                    <div class="bg-slate-900/50 rounded-xl p-8 h-full border border-white/5 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/30 transition-all duration-500"></div>
-                        <div class="relative z-10">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">E-Commerce API</h3>
-                                <svg class="w-6 h-6 text-slate-600 group-hover:text-primary group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </div>
-                            <p class="text-slate-400 text-sm mb-6 leading-relaxed">Robust backend architecture handling high-concurrency transaction requests.</p>
-                            <div class="flex gap-2 mb-6">
-                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Rust</span>
-                                <span class="text-xs font-mono text-primary px-2 py-1 bg-primary/10 rounded border border-primary/20 shadow-[0_0_10px_rgb(var(--color-primary)/0.1)]">Actix-web</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="opensource" class="py-20 relative overflow-hidden" onmouseenter="toggleRotator(true)" onmouseleave="toggleRotator(false)">
-            <div class="max-w-5xl mx-auto px-6 mb-10">
-                <h2 class="text-sm font-bold text-primary tracking-widest uppercase drop-shadow-[0_0_5px_rgb(var(--color-primary))]">Open Source Experiments</h2>
-            </div>
-            
-            <style>
-                .marquee-wrapper { mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
-                .marquee-track { display: flex; gap: 1.5rem; width: max-content; animation: scroll 30s linear infinite; }
-                .marquee-track:hover { animation-play-state: paused; }
-                @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-50% - 0.75rem)); } }
-            </style>
-            
-            <div class="marquee-wrapper w-full py-6 scroll-tilt-card">
-                <div class="marquee-track">
-                     <a href="https://gist.github.com/yogithesymbian/b476ef3640cb4f1343ef3816064be8be" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
-                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">MIT</span></div>
-                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Android Kotlin Gen</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">Android Kotlin code generator for MVVM</p></div>
-                    </a>
-                    <a href="https://marketplace.visualstudio.com/items?itemName=YoLicenses.yo-webp" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
-                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">Extension</span></div>
-                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Yo WebP Converter</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">VS Code extension for WebP conversion</p></div>
-                    </a>
-                    <a href="https://crates.io/crates/yo_netwatch" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
-                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">Library</span></div>
-                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Yo Netwatch</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">Rust library for network monitoring</p></div>
-                    </a>
                     
-                    <a href="https://gist.github.com/yogithesymbian/b476ef3640cb4f1343ef3816064be8be" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
-                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">MIT</span></div>
-                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Android Kotlin Gen</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">Android Kotlin code generator for MVVM</p></div>
+                    <!-- Trail Effect -->
+                    <div class="arrow-trail"></div>
+                    
+                    <!-- Wing Decorations -->
+                    <svg class="wing wing-left" viewBox="0 0 100 60" fill="none">
+                        <path d="M0 60 Q50 40 100 0 L100 20 Q60 50 20 60 Z" fill="url(#wingGrad)" opacity="0.4"/>
+                        <defs>
+                            <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:0.6"/>
+                                <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:0"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <svg class="wing wing-right" viewBox="0 0 100 60" fill="none">
+                        <path d="M0 60 Q50 40 100 0 L100 20 Q60 50 20 60 Z" fill="url(#wingGrad2)" opacity="0.4"/>
+                        <defs>
+                            <linearGradient id="wingGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:0.6"/>
+                                <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:0"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    
+                    <!-- The Golden Arrow with Apollo/Hermes Head -->
+                    <div class="golden-arrow">
+                        <svg class="arrow-svg" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Circular Medal Background -->
+                            <circle cx="200" cy="100" r="85" stroke="url(#goldGradient)" stroke-width="3" fill="none" opacity="0.3"/>
+                            <circle cx="200" cy="100" r="75" stroke="url(#goldGradient)" stroke-width="2" fill="none" opacity="0.2"/>
+                            
+                            <!-- Arrow Shaft -->
+                            <rect x="80" y="95" width="240" height="10" fill="url(#goldGradient)" rx="2"/>
+                            
+                            <!-- Arrow Fletching (feathers) -->
+                            <path d="M70 100 L30 70 L50 100 L30 130 Z" fill="url(#goldGradient)"/>
+                            <path d="M60 100 L25 78 L42 100 L25 122 Z" fill="url(#darkGold)" opacity="0.7"/>
+                            
+                            <!-- Arrow Head (Sharp Triangular) -->
+                            <path d="M320 100 L370 100 L340 70 Z" fill="url(#goldGradient)"/>
+                            <path d="M320 100 L370 100 L340 130 Z" fill="url(#darkGold)"/>
+                            
+                            <!-- Decorative Lines on Shaft -->
+                            <line x1="100" y1="100" x2="110" y2="100" stroke="#0D182E" stroke-width="2"/>
+                            <line x1="120" y1="100" x2="130" y2="100" stroke="#0D182E" stroke-width="2"/>
+                            <line x1="140" y1="100" x2="150" y2="100" stroke="#0D182E" stroke-width="2"/>
+                            
+                            <!-- Apollo/Hermes Head Silhouette (Simplified) -->
+                            <g transform="translate(160, 40)">
+                                <!-- Head outline -->
+                                <ellipse cx="40" cy="35" rx="28" ry="32" fill="url(#goldGradient)" opacity="0.15"/>
+                                <!-- Helmet/Hair suggestion -->
+                                <path d="M15 30 Q20 5 40 5 Q60 5 65 30" stroke="url(#goldGradient)" stroke-width="2" fill="none" opacity="0.5"/>
+                                <!-- Profile face line -->
+                                <path d="M50 20 Q55 25 55 35 Q54 42 48 48" stroke="url(#goldGradient)" stroke-width="2" fill="none" opacity="0.6"/>
+                                <!-- Winged helmet detail -->
+                                <path d="M10 25 Q0 15 5 5" stroke="url(#goldGradient)" stroke-width="1.5" fill="none" opacity="0.4"/>
+                                <path d="M70 25 Q80 15 75 5" stroke="url(#goldGradient)" stroke-width="1.5" fill="none" opacity="0.4"/>
+                            </g>
+                            
+                            <!-- Small decorative stars -->
+                            <circle cx="50" cy="50" r="2" fill="#D4AF37" opacity="0.6"/>
+                            <circle cx="350" cy="60" r="2" fill="#D4AF37" opacity="0.6"/>
+                            <circle cx="100" cy="150" r="1.5" fill="#D4AF37" opacity="0.4"/>
+                            <circle cx="300" cy="150" r="1.5" fill="#D4AF37" opacity="0.4"/>
+                            
+                            <defs>
+                                <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#D4AF37"/>
+                                    <stop offset="50%" style="stop-color:#F4D03F"/>
+                                    <stop offset="100%" style="stop-color:#E67E22"/>
+                                </linearGradient>
+                                <linearGradient id="darkGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#B8860B"/>
+                                    <stop offset="100%" style="stop-color:#8B6914"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Text -->
+            <div class="hero-text">
+                <h1 class="brand-name">YOVELOS</h1>
+                <p class="greek-subtitle">Βέλος • THE MESSENGER</p>
+                <p class="tagline"><strong>Velocity</strong> with Comprehension</p>
+                <p class="description">
+                    The Polyglot Decoder. Reads any code, any pattern, any architecture — instantly. 
+                    From legacy chaos to modern masterpieces, every logic flow becomes crystal clear.
+                </p>
+                
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value">8+</div>
+                        <div class="stat-label">Languages</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">∞</div>
+                        <div class="stat-label">Patterns</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Decoded</div>
+                    </div>
+                </div>
+
+                <div class="cta-group">
+                    <a href="#services" class="btn btn-primary">
+                        <span>LAUNCH</span>
+                        <span class="btn-icon">▸</span>
                     </a>
-                    <a href="https://marketplace.visualstudio.com/items?itemName=YoLicenses.yo-webp" target="_blank" class="group relative w-[300px] h-[160px] bg-slate-900/40 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/5 transition-all hover:border-primary/50 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-primary)/0.1)]">
-                        <div class="flex justify-between items-start"><span class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg></span><span class="text-[10px] font-mono border border-white/10 px-2 py-1 rounded text-slate-400">Extension</span></div>
-                        <div><h3 class="font-bold text-white text-lg group-hover:text-primary transition-colors line-clamp-1">Yo WebP Converter</h3><p class="text-xs text-slate-400 mt-1 line-clamp-2">VS Code extension for WebP conversion</p></div>
+                    <a href="#contact" class="btn btn-secondary">
+                        <span>ACCELERATE</span>
+                        <span class="btn-icon">▸</span>
                     </a>
                 </div>
             </div>
-        </section>
-
-        <section id="contact" class="max-w-5xl mx-auto px-6 mt-32 border-t border-white/5 pt-12 mb-20">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div>
-                    <h3 class="text-white font-bold text-lg">Yogi AW</h3>
-                    <p class="text-slate-500 text-sm">Software Engineer</p>
-                </div>
-                <div class="flex gap-6">
-                    <a href="mailto:yogi@yogiveloper.com" class="text-slate-400 hover:text-primary transition-colors text-sm">Email</a>
-                    <a href="https://linkedin.com/in/yogi-arif-widodo" class="text-slate-400 hover:text-primary transition-colors text-sm">LinkedIn</a>
-                    <a href="https://yogiveloper.com" class="text-slate-400 hover:text-primary transition-colors text-sm">Yogiveloper</a>
-                </div>
-            </div>
-            <div class="text-center text-slate-700 text-xs mt-12 mb-4">&copy; 2026 Yogi Arif Widodo.</div>
-        </section>
-
-    </main>
-
-    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
-        <div class="glass px-6 py-4 rounded-full flex items-center gap-5 shadow-2xl shadow-black/80 border border-white/10 backdrop-blur-xl">
-            <button onclick="changeTheme('56, 189, 248', this)" class="pallet-btn active w-6 h-6 rounded-full bg-[#38bdf8] border-2 border-transparent relative" title="Cyber Blue" data-color="56, 189, 248">
-                <span class="absolute inset-0 rounded-full bg-[#38bdf8] blur-sm opacity-50"></span>
-            </button>
-            <button onclick="changeTheme('192, 132, 252', this)" class="pallet-btn w-6 h-6 rounded-full bg-[#c084fc] border-2 border-transparent relative" title="Neon Purple" data-color="192, 132, 252">
-                <span class="absolute inset-0 rounded-full bg-[#c084fc] blur-sm opacity-50"></span>
-            </button>
-            <button onclick="changeTheme('74, 222, 128', this)" class="pallet-btn w-6 h-6 rounded-full bg-[#4ade80] border-2 border-transparent relative" title="Matrix Green" data-color="74, 222, 128">
-                <span class="absolute inset-0 rounded-full bg-[#4ade80] blur-sm opacity-50"></span>
-            </button>
-            <button onclick="changeTheme('251, 146, 60', this)" class="pallet-btn w-6 h-6 rounded-full bg-[#fb923c] border-2 border-transparent relative" title="Solar Orange" data-color="251, 146, 60">
-                <span class="absolute inset-0 rounded-full bg-[#fb923c] blur-sm opacity-50"></span>
-            </button>
-            <button onclick="changeTheme('248, 113, 113', this)" class="pallet-btn w-6 h-6 rounded-full bg-[#f87171] border-2 border-transparent relative" title="Crimson Red" data-color="248, 113, 113">
-                <span class="absolute inset-0 rounded-full bg-[#f87171] blur-sm opacity-50"></span>
-            </button>
         </div>
-    </div>
+    </section>
 
-    <div id="rotator-cursor" class="rotator-cursor">
-        <svg class="w-full h-full rotator-text" viewBox="0 0 100 100">
-            <defs>
-                <path id="circlePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" />
-            </defs>
-            <text font-size="13" font-family="monospace" font-weight="bold" fill="rgb(var(--color-primary))" letter-spacing="4">
-                <textPath xlink:href="#circlePath">VIEW PROJECT • OPEN SOURCE •</textPath>
-            </text>
-        </svg>
-        <div class="absolute inset-0 m-auto w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_rgb(var(--color-primary))]"></div>
-    </div>
+    <!-- PHILOSOPHY SECTION -->
+    <section class="philosophy-section">
+        <div class="philosophy-quote reveal">
+            "Every codebase tells a story. Every pattern reveals intent. 
+            <span style="color: var(--victory-gold);">YoVelos</span> decodes them all — past, present, and future."
+        </div>
+        <p class="philosophy-greek reveal reveal-delay-1">ΤΑΧΎΤΗΤΑ ΚΑΙ ΑΚΡΊΒΕΙΑ</p>
+        <p class="section-greek reveal reveal-delay-2" style="margin-top: 0.5rem; opacity: 0.6;">Speed and Precision</p>
+    </section>
+
+    <!-- METRICS SECTION -->
+    <section class="metrics-section">
+        <div class="metrics-grid">
+            <div class="metric reveal">
+                <div class="metric-value">8+</div>
+                <div class="metric-label">Years Decoding</div>
+            </div>
+            <div class="metric reveal reveal-delay-1">
+                <div class="metric-value">25+</div>
+                <div class="metric-label">Codebases Analyzed</div>
+            </div>
+            <div class="metric reveal reveal-delay-2">
+                <div class="metric-value">200+</div>
+                <div class="metric-label">Patterns Mastered</div>
+            </div>
+            <div class="metric reveal reveal-delay-3">
+                <div class="metric-value">∞</div>
+                <div class="metric-label">Logic Flows Read</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PILLARS / FEATURES SECTION -->
+    <section class="section" id="pillars">
+        <div class="section-header">
+            <h2 class="section-title">The Three Pillars</h2>
+            <p class="section-greek">Οἱ Τρεῖς Στῦλοι</p>
+            <div class="divider"></div>
+            <div class="chevron-decor">
+                <span class="chevron">▸</span>
+                <span class="chevron">▸</span>
+                <span class="chevron">▸</span>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">👁️</div>
+                <h3 class="feature-title">THE VISION</h3>
+                <p class="feature-greek">ἡ Ὅρασις</p>
+                <p class="feature-desc">
+                    Code comprehension that penetrates any architecture. From monoliths to microservices, 
+                    Clean Architecture to legacy spaghetti — every pattern, every logic flow becomes 
+                    transparent under the decoder's sight.
+                </p>
+            </div>
+
+            <div class="feature-card reveal reveal-delay-1">
+                <div class="feature-icon">🗣️</div>
+                <h3 class="feature-title">THE POLYGLOT</h3>
+                <p class="feature-greek">ὁ Πολύγλωσσος</p>
+                <p class="feature-desc">
+                    Universal language mastery. Kotlin, Dart, TypeScript, PHP, Java — any syntax, 
+                    any paradigm, any era. The decoder speaks them all fluently, translating complexity 
+                    into clarity across every tech stack.
+                </p>
+            </div>
+
+            <div class="feature-card reveal reveal-delay-2">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">THE ARROW</h3>
+                <p class="feature-greek">τὸ Βέλος</p>
+                <p class="feature-desc">
+                    Core execution that strikes true. Every API call, every deployment, every 
+                    line of code — precision-targeted for maximum impact. No wasted cycles, 
+                    no missed marks.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section class="section" id="services">
+        <div class="section-header">
+            <h2 class="section-title">Decoding Services</h2>
+            <p class="section-greek">Ὑπηρεσίες Ἀποκρυπτογράφησης</p>
+            <div class="divider"></div>
+        </div>
+
+        <div class="services-list">
+            <div class="service-item reveal">
+                <span class="service-arrow">▸</span>
+                <div class="service-content">
+                    <h3>Code Review & Architecture Analysis</h3>
+                    <p>
+                        Deep-dive into any codebase, any size. Decode architecture decisions, identify 
+                        bottlenecks, map logic flows, and uncover hidden patterns. From monolithic legacy 
+                        to distributed microservices — complete comprehension delivered.
+                    </p>
+                    <div class="service-tags">
+                        <span class="tag">Architecture Review</span>
+                        <span class="tag">Pattern Analysis</span>
+                        <span class="tag">Flow Mapping</span>
+                        <span class="tag">Polyglot</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-item reveal reveal-delay-1">
+                <span class="service-arrow">▸</span>
+                <div class="service-content">
+                    <h3>Legacy System Comprehension</h3>
+                    <p>
+                        Decode the undocumented. Reverse-engineer the "impossible". Transform tribal 
+                        knowledge into clear architecture maps. No codebase too old, no pattern too obscure — 
+                        every legacy system has a story, and I read them all.
+                    </p>
+                    <div class="service-tags">
+                        <span class="tag">Legacy Decode</span>
+                        <span class="tag">Reverse Engineering</span>
+                        <span class="tag">Documentation</span>
+                        <span class="tag">Migration Plan</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-item reveal reveal-delay-2">
+                <span class="service-arrow">▸</span>
+                <div class="service-content">
+                    <h3>Full-Stack Development (Any Stack)</h3>
+                    <p>
+                        Build across the entire spectrum. Backend APIs, mobile apps, web frontends — 
+                        all informed by deep pattern comprehension. From Kotlin/Flutter to Node.js/Vue, 
+                        deliver solutions that speak every platform's language fluently.
+                    </p>
+                    <div class="service-tags">
+                        <span class="tag">Kotlin/Flutter</span>
+                        <span class="tag">Node.js/Express</span>
+                        <span class="tag">Vue/React</span>
+                        <span class="tag">Laravel/PHP</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-item reveal reveal-delay-3">
+                <span class="service-arrow">▸</span>
+                <div class="service-content">
+                    <h3>Performance Analysis & Optimization</h3>
+                    <p>
+                        Decode bottlenecks at every layer. Query that takes 15 minutes? Reduced to seconds. 
+                        N+1 queries hidden in ORM magic? Revealed and resolved. From database indexes to 
+                        async patterns — optimization through total comprehension.
+                    </p>
+                    <div class="service-tags">
+                        <span class="tag">Query Optimization</span>
+                        <span class="tag">Profiling</span>
+                        <span class="tag">Bottleneck Analysis</span>
+                        <span class="tag">Scaling Strategy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECH STACK SECTION -->
+    <section class="section" id="tech">
+        <div class="section-header">
+            <h2 class="section-title">The Decoder</h2>
+            <p class="section-greek">Ὁ Ἀποκρυπτογράφος</p>
+            <div class="divider"></div>
+        </div>
+
+        <div class="tech-grid">
+            <div class="tech-category reveal">
+                <h3>▸ Languages Decoded</h3>
+                <ul class="tech-list">
+                    <li>Kotlin / Java</li>
+                    <li>Dart / Flutter</li>
+                    <li>TypeScript / JavaScript</li>
+                    <li>PHP / Laravel</li>
+                    <li>SQL / NoSQL</li>
+                </ul>
+            </div>
+
+            <div class="tech-category reveal reveal-delay-1">
+                <h3>▸ Patterns Mastered</h3>
+                <ul class="tech-list">
+                    <li>Clean Architecture</li>
+                    <li>Domain-Driven Design</li>
+                    <li>MVVM / MVP / MVI</li>
+                    <li>Microservices</li>
+                    <li>Event-Driven</li>
+                </ul>
+            </div>
+
+            <div class="tech-category reveal reveal-delay-2">
+                <h3>▸ Frameworks Understood</h3>
+                <ul class="tech-list">
+                    <li>Jetpack Compose</li>
+                    <li>Vue.js / React</li>
+                    <li>Express / NestJS</li>
+                    <li>Laravel / Laravue</li>
+                    <li>Riverpod / BLoC</li>
+                </ul>
+            </div>
+
+            <div class="tech-category reveal reveal-delay-3">
+                <h3>▸ Infrastructure Analyzed</h3>
+                <ul class="tech-list">
+                    <li>Docker & Kubernetes</li>
+                    <li>GitHub Actions / CI-CD</li>
+                    <li>Google Cloud Platform</li>
+                    <li>MySQL / Oracle / PostgreSQL</li>
+                    <li>Redis / Firebase</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER / CONTACT -->
+    <footer id="contact">
+        <div class="footer-brand">YOVELOS</div>
+        <p class="footer-tagline">ΤΑΧΎΤΗΤΑ ΚΑΙ ΑΚΡΊΒΕΙΑ</p>
+        
+        <p class="footer-cta">Ready to <strong style="color: var(--victory-gold);">accelerate</strong> your project?</p>
+        
+        <div class="contact-links">
+            <a href="mailto:yogi@yogiveloper.com">
+                <span>📧</span> yogi@yogiveloper.com
+            </a>
+            <a href="tel:+628154577812">
+                <span>📱</span> +62815-4577-8612
+            </a>
+            <a href="https://linkedin.com/in/yogi-arif-widodo" target="_blank">
+                <span>💼</span> LinkedIn
+            </a>
+            <a href="https://github.com/yogithesymbian" target="_blank">
+                <span>🔗</span> GitHub
+            </a>
+        </div>
+
+        <a href="https://yogiveloper.com" class="back-to-portfolio">
+            <span>◂</span> Back to yogiveloper.com
+        </a>
+
+        <div class="footer-bottom">
+            <p>© 2026 YoVelos by Yogi Arif Widodo. Crafted with speed and precision.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.5;">
+                📍 Samarinda, Indonesia | 🏛️ Part of the Yo-Ecosystem
+            </p>
+        </div>
+
+        <!-- PHILOSOPHY SECTION -->
+        <section class="philosophy-section">
+            <div class="philosophy-quote reveal">
+                "Speed without accuracy is chaos. Accuracy without speed is irrelevance. 
+                <span style="color: var(--victory-gold);">YoVelos</span> delivers both — with divine precision."
+            </div>
+            <p class="philosophy-greek reveal reveal-delay-1">ΤΑΧΎΤΗΤΑ ΚΑΙ ΑΚΡΊΒΕΙΑ</p>
+            <p class="section-greek reveal reveal-delay-2" style="margin-top: 0.5rem; opacity: 0.6;">Speed and Precision</p>
+        </section>
+    </footer>
 
     <script>
-        // --- PERFORMANCE OPTIMIZED CURSOR LOGIC ---
-        const coords = { x: 0, y: 0 };
-        const circles = [];
-        
-        const isMobile = window.matchMedia("(max-width: 768px)").matches;
-        
-        if (!isMobile) {
-            const numberOfCircles = 16;
-            
-            for(let i = 0; i < numberOfCircles; i++) {
-                const circle = document.createElement("div");
-                circle.classList.add("cursor-circle");
-                document.body.appendChild(circle);
-                circles.push(circle);
-                circle.x = 0;
-                circle.y = 0;
-            }
-        }
+        // Intersection Observer for scroll reveal animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
 
-        let lastSparkTime = 0;
-        let isMouseDown = false;
-        const rotator = document.getElementById('rotator-cursor');
-
-        window.addEventListener("mousemove", function(e){
-            coords.x = e.clientX; 
-            coords.y = e.clientY;
-
-            // Rotator uses fixed client coordinates (follows mouse even if page scrolls)
-            if(rotator && rotator.classList.contains('active')) {
-                rotator.style.transform = `translate(${e.clientX}px, ${e.clientY}px) scale(1)`;
-            } else if (rotator) {
-                rotator.style.transform = `translate(${e.clientX}px, ${e.clientY}px) scale(0)`;
-            }
-
-            // Sparks use page coordinates (FIX: e.pageX, e.pageY)
-            if(isMouseDown && !isMobile) {
-                const now = Date.now();
-                if (now - lastSparkTime > 50) {
-                    createDragSparks(e.pageX, e.pageY); // FIX: Use pageX/Y
-                    lastSparkTime = now;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
                 }
-            }
-        }, { passive: true });
-
-        function animateCircles() {
-            if (isMobile) return;
-
-            let x = coords.x;
-            let y = coords.y;
-            
-            circles.forEach(function (circle, index) {
-                const scale = (circles.length - index) / circles.length;
-                // Cursor trail uses fixed coordinates
-                circle.style.transform = `translate3d(${x - 10}px, ${y - 10}px, 0) scale(${scale})`;
-                
-                circle.x = x;
-                circle.y = y;
-
-                const nextCircle = circles[index + 1] || circles[0];
-                x += (nextCircle.x - x) * 0.3;
-                y += (nextCircle.y - y) * 0.3;
             });
-            
-            requestAnimationFrame(animateCircles);
-        }
-        animateCircles();
+        }, observerOptions);
 
-        // --- EVENTS ---
-        document.addEventListener('mousedown', () => isMouseDown = true, {passive: true});
-        document.addEventListener('mouseup', () => isMouseDown = false, {passive: true});
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
 
-        function createDragSparks(x, y) {
-            const spark = document.createElement('div');
-            spark.classList.add('drag-spark');
-            
-            // Sparks spawn at absolute page position
-            spark.style.left = x + 'px';
-            spark.style.top = y + 'px';
-            
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = 30 + Math.random() * 40;
-            
-            spark.style.setProperty('--tx', (Math.cos(angle) * velocity) + 'px');
-            spark.style.setProperty('--ty', (Math.sin(angle) * velocity) + 'px');
-            
-            document.body.appendChild(spark);
-            
-            setTimeout(() => {
-                if(spark.parentNode) spark.parentNode.removeChild(spark);
-            }, 600);
-        }
-
-        document.addEventListener('click', (e) => {
-            const target = e.target.closest('a, button, .interactive');
-            if (target) {
-                target.classList.remove('kinetix-active');
-                void target.offsetWidth; 
-                target.classList.add('kinetix-active');
-            }
-            // FIX: Use pageX/Y for explosions so they stay on content
-            if (!isMobile) createSpaceExplosion(e.pageX, e.pageY);
-            playSpaceClickSound();
-        }, {passive: true});
-
-        function createSpaceExplosion(x, y) {
-            const container = document.createElement('div');
-            container.classList.add('space-explosion');
-            container.style.left = x + 'px';
-            container.style.top = y + 'px';
-            document.body.appendChild(container);
-
-            const core = document.createElement('div');
-            core.classList.add('black-hole-core');
-            container.appendChild(core);
-
-            for(let i=0; i<8; i++) {
-                const beam = document.createElement('div');
-                beam.classList.add('light-beam');
-                beam.style.setProperty('--angle', (i * 45) + 'deg');
-                container.appendChild(beam);
-            }
-            setTimeout(() => { if(container.parentNode) container.remove() }, 1000);
-        }
-
-        // --- LAZY LOAD AUDIO ---
-        let audioCtx;
-        function getAudioContext() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            return audioCtx;
-        }
-        
-        function playFuturisticSound() {
-            const ctx = getAudioContext();
-            const oscillator = ctx.createOscillator();
-            const gainNode = ctx.createGain();
-            
-            oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(600, ctx.currentTime);
-            oscillator.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.3);
-            
-            gainNode.gain.setValueAtTime(0.05, ctx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(ctx.destination);
-            
-            oscillator.start();
-            oscillator.stop(ctx.currentTime + 0.3);
-        }
-
-        function playSpaceClickSound() {
-            const ctx = getAudioContext();
-            const t = ctx.currentTime;
-            
-            const osc2 = ctx.createOscillator();
-            const gain2 = ctx.createGain();
-            osc2.type = 'sawtooth';
-            osc2.frequency.setValueAtTime(300, t);
-            osc2.frequency.exponentialRampToValueAtTime(10, t + 0.3);
-            
-            gain2.gain.setValueAtTime(0.1, t);
-            gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
-
-            osc2.connect(gain2);
-            gain2.connect(ctx.destination);
-            osc2.start(t);
-            osc2.stop(t + 0.3);
-        }
-
-        // --- UTILS ---
-        function scrambleText(element) {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; 
-            const originalText = element.dataset.value; 
-            let iteration = 0;
-            if(element.interval) clearInterval(element.interval);
-            element.interval = setInterval(() => {
-                element.innerText = originalText
-                    .split("")
-                    .map((letter, index) => {
-                        if(index < iteration) return originalText[index];
-                        return chars[Math.floor(Math.random() * chars.length)];
-                    })
-                    .join("");
-                if(iteration >= originalText.length) clearInterval(element.interval);
-                iteration += 1 / 2;
-            }, 50);
-        }
-
-        function changeTheme(colorValue, btnElement) {
-            document.documentElement.style.setProperty('--color-primary', colorValue);
-            document.querySelectorAll('.pallet-btn').forEach(btn => btn.classList.remove('active'));
-            if(btnElement) btnElement.classList.add('active');
-
-            const body = document.body;
-            body.classList.remove('system-reboot');
-            void body.offsetWidth; 
-            body.classList.add('system-reboot');
-
-            playFuturisticSound();
-            const titleElement = document.getElementById('scramble-target');
-            if(titleElement) scrambleText(titleElement);
-            localStorage.setItem('user-theme', colorValue);
-        }
-
-        function toggleRotator(show) {
-            const rotator = document.getElementById('rotator-cursor');
-            if(show) rotator.classList.add('active');
-            else rotator.classList.remove('active');
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedColor = localStorage.getItem('user-theme');
-            if (savedColor) {
-                const btn = document.querySelector(`button[data-color="${savedColor}"]`);
-                if (btn) changeTheme(savedColor, btn);
-            } else {
-                const titleElement = document.getElementById('scramble-target');
-                if(titleElement) scrambleText(titleElement);
+        // Parallax effect for starfield on scroll
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const stars = document.querySelectorAll('.stars');
+                    
+                    stars.forEach((star, index) => {
+                        const speed = (index + 1) * 0.1;
+                        star.style.transform = `translateY(${scrolled * speed}px)`;
+                    });
+                    
+                    ticking = false;
+                });
+                ticking = true;
             }
         });
 
-        // --- OPTIMIZED SCROLL TILT EFFECT ---
-        const tiltCards = document.querySelectorAll('.scroll-tilt-card');
-        
-        function animateTilt() {
-            if(isMobile) return;
-
-            const centerY = window.innerHeight / 2;
-            
-            tiltCards.forEach(card => {
-                const rect = card.getBoundingClientRect();
-                if (rect.bottom > 0 && rect.top < window.innerHeight) {
-                    const cardCenterY = rect.top + rect.height / 2;
-                    const normalizedY = (cardCenterY - centerY) / (window.innerHeight / 2);
-                    const tilt = normalizedY * 25; 
-                    card.style.setProperty('--tilt-x', `${tilt}deg`);
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
             });
-            requestAnimationFrame(animateTilt);
-        }
-        animateTilt();
+        });
+
+        // Add snappy hover sound effect placeholder (can be enabled with actual audio)
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                // Optional: Add micro-interaction feedback
+                btn.style.transition = 'all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            });
+        });
     </script>
 </body>
 </html>
