@@ -5,27 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Yogi Arif Widodo is a software engineer building web platforms, cloud systems, and practical digital products.">
   <title>Yogi Arif Widodo — Software Engineer</title>
-  <style>
-    :root { color-scheme: light; --ink: #17231f; --muted: #5e6c65; --accent: #28745d; --line: #dfe7e2; --paper: #fbfcfa; }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    main { width: min(760px, calc(100% - 40px)); margin: 0 auto; padding: 80px 0 56px; }
-    .eyebrow { margin: 0 0 10px; color: var(--accent); font-size: .82rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-    h1 { margin: 0; font-size: clamp(2.4rem, 8vw, 4rem); line-height: 1.1; letter-spacing: -.045em; }
-    .intro { max-width: 610px; margin: 20px 0 26px; color: var(--muted); font-size: 1.15rem; }
-    .links { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-bottom: 54px; }
-    a { color: var(--accent); text-underline-offset: 4px; }
-    .links a { font-weight: 650; text-decoration: none; }
-    section { border-top: 1px solid var(--line); padding: 28px 0; }
-    h2 { margin: 0 0 16px; font-size: 1.15rem; }
-    ul { margin: 0; padding-left: 1.2rem; }
-    li { padding: 4px 0 4px 4px; }
-    li::marker { color: var(--accent); }
-    .muted { color: var(--muted); }
-    .skills { color: var(--muted); }
-    footer { border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: .9rem; }
-    @media (max-width: 540px) { main { padding-top: 52px; } .links { margin-bottom: 34px; } }
-  </style>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script src="assets/js/showcase.js" defer></script>
 </head>
 <body>
   <main>
@@ -37,6 +18,7 @@
         <a href="mailto:yogirenbox33@gmail.com">Email</a>
         <a href="https://github.com/yogithesymbian">GitHub</a>
         <a href="https://linkedin.com/in/yogi-arif-widodo">LinkedIn</a>
+        <button class="showcase-trigger" type="button" data-showcase-open>View projects &amp; clients <span aria-hidden="true">↗</span></button>
       </nav>
     </header>
 
@@ -46,7 +28,7 @@
         <li>Delivered maritime software integrations with a 100% project acceptance rate.</li>
         <li>Turned a 20-year-old desktop system into a web platform, translating 200+ designs into working features.</li>
         <li>Co-founded and grew an engineering team from 2 to 11 people.</li>
-        <li>Built 10+ web and mobile products for clients in India, Japan, and Indonesia.</li>
+        <li>Built 10+ web and mobile products for clients in India, Japan, Australia, Polandia, and Indonesia.</li>
       </ul>
     </section>
 
@@ -63,5 +45,21 @@
 
     <footer>Open to thoughtful projects and conversations. <a href="mailto:yogirenbox33@gmail.com">Get in touch</a>.</footer>
   </main>
+
+  <dialog class="showcase" id="showcase" aria-labelledby="showcase-title">
+    <div class="showcase-header">
+      <div>
+        <p class="eyebrow">Selected work</p>
+        <h2 id="showcase-title">Projects &amp; clients</h2>
+      </div>
+      <button class="close-button" type="button" data-showcase-close aria-label="Close showcase">×</button>
+    </div>
+    <div class="showcase-tabs" role="tablist" aria-label="Showcase category">
+      <button class="tab-button is-active" id="projects-tab" type="button" role="tab" aria-selected="true" aria-controls="projects-panel" data-tab="projects">Projects</button>
+      <button class="tab-button" id="clients-tab" type="button" role="tab" aria-selected="false" aria-controls="clients-panel" data-tab="clients" tabindex="-1">Clients &amp; collaborators</button>
+    </div>
+    <section class="showcase-panel" id="projects-panel" role="tabpanel" aria-labelledby="projects-tab" data-panel="projects"></section>
+    <section class="showcase-panel" id="clients-panel" role="tabpanel" aria-labelledby="clients-tab" data-panel="clients" hidden></section>
+  </dialog>
 </body>
 </html>
