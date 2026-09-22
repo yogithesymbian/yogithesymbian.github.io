@@ -1,5 +1,5 @@
 const showcase = document.querySelector("#showcase");
-const openButton = document.querySelector("[data-showcase-open]");
+const openButtons = [...document.querySelectorAll("[data-showcase-open]")];
 const closeButton = document.querySelector("[data-showcase-close]");
 const tabs = [...document.querySelectorAll("[data-tab]")];
 const panels = [...document.querySelectorAll("[data-panel]")];
@@ -192,18 +192,20 @@ function initializeShowcase() {
 function activateShowcaseMedia() {
   showcase.querySelectorAll("video").forEach(video => {
     if (video.dataset.poster) video.poster = video.dataset.poster;
-    video.querySelectorAll("source[data-src]").forEach(source => {
+    const sources = video.querySelectorAll("source[data-src]");
+    sources.forEach(source => {
       source.src = source.dataset.src;
       source.removeAttribute("data-src");
     });
+    if (sources.length) video.load();
   });
 }
 
 initializeShowcase();
-openButton.addEventListener("click", () => {
+openButtons.forEach(button => button.addEventListener("click", () => {
   activateShowcaseMedia();
   showcase.showModal();
-});
+}));
 closeButton.addEventListener("click", () => showcase.close());
 showcase.addEventListener("click", event => {
   if (event.target === showcase) showcase.close();
