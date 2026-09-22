@@ -106,10 +106,10 @@ function makeProjectCard(project) {
     media = document.createElement("video");
     media.controls = true;
     media.preload = "none";
-    if (project.image) media.poster = `assets/favorite_projects/${project.image}`;
+    if (project.image) media.dataset.poster = `assets/favorite_projects/${project.image}`;
     media.setAttribute("aria-label", `${project.title} video`);
     const source = document.createElement("source");
-    source.src = `assets/favorite_projects/${project.video}`;
+    source.dataset.src = `assets/favorite_projects/${project.video}`;
     source.type = "video/webm";
     media.append(source, "Your browser does not support WebM video.");
   } else {
@@ -189,8 +189,19 @@ function initializeShowcase() {
   showcaseInitialized = true;
 }
 
+function activateShowcaseMedia() {
+  showcase.querySelectorAll("video").forEach(video => {
+    if (video.dataset.poster) video.poster = video.dataset.poster;
+    video.querySelectorAll("source[data-src]").forEach(source => {
+      source.src = source.dataset.src;
+      source.removeAttribute("data-src");
+    });
+  });
+}
+
+initializeShowcase();
 openButton.addEventListener("click", () => {
-  initializeShowcase();
+  activateShowcaseMedia();
   showcase.showModal();
 });
 closeButton.addEventListener("click", () => showcase.close());
