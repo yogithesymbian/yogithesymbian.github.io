@@ -60,6 +60,14 @@ footer { border-top: 1px solid var(--line); padding-top: 20px; color: var(--mute
 .project-copy { padding: 13px 15px 15px; }
 .project-copy h3 { margin: 0 0 3px; font-size: 1rem; line-height: 1.4; }
 .project-copy p { margin: 0; color: var(--muted); font-size: .88rem; line-height: 1.5; }
+.source-list { display: grid; gap: 10px; }
+.source-card { position: relative; display: block; padding: 15px 46px 15px 16px; border: 1px solid var(--line); border-radius: 10px; background: white; color: var(--ink); text-decoration: none; }
+.source-card:hover, .source-card:focus-visible { border-color: var(--accent); }
+.source-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 10px; }
+.source-heading h3 { margin: 0; font-size: .98rem; line-height: 1.4; }
+.source-kind { padding: 2px 7px; border-radius: 99px; background: #eaf3ee; color: var(--accent); font-size: .72rem; font-weight: 650; }
+.source-card p { margin: 5px 0 0; color: var(--muted); font-size: .88rem; }
+.source-external { position: absolute; top: 16px; right: 16px; color: var(--accent); }
 .client-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .client-card { display: grid; min-height: 108px; place-items: center; padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: white; }
 .client-card img { display: block; width: 100%; max-width: 150px; height: 60px; object-fit: contain; }

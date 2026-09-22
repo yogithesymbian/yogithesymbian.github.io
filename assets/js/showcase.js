@@ -51,6 +51,39 @@ const projects = [
     video: "tokyo-cert.webm"
   }
 ];
+const openSourceProjects = [
+  {
+    name: "Android Kotlin Generator Pattern",
+    kind: "Tool",
+    description: "Generate Android MVVM code patterns.",
+    href: "https://gist.github.com/yogithesymbian/b476ef3640cb4f1343ef3816064be8be"
+  },
+  {
+    name: "Yo WebP Converter",
+    kind: "VS Code extension",
+    description: "Convert images in a folder and its subfolders to WebP.",
+    href: "https://marketplace.visualstudio.com/items?itemName=YoLicenses.yo-webp"
+  },
+  {
+    name: "Yo Netwatch",
+    kind: "Rust library",
+    description: "A library for network monitoring.",
+    href: "https://crates.io/crates/yo_netwatch"
+  },
+  {
+    name: "Bug Hunting Penetration Test RGB Hat",
+    kind: "Tool",
+    description: "A security testing tool for bug bounty work.",
+    href: "https://github.com/yogithesymbian/bug-hunting-penetration-rgb-hat"
+  },
+  {
+    name: "Sequelize CRUD Generator",
+    kind: "API",
+    description: "Generate CRUD operations for Sequelize and MySQL.",
+    href: "https://github.com/pemrogrammer/api-nodejs-sequelize-jwt-mysql-generator"
+  }
+];
+
 const clientLogos = [
   { name: "Astra", file: "assets/client_p/astra.webp" },
   { name: "Digitalent", file: "assets/client_p/digitalent.webp" },
@@ -58,8 +91,9 @@ const clientLogos = [
   { name: "PT IMT", file: "assets/client_p/ptimt.webp" },
   { name: "PT SAL", file: "assets/client_p/ptsal.webp" },
   { name: "PT Samatech", file: "assets/client_p/ptsama.webp" },
+  { name: "Restu Ibu Hospital", file: "assets/client_p/restuibuhospitalbpn.webp" },
   { name: "Scodeid", file: "assets/client_p/scodeid.svg" },
-  { name: "POLNES", file: "assets/client_p/partner/polnes.webp" },
+  { name: "Politeknik Negeri Samarinda", file: "assets/client_p/partner/polnes.webp" },
   { name: "Universitas Mulawarman", file: "assets/client_p/partner/unmul.webp" },
   { name: "Universitas 17 Agustus Samarinda", file: "assets/client_p/partner/untag.webp" }
 ];
@@ -96,6 +130,32 @@ function makeProjectCard(project) {
   return card;
 }
 
+function makeOpenSourceCard(project) {
+  const link = document.createElement("a");
+  link.className = "source-card";
+  link.href = project.href;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+
+  const heading = document.createElement("div");
+  heading.className = "source-heading";
+  const title = document.createElement("h3");
+  title.textContent = project.name;
+  const kind = document.createElement("span");
+  kind.className = "source-kind";
+  kind.textContent = project.kind;
+  heading.append(title, kind);
+
+  const description = document.createElement("p");
+  description.textContent = project.description;
+  const external = document.createElement("span");
+  external.className = "source-external";
+  external.setAttribute("aria-hidden", "true");
+  external.textContent = "↗";
+  link.append(heading, description, external);
+  return link;
+}
+
 function makeClientCard(client) {
   const card = document.createElement("div");
   card.className = "client-card";
@@ -121,6 +181,11 @@ function initializeShowcase() {
   clientGrid.className = "client-grid";
   clientLogos.forEach(client => clientGrid.append(makeClientCard(client)));
   document.querySelector('[data-panel="clients"]').append(clientGrid);
+
+  const sourceList = document.createElement("div");
+  sourceList.className = "source-list";
+  openSourceProjects.forEach(project => sourceList.append(makeOpenSourceCard(project)));
+  document.querySelector('[data-panel="opensource"]').append(sourceList);
   showcaseInitialized = true;
 }
 
