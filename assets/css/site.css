@@ -26,6 +26,8 @@ li { padding: 4px 0 4px 4px; }
 li::marker { color: var(--accent); }
 .muted, .skills { color: var(--muted); }
 footer { border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: .9rem; }
+footer p { margin: 0 0 12px; }
+.footer-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: .78rem; }
 
 .featured-work-heading { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 18px; }
 .featured-work-heading .eyebrow { margin-bottom: 4px; }
