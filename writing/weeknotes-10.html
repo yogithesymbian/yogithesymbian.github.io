@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Moving from Vercel to Google Cloud Compute Engine requires a hands-on approach to security. How we solved Error 526 using Cloudflare Origin CA and strict Nginx proxying.">
+  <link rel="canonical" href="https://yogithesymbian.github.io/writing/weeknotes-10.html">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <title>The Great Migration: Hardening SSL with Cloudflare &amp; Nginx | Yogi Arif Widodo</title>
+</head>
+<body>
+  <main class="blog-page">
+    <a class="back-link" href="../#writing">← Home</a>
+    <article class="post">
+      <p class="eyebrow">Writing · <time datetime="2026-02-15">February 15, 2026</time></p>
+      <h1>The Great Migration: Hardening SSL with Cloudflare &amp; Nginx</h1>
+      <p class="post-summary">Moving from Vercel to Google Cloud Compute Engine requires a hands-on approach to security. How we solved Error 526 using Cloudflare Origin CA and strict Nginx proxying.</p>
+      <div class="post-content"><h2>The Shift to Self-Hosted</h2><p>Migrating from Vercel&#039;s serverless environment to a Google Cloud VM (<code>e2-small</code>) gave us full control, but it also meant we had to manage our own security handshake. The biggest hurdle? Getting the &quot;green lock&quot; to work correctly between Cloudflare and our Nginx reverse proxy.</p><h2>The Problem: Error 526 &amp; Redirect Loops</h2><p>Initially, we encountered the dreaded <strong>Error 526: Invalid SSL Certificate</strong>. This happened because we set Cloudflare&#039;s SSL mode to <strong>Full (Strict)</strong>, but our origin server (the VM) didn&#039;t have a valid certificate that Cloudflare trusted.</p><p>Turning it down to &quot;Flexible&quot; caused redirect loops because Nginx was forcing HTTPS while Cloudflare was talking to it via HTTP.</p><h2>The Solution: Cloudflare Origin CA</h2><p>Instead of using Let&#039;s Encrypt (which requires renewal every 3 months and opening port 80), we opted for <strong>Cloudflare Origin CA</strong>. This allows Cloudflare to sign a certificate for our server that is valid for <strong>15 years</strong>.</p><h3>1. Generating the Certificate</h3><p>We generated a private key and certificate in the Cloudflare Dashboard under <strong>SSL/TLS &gt; Origin Server</strong> and saved them to the server (example):</p><ul><li><code>/etc/nginx/ssl/yo-license.pem</code></li><li><code>/etc/nginx/ssl/yo-license.key</code></li></ul><h3>2. Nginx Configuration</h3><p>We updated the Nginx block to listen on port 443 with <code>http2</code> enabled for performance, and pointed it to the new certificates. We also ensured the original IP is forwarded to Next.js.</p><pre><code>server {
+    listen 80;
+    server_name yo-license.pro www.yo-license.pro;
+    # Force redirect to HTTPS
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name yo-license.pro www.yo-license.pro;
+
+    # Cloudflare Origin Certificates
+    ssl_certificate /etc/nginx/ssl/yo-license.pem;
+    ssl_certificate_key /etc/nginx/ssl/yo-license.key;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &#039;upgrade&#039;;
+        proxy_set_header Host $host;
+
+        # Crucial for Turnstile &amp; Rate Limiting
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}</code></pre><h3>3. Strict Mode</h3><p>With the certificate in place, we could finally enable <strong>Full (Strict)</strong> mode in Cloudflare. This ensures end-to-end encryption:</p><p>1. <strong>User -&gt; Cloudflare:</strong> Encrypted via public trusted cert.
+2. <strong>Cloudflare -&gt; Nginx:</strong> Encrypted via Origin CA cert.</p><h2>Key Takeaway</h2><p>When using Cloudflare as a proxy, relying on &quot;Flexible&quot; SSL is a trap. The architectural correct way is to establish trust between the Edge (Cloudflare) and the Origin (GCP) using a dedicated certificate.</p></div>
+    </article>
+  </main>
+</body>
+</html>

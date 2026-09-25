@@ -1,0 +1,36 @@
+---
+title: "AI Hypercomputer: Infrastructure & Scale"
+
+publishedAt: "2026-01-25"
+
+summary: "A look into the data center infrastructure, accelerators, and sustainable power efficiency of AI Hypercomputer."
+---
+
+## Performance Optimized Infrastructure
+
+To show how the AI Hypercomputer comes to life in a data center, the process begins with setting up a training job for machine learning. The core of this system is its performance-optimized infrastructure. A scheduler or orchestrator kicks off a training job, which creates a compute cluster tailored for the workload.
+
+---
+
+## Accelerators: GPUs and IPUs
+
+For AI workloads, instances utilize specific accelerators:
+
+- **Nvidia GPUs**: Computer racks are filled with A3 VMs powered by Nvidia's H100 Tensor Core GPUs.
+- **IPUs (Intelligence Processing Units)**: Custom-designed 200 GB/s IPUs create a separate data channel allowing GPUs to communicate directly with each other, effectively bypassing the CPU host.
+
+---
+
+## Tensor Processing Units (TPUs)
+
+TPUs are custom-built in-house and specifically designed for artificial intelligence. Key features include:
+
+- **Architecture**: Each chip features tensor cores with four Matrix Multiplication Units (MXUs) for arithmetic operations.
+- **Scalability**: On a single machine, TPUs can have 1, 4, or 8 chips. For multi-host workloads, they scale to hundreds or thousands as a "pod" or "pod slice."
+- **Massive Scale**: Multi-slice training jobs can utilize tens of thousands of chips simultaneously.
+
+---
+
+## Sustainability and Efficiency
+
+The move to OCS (Optical Circuit Switching) for networking has created the opportunity to reduce power consumption by up to **40%**. This high-performance, energy-efficient, and power-dense infrastructure offers a tangible path to more sustainable IT.

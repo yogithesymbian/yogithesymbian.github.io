@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <link rel="canonical" href="https://yogithesymbian.github.io/writing/w4.html">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <title>1. Get the current Project ID from your active configuration | Yogi Arif Widodo</title>
+</head>
+<body>
+  <main class="blog-page">
+    <a class="back-link" href="../#writing">← Home</a>
+    <article class="post">
+      <p class="eyebrow">Writing</p>
+      <h1>1. Get the current Project ID from your active configuration</h1>
+      <div class="post-content"><p>entah kenapa kalau dapat europe-west1 us-west1 error jadi harus stop lab, ganti lab baru untuk mendapatkan europe-west1 lain.</p><p>langkah-langkah</p><p>1. aktivasi api</p><pre><code>gcloud services enable \
+  artifactregistry.googleapis.com \
+  cloudfunctions.googleapis.com \
+  cloudbuild.googleapis.com \
+  eventarc.googleapis.com \
+  run.googleapis.com \
+  logging.googleapis.com \
+  pubsub.googleapis.com</code></pre><p>2. buat task 1 cloud storage bucket</p><pre><code>gsutil mb -l europe-west1 gs://qwiklabs-gcp-01-03fe0eb5cf1b</code></pre><p>ganti europe-west1 dan qwiklabs-gcp-01-03fe0eb5cf1b dengan data lab
+copy hasil alamat bucketnya dengan awalan gs://</p><p>3. grant the pubsub.publisher IAM role to the Cloud Storage service account</p><pre><code># 1. Get the current Project ID from your active configuration
+MY_PROJECT=$(gcloud config get-value project)
+
+# 2. Get the Project Number
+PROJECT_NUMBER=$(gcloud projects list --filter=&quot;qwiklabs-gcp-01-03fe0eb5cf1b:$MY_PROJECT&quot; --format=&#039;value(project_number)&#039;)
+
+# 3. Get the GCS Service Agent email
+SERVICE_ACCOUNT=$(gsutil kms serviceaccount -p $PROJECT_NUMBER)
+
+# 4. Bind the role
+gcloud projects add-iam-policy-binding $MY_PROJECT \
+  --member serviceAccount:$SERVICE_ACCOUNT \
+  --role roles/pubsub.publisher</code></pre><p>4. buat file index.js dan package.json</p><pre><code>mkdir ~/hello-storage &amp;&amp; cd $_
+touch index.js &amp;&amp; touch package.json</code></pre><p>buka file editor masukan data index.js dan package.json yang ditetapkan oleh lab
+terutama index.js kata eventStorage diganti dengan yang di lab (misal di lab cs-monitor)</p><p>5. buat cloud storage function</p><pre><code>gcloud functions deploy namafunction \
+  --gen2 \
+  --runtime nodejs20 \
+  --entry-point namafunction \
+  --source . \
+  --europe-west1 europe-west1 \
+  --trigger-bucket bucket \
+  --trigger-location europe-west1 \
+  --max-instances 2</code></pre><p>jika muncul error eventarc, jalankan ulang commandnya.</p><p>ganti namafunction, bucket, europe-west1 dengan di data lab.</p><p>task 3 bisa lihat lab Cloud Run Functions: Qwik Start quick start task 2</p><hr><h2>works</h2><h1>Enable Required APIs:</h1><pre><code>gcloud services enable cloudfunctions.googleapis.com \
+ cloudbuild.googleapis.com \
+ eventarc.googleapis.com \
+ run.googleapis.com \
+ storage.googleapis.com</code></pre><p>Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><p>Get Project Number:</p><pre><code>export PROJECT_NUMBER=$(gcloud projects describe qwiklabs-gcp-01-03fe0eb5cf1b --format=&quot;value(projectNumber)&quot;)</code></pre><p>Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><p>Grant Pub/Sub Publisher Role to Cloud Storage Service Account:</p><h1>crete bucket</h1><pre><code>gcloud projects add-iam-policy-binding qwiklabs-gcp-01-03fe0eb5cf1b \
+ --member=&quot;serviceAccount:service-${PROJECT_NUMBER}@qwiklabs.net&quot; \
+ --role=&quot;roles/pubsub.publisher&quot;</code></pre><p>Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><h1>crete bucket</h1><pre><code>gcloud storage buckets add-iam-policy-binding gs://qwiklabs-gcp-01-03fe0eb5cf1b \
+    --member=serviceAccount:student-03-0ca8e6e3e553@qwiklabs.net \
+    --role=roles/storage.objectUser
+
+
+gcloud storage buckets create \
+  -l us-central1 \
+  gs://qwiklabs-gcp-01-03fe0eb5cf1b
+
+</code></pre><h1>asd</h1><p>Create Function Directory:
+mkdir cs-logger-function
+cd cs-logger-function
+Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><p>Create index.js :
+nano index.js
+Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><p>Paste the following content, then press Ctrl+X , Y , Enter :</p><pre><code>const functions = require(&#039;@google-cloud/functions-framework&#039;);
+
+functions.cloudEvent(&#039;cs-logger&#039;, (cloudevent) =&gt; {
+console.log(&#039;A new event in your Cloud Storage bucket has been logged!&#039;);
+console.log(cloudevent);
+});</code></pre><p>Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><p>Create package.json :
+nano package.json
+Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><p>Paste the following content, then press Ctrl+X , Y , Enter :</p><pre><code>{
+&quot;name&quot;: &quot;nodejs-functions-gen2-codelab&quot;,
+&quot;version&quot;: &quot;0.0.1&quot;,
+&quot;main&quot;: &quot;index.js&quot;,
+&quot;dependencies&quot;: {
+&quot;@google-cloud/functions-framework&quot;: &quot;^2.0.0&quot;
+}
+}</code></pre><p>Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><p>Deploy Cloud Function:</p><pre><code>gcloud functions deploy cs-logger \
+ --gen2 \
+ --runtime=nodejs20 \
+ --region=us-east4 \
+ --source=. \
+ --entry-point=cs-logger \
+ --trigger-bucket=qwiklabs-gcp-01-03fe0eb5cf1b \
+ --max-instances=2
+
+gcloud functions deploy cs-logger \
+ --gen2 \
+ --runtime=nodejs20 \
+ --region=us-east4 \
+ --source=. \
+ --entry-point=cs-logger \
+ --trigger-bucket=qwiklabs-gcp-01-03fe0eb5cf1b \
+ --min-instances=1 \
+ --max-instances=2 \
+ --allow-unauthenticated
+
+
+gcloud functions deploy cs-logger \
+  --gen2 \
+  --runtime=nodejs20 \
+  --region=us-east4 \
+  --source=. \
+  --entry-point=cs-logger \
+  --trigger-bucket=qwiklabs-gcp-01-03fe0eb5cf1b \
+  --max-instances=2 \
+  --allow-unauthenticated # Include this if you want it unauthenticated, though not required for trigger-bucket
+
+gcloud functions deploy cs-tracker \
+  --gen2 \
+  --runtime nodejs20 \
+  --entry-point cs-tracker \
+  --source . \
+  --region europe-west1 \
+  --trigger-bucket qwiklabs-gcp-01-03fe0eb5cf1b \
+  --trigger-location europe-west1 \
+  --max-instances 2</code></pre><p>Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><p>Test Function:</p><pre><code>echo &quot;This is a test file for the Cloud Function.&quot; &gt; test-upload.txt
+gsutil cp test-upload.txt gs://qwiklabs-gcp-01-03fe0eb5cf1b/</code></pre><p>Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><hr><h1>Here&#039;s a concise, step-by-step guide to create and deploy your HTTP function:</h1><p>Create Function Directory:</p><pre><code>mkdir http-messenger-function
+cd http-messenger-function</code></pre><p>Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><p>Create index.js :
+nano index.js
+Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><p>Paste the following content, then press Ctrl+X , Y , Enter :</p><pre><code>const functions = require(&#039;@google-cloud/functions-framework&#039;);
+
+functions.http(&#039;http-messenger&#039;, (req, res) =&gt; {
+res.status(200).send(&#039;HTTP function (2nd gen) has been called!&#039;);
+});</code></pre><p>Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><p>Create package.json :
+nano package.json
+Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><p>Paste the following content, then press Ctrl+X , Y , Enter :</p><pre><code>{
+&quot;name&quot;: &quot;nodejs-functions-gen2-codelab&quot;,
+&quot;version&quot;: &quot;0.0.1&quot;,
+&quot;main&quot;: &quot;index.js&quot;,
+&quot;dependencies&quot;: {
+&quot;@google-cloud/functions-framework&quot;: &quot;^2.0.0&quot;
+}
+}</code></pre><p>Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p><p>Deploy Cloud Function:</p><pre><code>gcloud functions deploy http-messenger \
+ --gen2 \
+ --runtime=nodejs20 \
+ --region=europe-west1 \
+ --source=. \
+ --entry-point=http-messenger \
+ --trigger-http \
+ --min-instances=1 \
+ --max-instances=2 \
+ --allow-unauthenticated</code></pre><p>Generated code may be subject to license restrictions not shown here. Use code with care. Learn more</p></div>
+    </article>
+  </main>
+</body>
+</html>

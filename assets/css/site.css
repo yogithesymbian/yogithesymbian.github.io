@@ -32,6 +32,49 @@ ul { margin: 0; padding-left: 1.2rem; }
 li { padding: 4px 0 4px 4px; }
 li::marker { color: var(--accent); }
 .muted, .skills { color: var(--muted); }
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; }
+.section-heading .eyebrow { margin-bottom: 4px; }
+.section-heading h2 { margin-bottom: 16px; }
+.writing > .muted { margin: 0 0 18px; }
+.writing-all { flex: 0 0 auto; margin-bottom: 16px; font-size: .9rem; font-weight: 650; text-decoration: none; }
+.writing-list { display: grid; gap: 0; }
+.writing-item { padding: 16px 0; border-top: 1px solid var(--line); }
+.writing-item:last-child { padding-bottom: 2px; }
+.writing-item time { color: var(--accent); font-size: .77rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.writing-item h3 { margin: 3px 0 4px; font-size: 1rem; line-height: 1.4; }
+.writing-item h3 a { color: var(--ink); text-decoration-color: transparent; }
+.writing-item h3 a:hover, .writing-item h3 a:focus-visible { color: var(--accent); text-decoration-color: currentColor; }
+.writing-item p { margin: 0; color: var(--muted); font-size: .9rem; }
+.blog-page { padding-top: 52px; }
+.back-link { display: inline-block; margin-bottom: 38px; font-size: .9rem; font-weight: 650; text-decoration: none; }
+.writing-header { border: 0; padding: 0 0 20px; }
+.writing-header h1 { margin-bottom: 12px; font-size: clamp(2.4rem, 8vw, 4rem); }
+.writing-index { border-top: 1px solid var(--line); }
+.writing-index .writing-item h2 { margin: 3px 0 4px; font-size: 1.1rem; line-height: 1.4; }
+.writing-index .writing-item h2 a { color: var(--ink); text-decoration-color: transparent; }
+.writing-index .writing-item h2 a:hover, .writing-index .writing-item h2 a:focus-visible { color: var(--accent); text-decoration-color: currentColor; }
+.post { max-width: 720px; }
+.post > h1 { font-size: clamp(2rem, 6vw, 3.3rem); }
+.post-summary { margin: 16px 0 38px; color: var(--muted); font-size: 1.12rem; }
+.post-content { color: #26352e; }
+.post-content h1, .post-content h2, .post-content h3, .post-content h4 { margin: 38px 0 12px; line-height: 1.25; letter-spacing: -.02em; }
+.post-content h1 { font-size: 1.65rem; }
+.post-content h2 { font-size: 1.35rem; }
+.post-content h3 { font-size: 1.12rem; }
+.post-content p { margin: 0 0 18px; }
+.post-content ul { margin: 0 0 18px; }
+.post-content li { padding-bottom: 2px; }
+.post-content img { display: block; width: 100%; max-width: 680px; height: auto; margin: 24px 0; border: 1px solid var(--line); border-radius: 8px; }
+.missing-media { display: inline-block; margin: 4px 0; color: var(--muted); font-size: .9rem; font-style: italic; }
+.post-content pre { margin: 20px 0; padding: 16px; overflow-x: auto; border-radius: 8px; background: #18241f; color: #eaf3ee; font: .85rem/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.post-content :not(pre) > code { padding: .12em .34em; border-radius: 4px; background: #eaf3ee; font-size: .88em; }
+.post-content blockquote { margin: 20px 0; padding: 2px 0 2px 16px; border-left: 3px solid var(--accent); color: var(--muted); }
+.post-content hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
+.table-wrap { margin: 20px 0; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+.post-content table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.post-content th, .post-content td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.post-content th { background: #f1f6f2; color: var(--ink); }
+.post-content tr:last-child td { border-bottom: 0; }
 footer { border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: .9rem; }
 footer p { margin: 0 0 12px; }
 .footer-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: .78rem; }
@@ -103,6 +146,8 @@ footer p { margin: 0 0 12px; }
   .project-grid { grid-template-columns: 1fr; }
   .client-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .featured-work-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .section-heading { align-items: flex-start; flex-direction: column; gap: 0; }
+  .writing-all { margin-bottom: 16px; }
   .featured-work-grid { grid-template-columns: 1fr; }
 }
 @media (min-width: 541px) and (max-width: 700px) { .featured-work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

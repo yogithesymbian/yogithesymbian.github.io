@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <link rel="canonical" href="https://yogithesymbian.github.io/writing/SCC.html">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <title>Running a Web Security Scan on Cymbal Bank Application | Yogi Arif Widodo</title>
+</head>
+<body>
+  <main class="blog-page">
+    <a class="back-link" href="../#writing">← Home</a>
+    <article class="post">
+      <p class="eyebrow">Writing</p>
+      <h1>Running a Web Security Scan on Cymbal Bank Application</h1>
+      <div class="post-content"><h1>Running a Web Security Scan on Cymbal Bank Application</h1><p>To run a Web Security scan against the Cymbal Bank application, you need to first reserve a static external IP for the cls-vm instance and then configure and run the scan.</p><h2>Step-by-step instructions</h2><h3>Navigate to VM Instances</h3><p>1. In the Google Cloud Console, use the <strong>Navigation menu</strong> (three horizontal lines) on the top left
+2. Select <strong>Compute Engine &gt; VM instances</strong></p><h3>Edit cls-vm Instance</h3><p>1. Find the VM instance named <code>cls-vm</code> in the list
+2. Click on the <code>cls-vm</code> instance name to open its VM instance details page
+3. Click the <strong>EDIT</strong> button at the top of the page</p><h3>Reserve a Static External IP</h3><p>1. Scroll down to the <strong>Network interfaces</strong> section
+2. Expand the default network interface (or the one where the external IP is configured)
+3. Locate the <strong>External IPv4 address</strong> dropdown menu
+4. Click on this dropdown and select <strong>Reserve Static External IP address</strong>
+5. In the &quot;Reserve a new static IP address&quot; dialog:</p><p>6. Scroll to the bottom of the VM instance details page and click <strong>Save</strong></p><ul><li>For <strong>Name</strong>, enter <code>static-ip</code></li><li>Click <strong>Reserve</strong></li></ul><h3>Find the External IP Address</h3><p>1. Once the VM instance updates, return to the <code>cls-vm</code> VM instance details page
+2. Locate the <strong>External IP address</strong> listed for the instance
+3. Copy this IP address</p><h3>Verify the Application is Accessible</h3><p>1. Open a new browser tab
+2. Construct the URL using the copied External IP address and port <code>8080</code></p><ul><li>The URL should look like: <code>http://&lt;YOUR_EXTERNAL_IP&gt;:8080</code></li><li>Example: <code>http://34.123.45.67:8080</code></li></ul><p>   ``<code>
+   34.145.123.119
+   </code>``</p><p>3. Paste this URL into the new browser tab and press Enter
+4. You should see the Cymbal Bank corporate banking portal</p><h3>Navigate to Web Security Scanner</h3><p>1. In the Google Cloud Console, use the <strong>Navigation menu</strong>
+2. Select <strong>Security Command Center &gt; Web Security Scanner</strong></p><h3>Create a New Scan</h3><p>1. Click the <strong>New scan</strong> button</p><h3>Configure the Scan</h3><p>1. <strong>Name</strong>: Enter a descriptive name (e.g., <code>cymbal-bank-app-scan</code>)
+2. <strong>Starting URLs</strong>: In the text field, enter the full URL of your Cymbal Bank application, including the static IP and port 8080</p><p>3. <strong>Schedule</strong>: Set this to <strong>One-time</strong> for this task
+4. Ensure <strong>Export to Security Command Center</strong> is checked
+5. Leave other settings at their defaults for this basic scan</p><ul><li>Example: <code>http://&lt;YOUR_EXTERNAL_IP&gt;:8080</code></li></ul><h3>Save the Scan</h3><p>1. Click the <strong>Save</strong> button at the bottom of the &quot;Create a new scan&quot; page</p><h3>Run the Scan</h3><p>1. On the <strong>Web Security Scanner</strong> page, find your newly created scan (<code>cymbal-bank-app-scan</code>)
+2. Click on the scan name to go to its overview page
+3. Click the <strong>Run scan</strong> button
+4. The scan will be queued. It may take some time for the scan to start and complete
+5. Once finished, you can view the results on the scan&#039;s overview page or in <strong>Security Command Center Findings</strong></p><hr><p>gcloud scc findings list ORGANIZATION_ID --location=us-west1</p></div>
+    </article>
+  </main>
+</body>
+</html>

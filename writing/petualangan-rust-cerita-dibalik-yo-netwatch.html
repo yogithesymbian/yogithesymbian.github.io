@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cerita singkat tentang bagaimana `yo_netwatch` lahir — library kecil tapi bermanfaat untuk deteksi koneksi internet di Rust.">
+  <link rel="canonical" href="https://yogithesymbian.github.io/writing/petualangan-rust-cerita-dibalik-yo-netwatch.html">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <title>Petualangan Rust &amp; Cerita Dibalik `yo_netwatch` | Yogi Arif Widodo</title>
+</head>
+<body>
+  <main class="blog-page">
+    <a class="back-link" href="../#writing">← Home</a>
+    <article class="post">
+      <p class="eyebrow">Writing · <time datetime="2025-05-21">May 21, 2025</time></p>
+      <h1>Petualangan Rust &amp; Cerita Dibalik `yo_netwatch`</h1>
+      <p class="post-summary">Cerita singkat tentang bagaimana `yo_netwatch` lahir — library kecil tapi bermanfaat untuk deteksi koneksi internet di Rust.</p>
+      <div class="post-content"><p>_Disclaimer:_ Masih simpel, masih banyak ruang eksplorasi. Tapi bangga juga bisa bikin sesuatu dari ide kecil — jadi crate beneran di crates.io 🦀💖</p><p>🚀 <strong>Petualangan Rust: Dari <code>egui</code> sampai <code>yo_netwatch</code>!</strong> 🦀📡</p><p>Awalnya cuma coba-coba <code>egui</code> — GUI framework di Rust. Tapi seperti biasa, Rust nggak pernah setengah-setengah ngasih tantangan.</p><p>Berjumpalah aku dengan:
+🔁 _ownership_, _borrow checker_, <code>unwrap</code>, <code>lock</code>, <code>channel</code>, <code>Receiver</code>, <code>multi-threading</code>, sampai ke dunia <code>async</code> dan <code>tokio</code>.</p><p>Satu hal yang bikin aku kepikiran:</p><blockquote><p><strong>&quot;Kenapa di Rust belum ada yang simple buat deteksi status koneksi kayak <code>connectivity_plus</code> di Flutter?&quot;</strong></p></blockquote><p>Akhirnya aku coba bikin sendiri dari nol, dan lahirlah…</p><p>🛠️ <a href="https://crates.io/crates/yo_netwatch" rel="noopener"><code>yo_netwatch</code></a> — network status watcher ringan untuk Rust!
+📦 Native. No async. No loop polling. Langsung trigger saat status berubah (online/offline).</p><h2>✨ Fitur</h2><ul><li>Deteksi status koneksi <code>online</code> / <code>offline</code></li><li>Gunakan <code>channel</code> untuk broadcast perubahan status</li><li>Tanpa dependensi berat</li><li>Mudah diintegrasikan ke <code>egui</code>, <code>Tauri</code>, CLI, atau backend-native</li></ul><h2>🚀 Contoh Penggunaan</h2><pre><code class="language-rust">use yo_netwatch::{start_network_watcher, Receiver as YoReceiver};
+
+let rx = start_network_watcher();
+if let Ok(online) = rx.recv() {
+    println!(&quot;Status jaringan: {}&quot;, if online { &quot;Online �
+&quot; } else { &quot;Offline ❌&quot; });
+}</code></pre><pre><code class="language-rust">impl eframe::App for BarcodeApp {
+    fn update(&amp;mut self, ctx: &amp;egui::Context, _frame: &amp;mut eframe::Frame) {
+        while let Ok(status) = self.yo_rx.try_recv() {
+            self.yo_connected = status;
+            println!(&quot;network changed : {}&quot;, status)
+        }
+    }
+}</code></pre><p>Kalau kamu lagi belajar Rust, tertarik bikin library sendiri, atau pengen diskusi tentang async &amp; jaringan, feel free to connect ya! 🔗✨</p><p>🔖 Tags
+#RustLang #RustCrate #AsyncRust #egui #Tauri #OpenSource #yo_netwatch #Connectivity #Networking #FromScratch #BelajarRust</p></div>
+    </article>
+  </main>
+</body>
+</html>

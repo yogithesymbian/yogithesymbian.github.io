@@ -1,0 +1,92 @@
+---
+title: "Weeknotes #2 (December 21, 2025)"
+publishedAt: "2025-12-21"
+summary: "Cara membaca p75, p90, p95, p99 di Vercel Speed Insights dan apa yang benar-benar penting."
+---
+
+![Vercel Speed Insights](https://cfbqxl0op8nkrdaj.public.blob.vercel-storage.com/blog/P99.webp)
+
+## Apa itu Speed Insights (Real Experience)?
+
+**Vercel Speed Insights** menampilkan data **Real User Monitoring (RUM)**.
+Artinya: **data dari user beneran**, bukan hasil test lab atau Lighthouse lokal.
+
+Setiap angka di sini berasal dari:
+
+- device asli
+- jaringan asli
+- kondisi dunia nyata
+
+---
+
+## Arti p75, p90, p95, p99
+
+Angka `pXX` = **percentile**.
+
+> “XX% user mendapatkan skor **sebaik ini atau lebih baik**”
+
+Contoh data:
+
+- **p75 = 100**
+  75% user merasakan pengalaman **sempurna / sangat cepat**
+
+- **p90 = 92**
+  90% user masih merasakan performa **sangat bagus**
+
+- **p95 = 70**
+  95% user masih oke, tapi mulai terasa turun
+
+- **p99 = 64**
+  1% user paling sial (device lemot, jaringan jelek, tab kebanyakan, dll)
+
+---
+
+## Cara baca versi manusia
+
+> Mayoritas user merasakan website ini **cepat dan smooth**.
+> Penurunan hanya terjadi di **ekor (tail users)**.
+
+Dan itu **normal di production**.
+
+![Vercel Speed Insights Normal](https://cfbqxl0op8nkrdaj.public.blob.vercel-storage.com/blog/P999.webp)
+
+---
+
+## Kenapa p99 sering jelek?
+
+Biasanya bukan karena bug fatal, tapi karena:
+
+- HP kentang
+- Jaringan lambat / throttled
+- Terlalu banyak tab
+- CPU spike
+- Animasi berat (canvas, particles, framer-motion, dll)
+
+---
+
+## Yang paling penting diperhatikan
+
+👉 **p75**
+
+Karena:
+
+- Google Core Web Vitals pakai **p75**
+- SEO & UX dinilai dari sini
+- Kalau p75 bagus → aman
+
+Google **tidak peduli p99**.
+
+---
+
+## Kesimpulan
+
+- ✅ **p75 bagus = website sehat**
+- ⚠️ p90–p95 = nice to have
+- ❌ p99 boleh jelek (edge case)
+- Real-world experience website ini **sudah cepat**
+
+---
+
+_Catatan pribadi:_
+Kalau p99 mau dikejar, fokusnya bukan “optimasi SEO”, tapi **defensive performance**
+(guard animation, reduce JS, degrade effect di device lemah).

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A look into the data center infrastructure, accelerators, and sustainable power efficiency of AI Hypercomputer.">
+  <link rel="canonical" href="https://yogithesymbian.github.io/writing/weeknotes-7.html">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <title>AI Hypercomputer: Infrastructure &amp; Scale | Yogi Arif Widodo</title>
+</head>
+<body>
+  <main class="blog-page">
+    <a class="back-link" href="../#writing">← Home</a>
+    <article class="post">
+      <p class="eyebrow">Writing · <time datetime="2026-01-25">January 25, 2026</time></p>
+      <h1>AI Hypercomputer: Infrastructure &amp; Scale</h1>
+      <p class="post-summary">A look into the data center infrastructure, accelerators, and sustainable power efficiency of AI Hypercomputer.</p>
+      <div class="post-content"><h2>Performance Optimized Infrastructure</h2><p>To show how the AI Hypercomputer comes to life in a data center, the process begins with setting up a training job for machine learning. The core of this system is its performance-optimized infrastructure. A scheduler or orchestrator kicks off a training job, which creates a compute cluster tailored for the workload.</p><hr><h2>Accelerators: GPUs and IPUs</h2><p>For AI workloads, instances utilize specific accelerators:</p><ul><li><strong>Nvidia GPUs</strong>: Computer racks are filled with A3 VMs powered by Nvidia&#039;s H100 Tensor Core GPUs.</li><li><strong>IPUs (Intelligence Processing Units)</strong>: Custom-designed 200 GB/s IPUs create a separate data channel allowing GPUs to communicate directly with each other, effectively bypassing the CPU host.</li></ul><hr><h2>Tensor Processing Units (TPUs)</h2><p>TPUs are custom-built in-house and specifically designed for artificial intelligence. Key features include:</p><ul><li><strong>Architecture</strong>: Each chip features tensor cores with four Matrix Multiplication Units (MXUs) for arithmetic operations.</li><li><strong>Scalability</strong>: On a single machine, TPUs can have 1, 4, or 8 chips. For multi-host workloads, they scale to hundreds or thousands as a &quot;pod&quot; or &quot;pod slice.&quot;</li><li><strong>Massive Scale</strong>: Multi-slice training jobs can utilize tens of thousands of chips simultaneously.</li></ul><hr><h2>Sustainability and Efficiency</h2><p>The move to OCS (Optical Circuit Switching) for networking has created the opportunity to reduce power consumption by up to <strong>40%</strong>. This high-performance, energy-efficient, and power-dense infrastructure offers a tangible path to more sustainable IT.</p></div>
+    </article>
+  </main>
+</body>
+</html>

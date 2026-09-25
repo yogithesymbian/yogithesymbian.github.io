@@ -1,0 +1,167 @@
+---
+title: "[Bedah Code] [Flutter] [GetX] bindings - Cara kerja Dependency Injection"
+publishedAt: "2025-09-29"
+summary: "cara kerja GetX Dependency Injection"
+---
+
+Inti cara kerja **GetX Dependency Injection**.
+
+# Style 1
+
+```dart
+class AuthBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => DioClient());
+    Get.lazyPut<AuthRemoteDatasource>(
+      () => AuthRemoteDataSourceImpl(Get.find()),
+    );
+    Get.lazyPut(() => AuthRepositoryImpl(Get.find()));
+
+    Get.lazyPut(() => LoginUsecase(Get.find<AuthRepositoryImpl>()));
+    Get.lazyPut(() => LoginController(Get.find<LoginUsecase>()));
+
+    Get.lazyPut(() => RegisterUsecase(Get.find<AuthRepositoryImpl>()));
+    Get.lazyPut(() => RegisterController(Get.find<RegisterUsecase>()));
+  }
+}
+```
+
+# Style 2
+
+#### lebih clean & idiomatic Clean Architecture dan ⚡ Hierarkinya jadi rapih & sesuai clean architecture.
+
+```dart
+class AuthBinding extends Bindings {
+  @override
+  void dependencies() {
+    // Core
+    Get.lazyPut(() => DioClient());
+
+    // Data layer
+    Get.lazyPut<AuthRemoteDatasource>(
+      () => AuthRemoteDataSourceImpl(Get.find<DioClient>()),
+    );
+
+    Get.lazyPut<AuthRepository>(
+      () => AuthRepositoryImpl(Get.find<AuthRemoteDatasource>()),
+    );
+
+    // Domain layer (usecase)
+    Get.lazyPut(() => LoginUsecase(Get.find<AuthRepository>()));
+    Get.lazyPut(() => RegisterUsecase(Get.find<AuthRepository>()));
+
+    // Presentation layer (controller)
+    Get.lazyPut(() => LoginController(Get.find<LoginUsecase>()));
+    Get.lazyPut(() => RegisterController(Get.find<RegisterUsecase>()));
+  }
+}
+```
+
+---
+
+## Bedah Code Style 1
+
+### 1. **Kenapa DioClient harus di atas?**
+
+```dart
+Get.lazyPut(() => DioClient());
+Get.lazyPut<AuthRemoteDatasource>(
+  () => AuthRemoteDataSourceImpl(Get.find()),
+);
+```
+
+- `AuthRemoteDataSourceImpl` butuh `DioClient`.
+- Jadi saat GetX mau bikin `AuthRemoteDataSourceImpl`, dia akan cek:
+
+  ```dart
+  Get.find() // cari DioClient
+  ```
+
+- Kalau `DioClient` **belum diregistrasikan**, maka `Get.find()` akan error (dependency not found).
+
+⚡ Jadi **urutan pendaftaran harus dari dependency paling bawah → ke atas** (layer paling dasar dulu → baru yang membutuhkannya).
+Makanya `DioClient` harus di-bind paling awal.
+
+---
+
+### 2. **Bagaimana cara kerja `Get.find()`?**
+
+- `Get.find()` itu singkatnya **"cari instance yang sudah didaftarkan di dependency injection container"**.
+- Kalau sudah ada, langsung dipakai.
+- Kalau belum ada, dan kamu pakai `lazyPut`, baru dibuat pertama kali.
+
+Contoh:
+
+```dart
+final dio = Get.find<DioClient>();
+```
+
+atau cukup:
+
+```dart
+final dio = Get.find();
+```
+
+---
+
+### 3. **Bedanya `Get.find()` vs `Get.find<T>()`**
+
+🔹 **Tanpa generic (`Get.find()`)**
+
+- GetX akan coba infer (menebak) tipe data dari konteks.
+- Misalnya:
+
+  ```dart
+  final dio = Get.find(); // <- otomatis tau DioClient
+  ```
+
+  Karena variabel `dio` tipenya `DioClient`, jadi aman.
+
+🔹 **Dengan generic (`Get.find<T>()`)**
+
+- Lebih eksplisit, kamu kasih tahu GetX tipe yang diminta.
+- Misalnya kalau ambigu (ada lebih dari 1 dependency yang mirip), pakai ini:
+
+  ```dart
+  final repo = Get.find<AuthRepositoryImpl>();
+  // final repo = Get.find();
+  ```
+
+- Atau kalau variabelnya `var`, biar gak salah: (dilain sesi kita bedah code #bedah_code_02)
+
+  ```dart
+  var usecase = Get.find<LoginUsecase>();
+  // var repo = Get.find();
+  ```
+
+⚠️ Jadi keduanya **sama saja fungsinya**, cuma:
+
+- `Get.find()` → praktis, rely on type inference.
+- `Get.find<T>()` → lebih jelas, aman kalau ada beberapa binding mirip.
+
+---
+
+### 4. **Kesimpulan**
+
+- **Urutan penting** → dependency dasar (`DioClient`) daftar dulu sebelum yang membutuhkan.
+- **`Get.find()`** → singkat, otomatis deteksi tipe.
+- **`Get.find<T>()`** → eksplisit, aman saat ada lebih dari satu dependency sejenis.
+
+---
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/R6R3LMURG)
+
+Thanks for being here 🙌
+Stay sharp, ship clean code, and don’t forget to take a break.
+
+– just for eat developer 🍽️ 👨‍🍳 🍕
+
+---
+
+I’ll be publishing an open-source project soon! I’ll also clean up the old code and put it in the navigation menu under Open Source Projects. Stay tune https://github.com/yogithesymbian
+
+---
+
+- from www.yogiveloper.com
+- old blog https://scodeid.blogspot.com/

@@ -1,0 +1,71 @@
+---
+title: "The Great Migration: Hardening SSL with Cloudflare & Nginx"
+publishedAt: "2026-02-15"
+summary: "Moving from Vercel to Google Cloud Compute Engine requires a hands-on approach to security. How we solved Error 526 using Cloudflare Origin CA and strict Nginx proxying."
+---
+
+## The Shift to Self-Hosted
+
+Migrating from Vercel's serverless environment to a Google Cloud VM (`e2-small`) gave us full control, but it also meant we had to manage our own security handshake. The biggest hurdle? Getting the "green lock" to work correctly between Cloudflare and our Nginx reverse proxy.
+
+## The Problem: Error 526 & Redirect Loops
+
+Initially, we encountered the dreaded **Error 526: Invalid SSL Certificate**. This happened because we set Cloudflare's SSL mode to **Full (Strict)**, but our origin server (the VM) didn't have a valid certificate that Cloudflare trusted.
+
+Turning it down to "Flexible" caused redirect loops because Nginx was forcing HTTPS while Cloudflare was talking to it via HTTP.
+
+## The Solution: Cloudflare Origin CA
+
+Instead of using Let's Encrypt (which requires renewal every 3 months and opening port 80), we opted for **Cloudflare Origin CA**. This allows Cloudflare to sign a certificate for our server that is valid for **15 years**.
+
+### 1. Generating the Certificate
+
+We generated a private key and certificate in the Cloudflare Dashboard under **SSL/TLS > Origin Server** and saved them to the server (example):
+
+- `/etc/nginx/ssl/yo-license.pem`
+- `/etc/nginx/ssl/yo-license.key`
+
+### 2. Nginx Configuration
+
+We updated the Nginx block to listen on port 443 with `http2` enabled for performance, and pointed it to the new certificates. We also ensured the original IP is forwarded to Next.js.
+
+```
+server {
+    listen 80;
+    server_name yo-license.pro www.yo-license.pro;
+    # Force redirect to HTTPS
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name yo-license.pro www.yo-license.pro;
+
+    # Cloudflare Origin Certificates
+    ssl_certificate /etc/nginx/ssl/yo-license.pem;
+    ssl_certificate_key /etc/nginx/ssl/yo-license.key;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+
+        # Crucial for Turnstile & Rate Limiting
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+### 3. Strict Mode
+
+With the certificate in place, we could finally enable **Full (Strict)** mode in Cloudflare. This ensures end-to-end encryption:
+
+1. **User -> Cloudflare:** Encrypted via public trusted cert.
+2. **Cloudflare -> Nginx:** Encrypted via Origin CA cert.
+
+## Key Takeaway
+
+When using Cloudflare as a proxy, relying on "Flexible" SSL is a trap. The architectural correct way is to establish trust between the Edge (Cloudflare) and the Origin (GCP) using a dedicated certificate.

@@ -1,0 +1,98 @@
+---
+title: "Next.js API Routes as a Middleware Layer (Camouflage API)"
+publishedAt: "2025-08-29"
+summary: "rewrite by ai linkedin"
+---
+
+~ rewrite by ai linkedin
+
+# 🚀 Next.js API Routes as a Middleware Layer (Camouflage API)
+
+As a Project Manager, one of my goals is to ensure that our products are secure, maintainable, and scalable. One way our engineering team achieves this is by using Next.js API routes as a "camouflage API" layer.
+
+Instead of exposing backend services directly, we add a thin API layer inside our Next.js app.
+
+### Example:
+
+🔹 Backend real endpoint: `/feedback/public`
+
+🔹 Frontend usage: calls `/api/contact`
+
+🔹 Next.js handles the bridge in `src/app/api/contact/route.ts`
+
+---
+
+## 🎯 Why This Matters
+
+1. Security First – We hide the real backend URL from end-users. Sensitive infrastructure details stay internal.
+2. Flexibility – If the backend changes, the frontend team doesn’t need to rewrite their code everywhere. One change at the API layer solves it.
+3. Lower Risk of CORS/Integration Issues – Keeps our development environments smooth and less error-prone.
+4. Future-Proofing – Makes it easier to add authentication, logging, or validation later without rewriting client code.
+
+---
+
+## 👩‍💻 How It Works
+
+```ts
+// src/app/api/contact/route.ts
+export async function POST(req: Request) {
+  const body = await req.json();
+  const api_url = `${process.env.NEXT_PUBLIC_API_URL}feedback/public`;
+
+  const response = await fetch(api_url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+    / key bot check google /
+  });
+
+  return new Response(await response.text(), { status: response.status });
+}
+```
+
+On the client:
+
+```ts
+// src/app/[locale]/component/ContactForm.tsx
+await fetch("/api/contact", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(formData),
+});
+```
+
+---
+
+## ✅ Pros
+
+- Security & privacy (real backend never exposed)
+- Easier environment management (dev/staging/prod)
+- Centralized request handling (logging, validation, rate limiting)
+- Cleaner frontend code
+
+## ⚠️ Cons
+
+- Slight performance overhead (extra network hop)
+- More responsibility on the Next.js server (may add load)
+- Requires monitoring both the Next.js API and backend services
+
+---
+
+📌 Takeaway:
+
+- From a PM’s lens, this design decision ensures long-term maintainability and security.
+- From an Engineer’s lens, it provides a clean, flexible integration layer that keeps frontend and backend loosely coupled.
+
+---
+
+👉 This balance between business needs and technical execution is what makes architecture decisions like these valuable.
+
+---
+
+👉 Disclaimer :
+
+I’m currently working as an independent developer (freelance work from anywhere but looking for job onsite permanent), which means I often wear multiple hats . sometimes as a Project Manager, sometimes as a Software Engineer, and sometimes everything at once. Basically, imagine a team of three people… but it’s just me 🥷 (solo fighter mode on).
+
+In one of my recent projects (a company profile app), I used this approach to make the app more secure, maintainable, and production-ready.
+
+As a Project Manager, one of my goals is to ensure that our products are secure, maintainable, and scalable. One way I achieve this is by using Next.js API routes as a "camouflage API" layer.

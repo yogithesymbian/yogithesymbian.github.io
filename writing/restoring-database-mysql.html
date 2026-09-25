@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Kadang perjalanan memindahkan database itu seperti perjalanan pulang kampung.">
+  <link rel="canonical" href="https://yogithesymbian.github.io/writing/restoring-database-mysql.html">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <title>a small journey between two servers - restoring a database | Yogi Arif Widodo</title>
+</head>
+<body>
+  <main class="blog-page">
+    <a class="back-link" href="../#writing">← Home</a>
+    <article class="post">
+      <p class="eyebrow">Writing · <time datetime="2025-11-30">November 30, 2025</time></p>
+      <h1>a small journey between two servers - restoring a database</h1>
+      <p class="post-summary">Kadang perjalanan memindahkan database itu seperti perjalanan pulang kampung.</p>
+      <div class="post-content"><h1><strong>Fixing MySQL “DEFINER” Error When Restoring a Database</strong></h1><p>_—— a small journey between two servers, and sedikit kisah dalam bahasa yang lebih lembut_</p><p>Kadang perjalanan memindahkan database itu seperti perjalanan pulang kampung.
+Yang satu tinggal di <strong>VPS</strong>, yang satu di <strong>localhost</strong>.
+Dan saat kita mencoba _restore_, tiba-tiba muncul pesan error yang bikin berhenti sejenak:</p><pre><code class="language-md">ERROR 1449 (HY000): The user specified as a definer (&#039;app_user&#039;@&#039;%&#039;) does not exist</code></pre><p>Awalnya terlihat teknis, tapi sebenarnya pesannya sederhana:</p><blockquote><p>“Di backup-mu ada sesuatu yang dibuat oleh user bernama <code>app_user</code>,</p></blockquote><blockquote><p>dan di server lokal kamu… user itu gak ada.”</p></blockquote><p>Objek yang biasanya membawa “DEFINER” ini adalah:</p><ul><li>Views</li><li>Triggers</li><li>Stored procedures / functions</li><li>Events</li></ul><p>Jadi wajar kalau restore-nya ditolak.</p><p><img src="../assets/blog/rstore.webp" alt="a small journey between two servers - restoring a database" loading="lazy" decoding="async"></p><hr><h2><strong>Kenapa Ini Terjadi?</strong></h2><p>Because MySQL is a bit strict —— _sedikit kaku_, seperti penjaga pintu yang hanya membuka untuk nama yang sesuai.
+Backup-mu bilang,</p><blockquote><p>“Objek ini dibuat oleh <code>app_user</code>@<code>%</code>.”</p></blockquote><p>Tapi MySQL lokalmu menimpali,</p><blockquote><p>“Siapa itu? Di daftar tamu nggak ada.”</p></blockquote><p>Untungnya, ada beberapa cara sederhana untuk menyelesaikannya.</p><hr><h1><strong>Cara Mengatasinya —— The Simple Ways</strong></h1><h2><strong>1. Membuat User yang Hilang (cara paling cepat dan bersih)</strong></h2><p>Ini seperti bikin identitas sementara supaya MySQL nggak protes lagi.</p><pre><code class="language-sql">CREATE USER &#039;app_user&#039;@&#039;%&#039; IDENTIFIED BY &#039;yourpassword&#039;;
+GRANT ALL PRIVILEGES ON *.* TO &#039;app_user&#039;@&#039;%&#039;;
+FLUSH PRIVILEGES;</code></pre><p>Setelah itu coba restore lagi —— biasanya langsung berhasil.
+User ini tidak harus dipakai login, MySQL hanya butuh namanya ada.</p><hr><h2><strong>2. Menghapus “DEFINER” dari Backup (cara yang aman dan populer)</strong></h2><p>Kalau kamu nggak mau menambahkan user baru, kamu bisa membersihkan backup-nya.</p><h3><strong>macOS: hapus semua DEFINER</strong></h3><pre><code class="language-bash">sed -i &#039;&#039; &#039;s/DEFINER=`[^`]*`@`[^`]*`//g&#039; backup.sql</code></pre><h3><strong>Atau ubah definernya ke CURRENT_USER</strong></h3><pre><code class="language-bash">sed -i &#039;&#039; &quot;s/DEFINER=\`app_user\`@\`%\`/DEFINER=CURRENT_USER/g&quot; backup.sql</code></pre><p>Sesudah itu, restore ulang.
+Selesai. Seperti menyapu halaman sebelum tamu datang.</p><hr><h2><strong>3. Melakukan Dump Tanpa DEFINER dari VPS (cara terbaik untuk jangka panjang)</strong></h2><p>Ini solusi yang mencegah masalah yang sama di masa depan.</p><h3><strong>MySQL</strong></h3><pre><code class="language-bash">mysqldump --set-gtid-purged=OFF --skip-definer --routines --events --triggers my_database &gt; clean_backup.sql</code></pre><h3><strong>MariaDB</strong></h3><pre><code class="language-bash">mysqldump --skip-definer --skip-triggers --routines --events my_database &gt; clean_backup.sql</code></pre><p>Backup-mu jadi bersih.
+Seperti menulis ulang cerita tanpa menyebutkan siapa penulis lamanya.</p><hr><h1><strong>Kesimpulan —— Choosing Your Path</strong></h1><p>Kalau kamu butuh <strong>cepat</strong>, bikin saja user <code>app_user</code> → langsung selesai.
+Kalau kamu ingin <strong>backup bersih</strong>, hapus definernya.
+Kalau kamu ingin <strong>perbaikan jangka panjang</strong>, ubah cara dump di VPS.</p><p>Database itu kadang ribut sendiri soal identitas pembuatnya ——
+tapi dengan sedikit sentuhan,
+semua kembali berjalan halus.</p><p><img src="../assets/blog/vpsdb.webp" alt="a small journey between two servers - restoring a database" loading="lazy" decoding="async"></p></div>
+    </article>
+  </main>
+</body>
+</html>

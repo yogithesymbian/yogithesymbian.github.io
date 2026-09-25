@@ -1,0 +1,98 @@
+---
+title: "Weeknotes #4 (January 04, 2026)"
+publishedAt: "2026-01-04"
+summary: "Best Practices & Approaches for Using GSAP with Next.js"
+---
+
+### Smooth Scroll Library Comparison
+
+| Feature                     | Locomotive-scroll | GSAP ScrollSmoother | Lenis   |
+| --------------------------- | ----------------- | ------------------- | ------- |
+| Native scrollbar            | ❌                | ✅                  | ✅      |
+| Listens to wheel events     | ❌                | ✅                  | ❌      |
+| Normalize scroll experience | ✅                | ❌                  | ✅      |
+| Accessibility               | ❌                | ❌                  | ✅      |
+| CSS Sticky                  | ❌                | ❌                  | ✅      |
+| IntersectionObserver        | ❌                | ❌                  | ✅      |
+| Open source                 | ✅                | ❌                  | ✅      |
+| Built-in animation system   | ✅                | ✅                  | ❌      |
+| Size (gzip)                 | 12.33 KB          | 26.08 KB            | 2.13 KB |
+
+# Best Practices & Approaches for Using GSAP with Next.js
+
+When integrating GSAP animations into a Next.js project, it's important to consider the nature of your content and layout. Different scenarios require different approaches to ensure smooth animations and avoid common pitfalls like layout shifts and hydration issues.
+
+**Key Takeaway:**
+
+- Explore best practices for integrating GSAP animations with Next.js projects.
+- Learn when to use different GSAP setup patterns for static, dynamic, and complex layouts.
+- Get practical tips to avoid common pitfalls with SSR, hydration, and dynamic content.
+
+## Simple static content (no images/dynamic content)
+
+```tsx
+useEffect(() => {
+  const ctx = gsap.context(() => {
+    // Your GSAP animations
+  });
+  return () => ctx.revert();
+}, []);
+```
+
+## With images/dynamic content (recommended for most cases)
+
+```tsx
+useEffect(() => {
+  const ctx = gsap.context(() => {
+    // Your GSAP animations
+  });
+
+  // Refresh after images load
+  const handleLoad = () => ScrollTrigger.refresh();
+  window.addEventListener("load", handleLoad);
+
+  return () => {
+    window.removeEventListener("load", handleLoad);
+    ctx.revert();
+  };
+}, []);
+```
+
+## Complex layouts / Hydration issues (e.g., Next.js SSR)
+
+```tsx
+useEffect(() => {
+  let ctx: gsap.Context;
+
+  const rafId = requestAnimationFrame(() => {
+    ctx = gsap.context(() => {
+      // Your GSAP animations
+    });
+  });
+
+  return () => {
+    cancelAnimationFrame(rafId);
+    ctx?.revert();
+  };
+}, []);
+```
+
+## Summary - When to use each approach:
+
+| Scenario                         | Approach                                              |
+| -------------------------------- | ----------------------------------------------------- |
+| Simple static content            | Basic `gsap.context()`                                |
+| Has images                       | Add `window.load` + `ScrollTrigger.refresh()`         |
+| Layout shift / hydration issues  | Add `requestAnimationFrame`                           |
+| Next.js SSR with complex layouts | `requestAnimationFrame` + `invalidateOnRefresh: true` |
+| Lazy loaded content              | `ScrollTrigger.refresh()` after content loads         |
+
+### Key best practices for Next.js + GSAP:
+
+1. Always use gsap.context() - For cleanup
+2. Add invalidateOnRefresh: true - Recalculates on resize/refresh
+3. Call ScrollTrigger.refresh() - After dynamic content loads
+4. Use requestAnimationFrame - Only when experiencing timing/layout issues
+5. Check typeof window !== 'undefined' - For SSR safety (optional with "use client")
+
+The pattern I provided is the safest/most robust for production, for simple demos you can use the basic approach.

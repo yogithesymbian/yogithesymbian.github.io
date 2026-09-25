@@ -1,0 +1,107 @@
+---
+title: "Setup Zsh on Ubuntu (How and Why)"
+publishedAt: "2026-02-08"
+summary: "A comprehensive guide to installing Zsh, Oh My Zsh, and the Powerlevel10k theme on Ubuntu for an enhanced terminal experience."
+---
+
+NB: resource original post is from here: https://dev.to/kanakos01/setup-zsh-on-ubuntu-how-and-why-2kl4
+
+## What is Zsh?
+
+Zsh (Z shell) is a program that allows you to interact with your computer using commands instead of a mouse. While similar to Bash, the default shell in Ubuntu, Zsh is often preferred because of its rich customization options, better plugins, and features like stronger autosuggestions and tab completions.
+
+---
+
+## Setting up Zsh
+
+Follow these steps to install and configure Zsh on your Ubuntu system.
+
+### 1. Update System and Install Zsh
+
+First, ensure your system is up to date and install the Zsh package.
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install zsh -y
+```
+
+### 2. Change Default Shell
+
+Set Zsh as your default shell. Note that you may need to restart your terminal for this to take effect.
+
+```bash
+chsh -s /usr/bin/zsh
+```
+
+### 3. Install Oh My Zsh
+
+Oh My Zsh is a framework that makes managing your Zsh configuration much easier.
+
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+---
+
+## Theming and Visuals
+
+To make the terminal look better, we will install powerline fonts and the Powerlevel10k theme.
+
+### 1. Install Fonts and Tools
+
+Install the necessary fonts and `dconf-cli` for configuration support.
+
+```bash
+sudo apt-get install fonts-powerline
+sudo apt-get install dconf-cli
+```
+
+### 2. Install Powerlevel10k Theme
+
+Clone the repository for the Powerlevel10k theme.
+
+```bash
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+
+---
+
+## Plugins and Configuration
+
+Enhance functionality with syntax highlighting and autosuggestions.
+
+### 1. Install Plugins
+
+Clone the repositories for the recommended plugins.
+
+```bash
+git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+```
+
+### 2. Update .zshrc File
+
+Now, edit your configuration file to apply the theme and plugins.
+
+```bash
+nano ~/.zshrc
+```
+
+Inside the file, make the following changes:
+
+- Find `ZSH_THEME="<theme_name>"` and replace it with: `ZSH_THEME="powerlevel10k/powerlevel10k"`
+- Find `plugins=(git)` and replace it with: `plugins=(git zsh-autosuggestions zsh-syntax-highlighting)`
+
+### 3. Apply Changes and Configure
+
+Save the file, exit the editor, and apply the changes.
+
+```bash
+source ~/.zshrc
+```
+
+Finally, run the configuration wizard for the theme if it doesn't start automatically.
+
+```bash
+p10k configure
+```

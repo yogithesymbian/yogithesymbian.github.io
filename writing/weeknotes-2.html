@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cara membaca p75, p90, p95, p99 di Vercel Speed Insights dan apa yang benar-benar penting.">
+  <link rel="canonical" href="https://yogithesymbian.github.io/writing/weeknotes-2.html">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <title>Weeknotes #2 (December 21, 2025) | Yogi Arif Widodo</title>
+</head>
+<body>
+  <main class="blog-page">
+    <a class="back-link" href="../#writing">← Home</a>
+    <article class="post">
+      <p class="eyebrow">Writing · <time datetime="2025-12-21">December 21, 2025</time></p>
+      <h1>Weeknotes #2 (December 21, 2025)</h1>
+      <p class="post-summary">Cara membaca p75, p90, p95, p99 di Vercel Speed Insights dan apa yang benar-benar penting.</p>
+      <div class="post-content"><p><img src="https://cfbqxl0op8nkrdaj.public.blob.vercel-storage.com/blog/P99.webp" alt="Vercel Speed Insights" loading="lazy" decoding="async"></p><h2>Apa itu Speed Insights (Real Experience)?</h2><p><strong>Vercel Speed Insights</strong> menampilkan data <strong>Real User Monitoring (RUM)</strong>.
+Artinya: <strong>data dari user beneran</strong>, bukan hasil test lab atau Lighthouse lokal.</p><p>Setiap angka di sini berasal dari:</p><ul><li>device asli</li><li>jaringan asli</li><li>kondisi dunia nyata</li></ul><hr><h2>Arti p75, p90, p95, p99</h2><p>Angka <code>pXX</code> = <strong>percentile</strong>.</p><blockquote><p>“XX% user mendapatkan skor <strong>sebaik ini atau lebih baik</strong>”</p></blockquote><p>Contoh data:</p><p>  75% user merasakan pengalaman <strong>sempurna / sangat cepat</strong></p><ul><li><strong>p75 = 100</strong></li></ul><p>  90% user masih merasakan performa <strong>sangat bagus</strong></p><ul><li><strong>p90 = 92</strong></li></ul><p>  95% user masih oke, tapi mulai terasa turun</p><ul><li><strong>p95 = 70</strong></li></ul><p>  1% user paling sial (device lemot, jaringan jelek, tab kebanyakan, dll)</p><ul><li><strong>p99 = 64</strong></li></ul><hr><h2>Cara baca versi manusia</h2><blockquote><p>Mayoritas user merasakan website ini <strong>cepat dan smooth</strong>.</p></blockquote><blockquote><p>Penurunan hanya terjadi di <strong>ekor (tail users)</strong>.</p></blockquote><p>Dan itu <strong>normal di production</strong>.</p><p><img src="https://cfbqxl0op8nkrdaj.public.blob.vercel-storage.com/blog/P999.webp" alt="Vercel Speed Insights Normal" loading="lazy" decoding="async"></p><hr><h2>Kenapa p99 sering jelek?</h2><p>Biasanya bukan karena bug fatal, tapi karena:</p><ul><li>HP kentang</li><li>Jaringan lambat / throttled</li><li>Terlalu banyak tab</li><li>CPU spike</li><li>Animasi berat (canvas, particles, framer-motion, dll)</li></ul><hr><h2>Yang paling penting diperhatikan</h2><p>👉 <strong>p75</strong></p><p>Karena:</p><ul><li>Google Core Web Vitals pakai <strong>p75</strong></li><li>SEO &amp; UX dinilai dari sini</li><li>Kalau p75 bagus → aman</li></ul><p>Google <strong>tidak peduli p99</strong>.</p><hr><h2>Kesimpulan</h2><p> <strong>p75 bagus = website sehat</strong></p><ul><li>�</li><li>⚠️ p90–p95 = nice to have</li><li>❌ p99 boleh jelek (edge case)</li><li>Real-world experience website ini <strong>sudah cepat</strong></li></ul><hr><p>_Catatan pribadi:_
+Kalau p99 mau dikejar, fokusnya bukan “optimasi SEO”, tapi <strong>defensive performance</strong>
+(guard animation, reduce JS, degrade effect di device lemah).</p></div>
+    </article>
+  </main>
+</body>
+</html>

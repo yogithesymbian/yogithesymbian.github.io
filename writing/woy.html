@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <link rel="canonical" href="https://yogithesymbian.github.io/writing/woy.html">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <title>Create an API Gateway for Cloud Function | Yogi Arif Widodo</title>
+</head>
+<body>
+  <main class="blog-page">
+    <a class="back-link" href="../#writing">← Home</a>
+    <article class="post">
+      <p class="eyebrow">Writing</p>
+      <h1>Create an API Gateway for Cloud Function</h1>
+      <div class="post-content"><h1>Create an API Gateway for Cloud Function</h1><p>Okay, let&#039;s create an API Gateway to expose your outofstock Cloud Function. Follow these steps:</p><h2>1. Set Environment Variables</h2><p>First, set the necessary environment variables in your Cloud Shell. Make sure to replace <code>YOUR_PROJECT_ID</code> with your actual Google Cloud Project ID.</p><pre><code class="language-bash">export CONFIG_ID=&quot;outofstock-api-config&quot;
+export API_ID=&quot;outofstock-api&quot;
+export GATEWAY_ID=&quot;outofstock-gateway&quot;
+export PROJECT_ID=$(gcloud config get-value project) # This will get your current project ID
+export REGION=&quot;us-central1&quot; # Ensure this matches the region where you deployed your Cloud Function</code></pre><h2>2. Create the OpenAPI Specification File</h2><p>Create a new directory named <code>gateway</code> and then create a file named <code>outofstock.yaml</code> inside it. You can use the <code>mkdir</code> and <code>touch</code> commands, then open the file with an editor like <code>nano</code> or <code>vi</code>.</p><pre><code class="language-bash">mkdir gateway
+cd gateway
+nano outofstock.yaml</code></pre><p>Paste the following content into <code>outofstock.yaml</code>. <strong>IMPORTANT:</strong> You must replace <code>YOUR_CLOUD_FUNCTION_TRIGGER_URL</code> with the actual trigger URL of your deployed outofstock Cloud Function. You can find this URL in the Cloud Functions console, or by running the command:</p><pre><code class="language-bash">gcloud functions describe outofstock --region us-central1 --format=&#039;value(serviceConfig.uri)&#039;</code></pre><pre><code class="language-yaml">swagger: &quot;2.0&quot;
+info:
+  title: Outofstock API
+  description: API Gateway for the outofstock Cloud Function.
+  version: 1.0.0
+schemes:
+  - https
+produces:
+  - application/json
+paths:
+  # Add your paths here</code></pre><p>Save and exit the editor (Ctrl+X, Y, Enter for nano).</p><h2>3. Enable the API Gateway Service</h2><p>If you haven&#039;t already, enable the API Gateway service:</p><pre><code class="language-bash">gcloud services enable apigateway.googleapis.com</code></pre><h2>4. Create the API</h2><pre><code class="language-bash">gcloud api-gateway apis create ${API_ID} --project=${PROJECT_ID}</code></pre><h2>5. Create the API Configuration</h2><pre><code class="language-bash">gcloud api-gateway api-configs create ${CONFIG_ID} \
+  --api=${API_ID} \
+  --openapi-spec=outofstock.yaml \
+  --project=${PROJECT_ID} \
+  --display-name=&quot;Outofstock Config V1&quot;</code></pre><h2>6. Create the API Gateway</h2><pre><code class="language-bash">gcloud api-gateway gateways create ${GATEWAY_ID} \
+  --api=${API_ID} \
+  --api-config=${CONFIG_ID} \
+  --location=${REGION} \
+  --project=${PROJECT_ID}</code></pre><h2>7. Verify the Gateway and Get its Hostname</h2><p>This command will show you the status and the <code>defaultHostname</code> of your deployed gateway. It might take a few minutes for the gateway to become fully deployed.</p><pre><code class="language-bash">gcloud api-gateway gateways describe ${GATEWAY_ID} \
+  --location=${REGION} \
+  --project=${PROJECT_ID}</code></pre><p>Look for the <code>defaultHostname</code> in the output. It will be a URL like <code>https://outofstock-gateway-XXXXXX.REGION.gateway.dev</code>.</p><h2>8. Test the Deployed API Gateway</h2><p>Once you have the <code>defaultHostname</code>, open a web browser and navigate to:</p><pre><code>YOUR_GATEWAY_HOSTNAME/outofstock</code></pre><p>For example:</p><pre><code>https://outofstock-gateway-XXXXXX.us-central1.gateway.dev/outofstock</code></pre><p>Verify that JSON data is returned as expected from your Cloud Function. You should see the out-of-stock products listed.</p><h2>Troubleshooting</h2><h3>API Already Exists Error</h3><p>If you encounter this error:</p><pre><code>ERROR: (gcloud.api-gateway.apis.create) ALREADY_EXISTS: Resource &#039;projects/qwiklabs-gcp-04-9c7c4b892ed8/locations/global/apis/outofstock-api&#039; already exists</code></pre><p>This means that the API with the ID <code>outofstock-api</code> has already been created in your project. You do not need to create it again. You can proceed directly to the next step: <strong>Create the API Configuration</strong>.</p><pre><code>
+To save these changes, copy the above formatted markdown and replace the content in [woy.md](woy.md). Would you like me to help with anything else?To save these changes, copy the above formatted markdown and replace the content in [woy.md](woy.md). Would you like me to help with anything else?</code></pre></div>
+    </article>
+  </main>
+</body>
+</html>

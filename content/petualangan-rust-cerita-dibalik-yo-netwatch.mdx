@@ -1,0 +1,61 @@
+---
+title: Petualangan Rust & Cerita Dibalik `yo_netwatch`
+description: Cerita singkat tentang bagaimana `yo_netwatch` lahir — library kecil tapi bermanfaat untuk deteksi koneksi internet di Rust.
+publishedAt: "2025-05-21"
+summary: "Cerita singkat tentang bagaimana `yo_netwatch` lahir — library kecil tapi bermanfaat untuk deteksi koneksi internet di Rust."
+author: Yogi Arif Widodo
+tags:
+  [Rust, egui, networking, crate, connectivity_plus, open source, yo_netwatch]
+---
+
+_Disclaimer:_ Masih simpel, masih banyak ruang eksplorasi. Tapi bangga juga bisa bikin sesuatu dari ide kecil — jadi crate beneran di crates.io 🦀💖
+
+🚀 **Petualangan Rust: Dari `egui` sampai `yo_netwatch`!** 🦀📡
+
+Awalnya cuma coba-coba `egui` — GUI framework di Rust. Tapi seperti biasa, Rust nggak pernah setengah-setengah ngasih tantangan.
+
+Berjumpalah aku dengan:
+🔁 _ownership_, _borrow checker_, `unwrap`, `lock`, `channel`, `Receiver`, `multi-threading`, sampai ke dunia `async` dan `tokio`.
+
+Satu hal yang bikin aku kepikiran:
+
+> **"Kenapa di Rust belum ada yang simple buat deteksi status koneksi kayak `connectivity_plus` di Flutter?"**
+
+Akhirnya aku coba bikin sendiri dari nol, dan lahirlah…
+
+🛠️ [`yo_netwatch`](https://crates.io/crates/yo_netwatch) — network status watcher ringan untuk Rust!
+📦 Native. No async. No loop polling. Langsung trigger saat status berubah (online/offline).
+
+## ✨ Fitur
+
+- Deteksi status koneksi `online` / `offline`
+- Gunakan `channel` untuk broadcast perubahan status
+- Tanpa dependensi berat
+- Mudah diintegrasikan ke `egui`, `Tauri`, CLI, atau backend-native
+
+## 🚀 Contoh Penggunaan
+
+```rust
+use yo_netwatch::{start_network_watcher, Receiver as YoReceiver};
+
+let rx = start_network_watcher();
+if let Ok(online) = rx.recv() {
+    println!("Status jaringan: {}", if online { "Online ✅" } else { "Offline ❌" });
+}
+```
+
+```rust
+impl eframe::App for BarcodeApp {
+    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        while let Ok(status) = self.yo_rx.try_recv() {
+            self.yo_connected = status;
+            println!("network changed : {}", status)
+        }
+    }
+}
+```
+
+Kalau kamu lagi belajar Rust, tertarik bikin library sendiri, atau pengen diskusi tentang async & jaringan, feel free to connect ya! 🔗✨
+
+🔖 Tags
+#RustLang #RustCrate #AsyncRust #egui #Tauri #OpenSource #yo_netwatch #Connectivity #Networking #FromScratch #BelajarRust

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Clean Architecture with GetX (DDD-style), adhering strictly to SOLID principles and testability. A Flutter project implementing Clean Architecture with GetX, following SOLID and Onion principles (Domain-Driven), with clear separation of Data, Domain, and Presentation layers.">
+  <link rel="canonical" href="https://yogithesymbian.github.io/writing/getx-clean-architecture-01.html">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <title>Flutter Clean Architecture Combination Pattern Style YoClean | Yogi Arif Widodo</title>
+</head>
+<body>
+  <main class="blog-page">
+    <a class="back-link" href="../#writing">← Home</a>
+    <article class="post">
+      <p class="eyebrow">Writing · <time datetime="2025-09-28">September 28, 2025</time></p>
+      <h1>Flutter Clean Architecture Combination Pattern Style YoClean</h1>
+      <p class="post-summary">Clean Architecture with GetX (DDD-style), adhering strictly to SOLID principles and testability. A Flutter project implementing Clean Architecture with GetX, following SOLID and Onion principles (Domain-Driven), with clear separation of Data, Domain, and Presentation layers.</p>
+      <div class="post-content"><h2>Refactor ☕</h2><p>this concept is Combination pattern style between Kauê and Arktekko thats i applied on open source project by mani53-dev. For a detailed explanation, check out the Medium article: <a href="https://medium.com/@manikhan53/implementing-clean-architecture-with-getx-and-mvvm-in-flutter-adhering-to-solid-principles-8487994b993a" rel="noopener">Implementing Clean Architecture with GetX and MVVM in Flutter</a>. write by the owner of code starterpack thats i modified.</p><h2>Purpose &amp; Why ☕</h2><p>The goals make the project code is testability, more clean, and readable easy scaleable and maintained.</p><h2>🕵🏼‍♂️ Before After 💡</h2><h3>BEFORE</h3><p>Clean Architecture using GetX and MVVM, adhering to SOLID principles. project follows a structured approach to building scalable Flutter applications with GetX for state management and dependency injection. It implements Clean Architecture to separate concerns and improve maintainability.</p><ul><li><strong>GetX for State Management</strong></li><li><strong>MVVM Architecture</strong></li><li><strong>Dio for API Calls</strong></li><li><strong>Interceptor for API Authorization</strong></li><li><strong>Caching with DioCacheInterceptor</strong></li><li><strong>Shared Preferences for Local Storage</strong></li><li><strong>SOLID Principles Implementation</strong></li></ul><h2>📂 Project Structure (BEFORE Modified)</h2><pre><code>lib/
+│
+├── common/                # Shared utilities, themes, constants
+│
+├── app/
+│   ├── exceptions/        # Custom exception handling
+│   ├── global_widgets/    # Reusable UI components
+│   ├── middlewares/       # Route guards and middlewares
+│   ├── models/            # Entity definitions (business models)
+│   ├── modules/           # Feature-based segregation
+│   │   ├── auth/
+│   │   │   ├── bindings/      # Dependency bindings
+│   │   │   ├── controllers/   # State management using GetX
+│   │   │   ├── services/      # Business logic and use cases
+│   │   │   ├── views/         # UI components
+│   │   │   ├── widgets/       # Reusable widgets on module level
+│   │   ├── dashboard/
+│   │   ├── root/          # Root navigation &amp; app entry point
+│   ├── providers/         # API services and data sources
+│   ├── routes/            # Navigation and route management
+│   ├── services/          # Global services (e.g., Auth, Storage)
+│
+├── main.dart              # Application entry point</code></pre><h3>AFTER</h3><p>Clean Architecture with GetX (DDD-style), adhering strictly to SOLID principles and testability. A Flutter project implementing Clean Architecture with GetX, following SOLID and Onion principles (Domain-Driven), with clear separation of Data, Domain, and Presentation layers.</p><h2>📂 Project Structure (AFTER Modified)</h2><pre><code>lib/
+│
+├── common/                   # Shared utilities, themes, constants (colors, styles, helpers)
+│
+├── app/
+│   ├── exceptions/            # Custom exception classes (e.g., AuthException, NetworkException)
+│   ├── global_widgets/        # Reusable UI widgets used across modules (e.g., Button, TextField)
+│   ├── middlewares/           # GetX middlewares (auth guard, onboarding guard, etc.)
+│   ├── models/                # Pure business models/entities (domain-level extends, yes/no JSON here depends on requirement, mapping)
+│   ├── modules/               # Feature-based separation (DDD style)
+│   │   ├── auth/              # Authentication module
+│   │   │   ├── bindings/          # Dependency Injection for controllers &amp; usecases
+│   │   │   ├── data/              # Data layer (API, DB, RepositoryImpl, DTOs)
+│   │   │   │   ├── datasources/       # Remote/local sources (e.g., AuthRemoteDataSource)
+│   │   │   │   ├── dto/               # Data Transfer Objects (login_result_dto.dart)
+│   │   │   │   ├── payload/           # Request payloads (login_payload.dart)
+│   │   │   │   └── repositories/      # Repository implementations
+│   │   │   ├── domain/            # Domain layer (rules, contracts)
+│   │   │   │   ├── entities/          # Business entities (User, no JSON here)
+│   │   │   │   ├── repositories/      # Repository interfaces (AuthRepository)
+│   │   │   │   └── usecase/           # Use cases (LoginUseCase, RegisterUseCase)
+│   │   │   ├── presentation/     # Presentation layer
+│   │   │   │   ├── controllers/  # GetX Controllers (LoginController, RegisterController)
+│   │   │   │   ├── views/        # UI screens (LoginView, RegisterView)
+│   │   │   │   └── widgets/      # Module-specific reusable widgets (LoginForm, RegisterForm)
+│   │   │   ├── services/          # Local business services (optional helpers, e.g., AggregateService)
+│   │   │   ├── controllers/       # GetX Controllers (LoginController, RegisterController)
+│   │   │   ├── views/             # UI screens (LoginView, RegisterView)
+│   │   ├── dashboard/         # Example: Dashboard module with same structure
+│   │   └── root/              # Root module (main navigation, splash, app entry)
+│   │
+│   ├── providers/             # Global API clients, interceptors, and HTTP providers
+│   ├── routes/                # App routes &amp; navigation configuration
+│   ├── services/              # App-wide services (LocalStorageService, UserService, NotificationService, CrashReportingService)
+│
+├── main.dart                  # Application entry point (init DI, runApp, setup services)
+│
+integration_test/          # Full app flows (needs device/emulator)
+│   └── login_flow_test.dart   # E2E test for login journey
+test/                      # Unit &amp; widget tests (run in memory, fast)
+│
+├── unit/                  # Business logic only (no UI, no Flutter engine)
+│   └── login_usecase_test.dart   # Tests domain logic of login usecase
+│
+└── widget/                # UI components in isolation (with fake dependencies)
+    └── login_view_test.dart     # Tests rendering &amp; interactions of login view
+</code></pre><h2>🚦 Comparison Overview (Testability)</h2><div class="table-wrap"><table><thead><tr><th>Folder</th><th>Runs On</th><th>Scope</th><th>Speed</th><th>Example</th></tr></thead><tbody><tr><td>integration_test/</td><td>Emulator/Device</td><td>Full app flows</td><td>Slow</td><td>Login end-to-end</td></tr><tr><td>test/unit/</td><td>Dart VM</td><td>Single class/function</td><td>Fast</td><td>UseCase logic</td></tr><tr><td>test/widget/</td><td>Dart VM</td><td>Widget in isolation</td><td>Medium</td><td>LoginView UI rendering</td></tr></tbody></table></div><h2>🔄 Alur Data (contoh login flow)</h2><pre><code class="language-jsx">[ UI Layer ]               [ Domain Layer ]                [ Data Layer ]              [ External ]
+┌───────────────┐        ┌──────────────────┐           ┌─────────────────┐        ┌───────────────┐
+│ LoginView     │        │ LoginUseCase     │           │ AuthRepository  │        │ API / Storage │
+│ (presentation)│◀──────▶│ (business logic) │◀────────▶│ Impl            │◀──────▶│ (Dio / DB)    │
+└───────────────┘        └──────────────────┘           └─────────────────┘        └───────────────┘
+        ▲                          ▲                           ▲
+        │                          │                           │
+        │                          │                           │
+┌───────────────┐        ┌──────────────────┐           ┌─────────────────┐
+│ LoginController│        │ AuthRepository   │           │ DataSources     │
+│ (GetX State)   │◀──────▶│ (interface)      │◀────────▶│ Remote/Local    │
+└───────────────┘        └──────────────────┘           └─────────────────┘</code></pre><hr><h3>📌 Penjelasan Flow</h3><p>1. <strong>User input di UI</strong></p><ul><li>User isi email &amp; password di <code>LoginView</code>.</li><li><code>LoginController</code> (state management) handle event tombol login.</li></ul><p>2. <strong>Controller memanggil UseCase</strong></p><ul><li><code>controller.login()</code> → panggil <code>LoginUseCase.execute(LoginPayload)</code>.</li></ul><p>3. <strong>UseCase panggil Repository Interface</strong></p><ul><li><code>LoginUseCase</code> butuh kontrak dari <code>AuthRepository</code>.</li><li>Interface ini ada di <strong>domain/repositories/</strong>.</li></ul><p>4. <strong>Repository Impl (Data Layer)</strong></p><ul><li><code>AuthRepositoryImpl</code> (di <code>data/repositories/</code>) implement interface tadi.</li><li>Dia yang menentukan data diambil dari <strong>RemoteDataSource</strong> (API) atau <strong>LocalDataSource</strong> (cache).</li></ul><p>5. <strong>Datasource</strong></p><ul><li><code>AuthRemoteDataSource</code> → call API pakai <code>DioProvider</code>.</li><li><code>AuthLocalDataSource</code> → simpan ambil token di <code>SharedPreferences/Hive</code>.</li></ul><p>6. <strong>Balik ke atas</strong></p><ul><li>Response API → diubah ke <strong>DTO</strong> → di-mapping ke <strong>Entity</strong>.</li><li>Entity dikirim ke UseCase → Controller → update <code>Rx&lt;User&gt;</code> → UI otomatis refresh (<code>Obx</code>).</li></ul><hr><h3>🧩 Layer Responsibility</h3><ul><li><strong>UI (Presentation)</strong> = Tampilan &amp; interaksi user.</li><li><strong>Controller (GetX)</strong> = State &amp; event handler.</li><li><strong>Domain (Entities &amp; UseCase)</strong> = Business logic murni.</li><li><strong>Repository Interface</strong> = Kontrak data.</li><li><strong>Repository Impl</strong> = Bridge antara Domain ↔ Data.</li><li><strong>DataSource</strong> = Tempat asli ambil data (API, DB, cache).</li></ul><hr><pre><code class="language-jsx">flowchart TD
+    A[LoginView&lt;br&gt;(UI Layer)] --&gt; B[LoginController&lt;br&gt;(GetX State)]
+    B --&gt; C[LoginUseCase&lt;br&gt;(Domain)]
+    C --&gt; D[AuthRepository&lt;br&gt;(Interface)]
+    D --&gt; E[AuthRepositoryImpl&lt;br&gt;(Data Layer)]
+    E --&gt; F1[AuthRemoteDataSource&lt;br&gt;(API)]
+    E --&gt; F2[AuthLocalDataSource&lt;br&gt;(Storage)]
+    F1 --&gt; G[External API&lt;br&gt;(Dio/HTTP)]
+    F2 --&gt; H[Local Storage&lt;br&gt;(SharedPref/Hive)]
+
+    %% Return flow
+    G --&gt; F1
+    H --&gt; F2
+    F1 --&gt; E
+    F2 --&gt; E
+    E --&gt; D
+    D --&gt; C
+    C --&gt; B
+    B --&gt; A</code></pre><hr><p><a href="https://ko-fi.com/R6R3LMURG" rel="noopener"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="ko-fi" loading="lazy" decoding="async"></a></p><p>Thanks for being here 🙌
+Stay sharp, ship clean code, and don’t forget to take a break.</p><p>– just for eat developer 🍽️ 👨‍🍳 🍕</p><hr><p>I’ll be publishing an open-source project soon! I’ll also clean up the old code and put it in the navigation menu under Open Source Projects. Stay tune https://github.com/yogithesymbian</p><h2>Source Also From</h2><h3>📖 Referensi</h3><ul><li>Uncle Bob-Clean Architecture (2012) → Entities ada di paling dalam, paling stabil, bebas framework.</li><li>ResoCoder-Flutter TDD Clean Architecture Course → implementasi di Flutter yang populer.</li><li>Very Good Ventures (VGV)-Flutter Best Practices → banyak dipakai buat production apps.</li><li>Stacked architecture (FilledStacks) → agak mirip tapi lebih pragmatis.</li></ul><hr><ul><li>from www.yogiveloper.com</li><li>old blog https://scodeid.blogspot.com/</li></ul></div>
+    </article>
+  </main>
+</body>
+</html>

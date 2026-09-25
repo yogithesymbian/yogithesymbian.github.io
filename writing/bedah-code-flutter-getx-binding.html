@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="cara kerja GetX Dependency Injection">
+  <link rel="canonical" href="https://yogithesymbian.github.io/writing/bedah-code-flutter-getx-binding.html">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <title>[Bedah Code] [Flutter] [GetX] bindings - Cara kerja Dependency Injection | Yogi Arif Widodo</title>
+</head>
+<body>
+  <main class="blog-page">
+    <a class="back-link" href="../#writing">← Home</a>
+    <article class="post">
+      <p class="eyebrow">Writing · <time datetime="2025-09-29">September 29, 2025</time></p>
+      <h1>[Bedah Code] [Flutter] [GetX] bindings - Cara kerja Dependency Injection</h1>
+      <p class="post-summary">cara kerja GetX Dependency Injection</p>
+      <div class="post-content"><p>Inti cara kerja <strong>GetX Dependency Injection</strong>.</p><h1>Style 1</h1><pre><code class="language-dart">class AuthBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() =&gt; DioClient());
+    Get.lazyPut&lt;AuthRemoteDatasource&gt;(
+      () =&gt; AuthRemoteDataSourceImpl(Get.find()),
+    );
+    Get.lazyPut(() =&gt; AuthRepositoryImpl(Get.find()));
+
+    Get.lazyPut(() =&gt; LoginUsecase(Get.find&lt;AuthRepositoryImpl&gt;()));
+    Get.lazyPut(() =&gt; LoginController(Get.find&lt;LoginUsecase&gt;()));
+
+    Get.lazyPut(() =&gt; RegisterUsecase(Get.find&lt;AuthRepositoryImpl&gt;()));
+    Get.lazyPut(() =&gt; RegisterController(Get.find&lt;RegisterUsecase&gt;()));
+  }
+}</code></pre><h1>Style 2</h1><h4>lebih clean &amp; idiomatic Clean Architecture dan ⚡ Hierarkinya jadi rapih &amp; sesuai clean architecture.</h4><pre><code class="language-dart">class AuthBinding extends Bindings {
+  @override
+  void dependencies() {
+    // Core
+    Get.lazyPut(() =&gt; DioClient());
+
+    // Data layer
+    Get.lazyPut&lt;AuthRemoteDatasource&gt;(
+      () =&gt; AuthRemoteDataSourceImpl(Get.find&lt;DioClient&gt;()),
+    );
+
+    Get.lazyPut&lt;AuthRepository&gt;(
+      () =&gt; AuthRepositoryImpl(Get.find&lt;AuthRemoteDatasource&gt;()),
+    );
+
+    // Domain layer (usecase)
+    Get.lazyPut(() =&gt; LoginUsecase(Get.find&lt;AuthRepository&gt;()));
+    Get.lazyPut(() =&gt; RegisterUsecase(Get.find&lt;AuthRepository&gt;()));
+
+    // Presentation layer (controller)
+    Get.lazyPut(() =&gt; LoginController(Get.find&lt;LoginUsecase&gt;()));
+    Get.lazyPut(() =&gt; RegisterController(Get.find&lt;RegisterUsecase&gt;()));
+  }
+}</code></pre><hr><h2>Bedah Code Style 1</h2><h3>1. <strong>Kenapa DioClient harus di atas?</strong></h3><pre><code class="language-dart">Get.lazyPut(() =&gt; DioClient());
+Get.lazyPut&lt;AuthRemoteDatasource&gt;(
+  () =&gt; AuthRemoteDataSourceImpl(Get.find()),
+);</code></pre><ul><li><code>AuthRemoteDataSourceImpl</code> butuh <code>DioClient</code>.</li><li>Jadi saat GetX mau bikin <code>AuthRemoteDataSourceImpl</code>, dia akan cek:</li></ul><p>  ``<code>dart
+  Get.find() // cari DioClient
+  </code>``</p><ul><li>Kalau <code>DioClient</code> <strong>belum diregistrasikan</strong>, maka <code>Get.find()</code> akan error (dependency not found).</li></ul><p>⚡ Jadi <strong>urutan pendaftaran harus dari dependency paling bawah → ke atas</strong> (layer paling dasar dulu → baru yang membutuhkannya).
+Makanya <code>DioClient</code> harus di-bind paling awal.</p><hr><h3>2. <strong>Bagaimana cara kerja <code>Get.find()</code>?</strong></h3><ul><li><code>Get.find()</code> itu singkatnya <strong>&quot;cari instance yang sudah didaftarkan di dependency injection container&quot;</strong>.</li><li>Kalau sudah ada, langsung dipakai.</li><li>Kalau belum ada, dan kamu pakai <code>lazyPut</code>, baru dibuat pertama kali.</li></ul><p>Contoh:</p><pre><code class="language-dart">final dio = Get.find&lt;DioClient&gt;();</code></pre><p>atau cukup:</p><pre><code class="language-dart">final dio = Get.find();</code></pre><hr><h3>3. <strong>Bedanya <code>Get.find()</code> vs <code>Get.find&lt;T&gt;()</code></strong></h3><p>🔹 <strong>Tanpa generic (<code>Get.find()</code>)</strong></p><ul><li>GetX akan coba infer (menebak) tipe data dari konteks.</li><li>Misalnya:</li></ul><p>  ``<code>dart
+  final dio = Get.find(); // &lt;- otomatis tau DioClient
+  </code>``</p><p>  Karena variabel <code>dio</code> tipenya <code>DioClient</code>, jadi aman.</p><p>🔹 <strong>Dengan generic (<code>Get.find&lt;T&gt;()</code>)</strong></p><ul><li>Lebih eksplisit, kamu kasih tahu GetX tipe yang diminta.</li><li>Misalnya kalau ambigu (ada lebih dari 1 dependency yang mirip), pakai ini:</li></ul><p>  ``<code>dart
+  final repo = Get.find&lt;AuthRepositoryImpl&gt;();
+  // final repo = Get.find();
+  </code>``</p><ul><li>Atau kalau variabelnya <code>var</code>, biar gak salah: (dilain sesi kita bedah code #bedah_code_02)</li></ul><p>  ``<code>dart
+  var usecase = Get.find&lt;LoginUsecase&gt;();
+  // var repo = Get.find();
+  </code>``</p><p>⚠️ Jadi keduanya <strong>sama saja fungsinya</strong>, cuma:</p><ul><li><code>Get.find()</code> → praktis, rely on type inference.</li><li><code>Get.find&lt;T&gt;()</code> → lebih jelas, aman kalau ada beberapa binding mirip.</li></ul><hr><h3>4. <strong>Kesimpulan</strong></h3><ul><li><strong>Urutan penting</strong> → dependency dasar (<code>DioClient</code>) daftar dulu sebelum yang membutuhkan.</li><li><strong><code>Get.find()</code></strong> → singkat, otomatis deteksi tipe.</li><li><strong><code>Get.find&lt;T&gt;()</code></strong> → eksplisit, aman saat ada lebih dari satu dependency sejenis.</li></ul><hr><p><a href="https://ko-fi.com/R6R3LMURG" rel="noopener"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="ko-fi" loading="lazy" decoding="async"></a></p><p>Thanks for being here 🙌
+Stay sharp, ship clean code, and don’t forget to take a break.</p><p>– just for eat developer 🍽️ 👨‍🍳 🍕</p><hr><p>I’ll be publishing an open-source project soon! I’ll also clean up the old code and put it in the navigation menu under Open Source Projects. Stay tune https://github.com/yogithesymbian</p><hr><ul><li>from www.yogiveloper.com</li><li>old blog https://scodeid.blogspot.com/</li></ul></div>
+    </article>
+  </main>
+</body>
+</html>
