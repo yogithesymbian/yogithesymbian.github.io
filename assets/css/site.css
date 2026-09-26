@@ -15,9 +15,13 @@ h1 { margin: 0; font-size: clamp(2.4rem, 8vw, 4rem); line-height: 1.1; letter-sp
 .handle { margin: 8px 0 0; color: var(--muted); font-size: .95rem; }
 .handle a { font-weight: 650; }
 .intro { max-width: 610px; margin: 20px 0 26px; color: var(--muted); font-size: 1.15rem; }
+.availability { display: flex; align-items: flex-start; gap: 8px; max-width: 650px; margin: 0 0 22px; color: var(--ink); font-size: .92rem; }
+.availability span { width: 9px; height: 9px; flex: 0 0 9px; margin-top: .48em; border-radius: 50%; background: #3b9b68; box-shadow: 0 0 0 4px #e4f2e9; }
 .links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; margin-bottom: 54px; }
 a { color: var(--accent); text-underline-offset: 4px; }
 .links a { font-weight: 650; text-decoration: none; }
+.links .cv-link { padding: 7px 12px; border-radius: 6px; background: var(--ink); color: white; }
+.links .cv-link:hover, .links .cv-link:focus-visible { background: var(--accent); }
 .showcase-trigger, .tab-button, .close-button { font: inherit; cursor: pointer; }
 .showcase-trigger { padding: 7px 12px; border: 1px solid var(--accent); border-radius: 6px; background: transparent; color: var(--accent); font-weight: 650; }
 .showcase-trigger:hover, .showcase-trigger:focus-visible { background: var(--accent); color: white; }
@@ -92,6 +96,7 @@ footer p { margin: 0 0 12px; }
 .featured-work .project-copy { padding: 12px 13px 14px; }
 .featured-work .project-copy h3 { margin-bottom: 4px; }
 .featured-work .project-copy .project-type { margin: 0 0 5px; color: var(--accent); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.project-impact { margin-top: 9px !important; color: var(--accent) !important; font-size: .72rem !important; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
 
 .showcase {
   position: fixed;

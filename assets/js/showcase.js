@@ -9,12 +9,14 @@ const projects = [
   {
     title: "YoCateTin",
     detail: "AI assisted expense tracking platform",
+    impact: "Product · Personal project",
     image: "yocatetin.com.showcase-3.webp",
     alt: "YoCateTin product dashboard and chat interface"
   },
   {
     title: "SAL maritime operations",
     detail: "Digital tools for port and fleet workflows",
+    impact: "Web platform · Maritime operations",
     image: "sal-poster.webp",
     alt: "SAL maritime operations dashboard",
     video: "sal.webm"
@@ -22,12 +24,14 @@ const projects = [
   {
     title: "Smart parking",
     detail: "Parking management app project",
+    impact: "Mobile · Smart city",
     image: "yo-parkir.webp",
     alt: "Smart parking app interface"
   },
   {
     title: "IoT & embedded systems",
     detail: "Hardware prototypes and connected systems",
+    impact: "Embedded · Prototyping",
     image: "iot-project.webp",
     alt: "IoT project prototype",
     video: "iot-yogi-solder.webm"
@@ -35,6 +39,7 @@ const projects = [
   {
     title: "IoT prototype demo",
     detail: "Connected hardware project walkthrough",
+    impact: "IoT · Prototyping",
     image: "iot1.webp",
     alt: "IoT project interface",
     video: "iot-yogithesymbian.webm"
@@ -42,12 +47,14 @@ const projects = [
   {
     title: "Academic project",
     detail: "Informatics Engineering thesis project",
+    impact: "Academic · Web platform",
     image: "skripsi-untag.webp",
     alt: "Thesis project interface"
   },
   {
     title: "Tokyo project clip",
     detail: "Video showcase",
+    impact: "Project walkthrough",
     video: "tokyo-cert.webm"
   }
 ];
@@ -125,7 +132,10 @@ function makeProjectCard(project) {
   title.textContent = project.title;
   const detail = document.createElement("p");
   detail.textContent = project.detail;
-  copy.append(title, detail);
+  const impact = document.createElement("p");
+  impact.className = "project-impact";
+  impact.textContent = project.impact;
+  copy.append(title, detail, impact);
   card.append(media, copy);
   return card;
 }
@@ -210,8 +220,7 @@ closeButton.addEventListener("click", () => showcase.close());
 showcase.addEventListener("click", event => {
   if (event.target === showcase) showcase.close();
 });
-tabs.forEach(tab => {
-  tab.addEventListener("click", () => {
+function selectTab(tab) {
     const selected = tab.dataset.tab;
     tabs.forEach(item => {
       const active = item === tab;
@@ -220,5 +229,16 @@ tabs.forEach(tab => {
       item.tabIndex = active ? 0 : -1;
     });
     panels.forEach(panel => { panel.hidden = panel.dataset.panel !== selected; });
+}
+
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => selectTab(tab));
+  tab.addEventListener("keydown", event => {
+    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+    event.preventDefault();
+    const direction = event.key === "ArrowRight" ? 1 : -1;
+    const nextIndex = (tabs.indexOf(tab) + direction + tabs.length) % tabs.length;
+    tabs[nextIndex].focus();
+    selectTab(tabs[nextIndex]);
   });
 });
