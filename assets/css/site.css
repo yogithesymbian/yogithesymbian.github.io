@@ -78,6 +78,8 @@ li::marker { color: var(--accent); }
 footer { border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: .9rem; }
 footer p { margin: 0 0 12px; }
 .footer-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: .78rem; }
+.visitor-count { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); font-size: .86rem; font-weight: 650; }
+.visitor-count img { display: block; width: 100px; height: 40px; vertical-align: middle; }
 
 .featured-work-heading { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 18px; }
 .featured-work-heading .eyebrow { margin-bottom: 4px; }

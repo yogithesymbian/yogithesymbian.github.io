@@ -168,9 +168,12 @@
     <footer>
       <p>Open to thoughtful projects and conversations. <a href="mailto:yogirenbox33@gmail.com">Get in touch</a>.</p>
       <div class="footer-meta">
-        <span>Visitors: <span id="visitor-count" aria-live="polite">loading…</span></span>
+        <img
+          src="https://yogithesymbian.goatcounter.com/counter//.svg"
+          alt="Current visitor count"
+          loading="lazy"></span>
         <!-- Replace "yogithesymbian" above if your GoatCounter site code is different. -->
-        <span>Created by <a href="https://github.com/yogithesymbian">yogithesymbian</a></span>
+        <!-- <span>Created by <a href="https://github.com/yogithesymbian">yogithesymbian</a></span> -->
       </div>
       <!-- <div class="footer-meta">
         <span>Latest update: <time datetime="2026-09-25">September 25, 2026</time></span>
@@ -196,24 +199,5 @@
     <section class="showcase-panel" id="clients-panel" role="tabpanel" aria-labelledby="clients-tab" data-panel="clients" hidden></section>
     <section class="showcase-panel" id="opensource-panel" role="tabpanel" aria-labelledby="opensource-tab" data-panel="opensource" hidden></section>
   </dialog>
-  <script>
-    (function loadVisitorCount() {
-      var count = document.querySelector("#visitor-count");
-      if (!count) return;
-
-      var path = encodeURIComponent(window.location.pathname || "/");
-      fetch("https://yogithesymbian.goatcounter.com/counter/" + path + ".json")
-        .then(function (response) {
-          if (!response.ok) throw new Error("Visitor count unavailable");
-          return response.json();
-        })
-        .then(function (data) {
-          count.textContent = data.count || "0";
-        })
-        .catch(function () {
-          count.textContent = "—";
-        });
-    }());
-  </script>
 </body>
 </html>
