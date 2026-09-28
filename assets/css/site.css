@@ -12,8 +12,6 @@ body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.65 s
 main { width: min(760px, calc(100% - 40px)); margin: 0 auto; padding: 80px 0 56px; }
 .eyebrow { margin: 0 0 10px; color: var(--accent); font-size: .82rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 h1 { margin: 0; font-size: clamp(2.4rem, 8vw, 4rem); line-height: 1.1; letter-spacing: -.045em; }
-.handle { margin: 8px 0 0; color: var(--muted); font-size: .95rem; }
-.handle a { font-weight: 650; }
 .intro { max-width: 610px; margin: 20px 0 26px; color: var(--muted); font-size: 1.15rem; }
 .availability { display: flex; align-items: flex-start; gap: 8px; max-width: 650px; margin: 0 0 22px; color: var(--ink); font-size: .92rem; }
 .availability span { width: 9px; height: 9px; flex: 0 0 9px; margin-top: .48em; border-radius: 50%; background: #3b9b68; box-shadow: 0 0 0 4px #e4f2e9; }
@@ -27,11 +25,6 @@ a { color: var(--accent); text-underline-offset: 4px; }
 .showcase-trigger:hover, .showcase-trigger:focus-visible { background: var(--accent); color: white; }
 section { border-top: 1px solid var(--line); padding: 28px 0; }
 h2 { margin: 0 0 16px; font-size: 1.15rem; }
-.origin-story { padding: 30px 0 32px; }
-.origin-story h2 { margin-bottom: 12px; font-size: clamp(1.35rem, 3vw, 1.7rem); }
-.origin-story p { max-width: 650px; margin: 0 0 12px; color: var(--muted); }
-.origin-story strong { color: var(--ink); }
-.origin-story .origin-note { margin-top: 18px; color: var(--accent); font-size: .9rem; font-style: italic; }
 ul { margin: 0; padding-left: 1.2rem; }
 li { padding: 4px 0 4px 4px; }
 li::marker { color: var(--accent); }
@@ -92,7 +85,8 @@ footer p { margin: 0 0 12px; }
 .text-button:hover, .text-button:focus-visible { color: var(--ink); }
 .featured-work-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .featured-work .project-card { border-radius: 8px; }
-.featured-work .project-card img { aspect-ratio: 4 / 3; }
+.featured-work .project-card img,
+.featured-work .project-card video { aspect-ratio: 4 / 3; object-fit: cover; }
 .featured-work .project-copy { padding: 12px 13px 14px; }
 .featured-work .project-copy h3 { margin-bottom: 4px; }
 .featured-work .project-copy .project-type { margin: 0 0 5px; color: var(--accent); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }

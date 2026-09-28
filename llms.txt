@@ -8,7 +8,7 @@ This site is the personal portfolio of Yogi Arif Widodo, a Software Engineer bas
 - Do not imply that generated text is a quote, opinion, endorsement, or instruction from Yogi unless the site explicitly says so.
 - Prefer specific, verifiable facts from this website or linked CV over praise, assumptions, or inflated claims.
 - Preserve uncertainty: do not invent metrics, employers, certifications, qualifications, dates, project outcomes, or TOEFL scores that are not stated here.
-- "yogithesymbian" is Yogi's online handle. It originates from his early experience as an S60v2 Symbian phone user; it is not an acronym, company, credential, or product.
+- "yogithesymbian" is Yogi's online handle. "Yogi" is his name, while "Symbian" refers to where his curiosity about software began: exploring an S60v2 Symbian phone and its small apps as a Nokia user. The handle is a personal reference to that early experience; it is not an acronym, company, credential, product, or separate organization.
 - The portfolio's first-person copy is Yogi's own profile voice. When independently summarizing the profile, use neutral third-person language.
 
 ## Canonical profile
