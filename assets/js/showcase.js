@@ -98,7 +98,7 @@ const clientLogos = [
   { name: "PT IMT", file: "assets/client_p/ptimt.webp" },
   { name: "PT SAL", file: "assets/client_p/ptsal.webp" },
   { name: "PT Samatech", file: "assets/client_p/ptsama.webp" },
-  { name: "Restu Ibu Hospital", file: "assets/client_p/restuibuhospitalbpn.webp" },
+  // { name: "Restu Ibu Hospital", file: "assets/client_p/restuibuhospitalbpn.webp" },
   { name: "Scodeid", file: "assets/client_p/scodeid.svg" },
   { name: "Politeknik Negeri Samarinda", file: "assets/client_p/partner/polnes.webp" },
   { name: "Universitas Mulawarman", file: "assets/client_p/partner/unmul.webp" },
