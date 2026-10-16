@@ -18,6 +18,12 @@ h1 { margin: 0; font-size: clamp(2.4rem, 8vw, 4rem); line-height: 1.1; letter-sp
 .links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; margin-bottom: 54px; }
 a { color: var(--accent); text-underline-offset: 4px; }
 .links a { font-weight: 650; text-decoration: none; }
+.links .calendar-link { padding: 7px 12px; border-radius: 6px; background: var(--accent); color: white; }
+.links .calendar-link:hover, .links .calendar-link:focus-visible { background: var(--ink); }
+.links .icon-link { display: inline-grid; width: 34px; height: 34px; place-items: center; border-radius: 6px; }
+.links .icon-link:hover, .links .icon-link:focus-visible { background: #eaf3ee; }
+.icon-link svg { width: 19px; height: 19px; fill: currentColor; }
+.icon-link .mail-icon { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
 .links .cv-link { padding: 7px 12px; border-radius: 6px; background: var(--ink); color: white; }
 .links .cv-link:hover, .links .cv-link:focus-visible { background: var(--accent); }
 .showcase-trigger, .tab-button, .close-button { font: inherit; cursor: pointer; }
