@@ -124,13 +124,30 @@ footer p { margin: 0 0 12px; }
 .tab-button.is-active { border-color: var(--accent); color: var(--accent); font-weight: 700; }
 .showcase-panel { border: 0; padding: 0; }
 .showcase-panel[hidden] { display: none; }
+.showcase-intro { max-width: 620px; margin: 0 0 28px; color: var(--muted); font-size: .94rem; }
+.project-group { border: 0; padding: 0; }
+.project-group + .project-group { margin-top: 34px; }
+.project-group-title { margin: 0 0 12px; color: var(--ink); font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; }
 .project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.project-card { overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: white; }
+.project-card { display: flex; min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: white; flex-direction: column; }
 .project-card img, .project-card video { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; background: #eef2ef; }
 .project-card img.contain { object-fit: contain; padding: 14px; }
-.project-copy { padding: 13px 15px 15px; }
+.project-visual { display: flex; width: 100%; aspect-ratio: 16 / 10; padding: 22px; flex-direction: column; justify-content: center; }
+.yoclipper-visual { position: relative; overflow: hidden; background: linear-gradient(145deg, #f8faff 0%, #eef1ff 54%, #e7ebff 100%); color: #1d2940; }
+.yoclipper-visual::after { position: absolute; right: -32px; bottom: -48px; width: 150px; height: 150px; border-radius: 50%; background: rgb(93 91 255 / 12%); content: ""; }
+.yoclipper-visual .visual-kicker { margin-bottom: 4px; color: #5a55ed; font-size: .68rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+.yoclipper-visual strong { font-size: 1.25rem; letter-spacing: -.025em; line-height: 1.2; }
+.yoclipper-visual > span:not(.visual-kicker, .visual-input, .visual-platforms) { color: #69758b; font-size: .74rem; }
+.yoclipper-visual .visual-input { display: flex; z-index: 1; margin-top: 16px; padding: 9px 11px; border: 1px solid #d7dcf1; border-radius: 8px; background: rgb(255 255 255 / 78%); color: #8790a5; font-size: .67rem; justify-content: space-between; }
+.yoclipper-visual .visual-input b { color: #5a55ed; }
+.yoclipper-visual .visual-platforms { z-index: 1; margin-top: 7px; color: #778197; font-size: .58rem; font-weight: 650; }
+.project-copy { display: flex; height: 100%; padding: 13px 15px 15px; flex-direction: column; align-items: flex-start; }
 .project-copy h3 { margin: 0 0 3px; font-size: 1rem; line-height: 1.4; }
 .project-copy p { margin: 0; color: var(--muted); font-size: .88rem; line-height: 1.5; }
+.project-stack { display: flex; flex-wrap: wrap; gap: 6px; margin: 13px 0 0; padding: 0; list-style: none; }
+.project-stack li { padding: 3px 7px; border-radius: 999px; background: #edf4f0; color: #3f6255; font-size: .68rem; font-weight: 650; line-height: 1.4; }
+.project-link { display: inline-block; margin-top: 14px; color: var(--accent); font-size: .78rem; font-weight: 700; text-decoration: none; }
+.project-link:hover, .project-link:focus-visible { text-decoration: underline; }
 .source-list { display: grid; gap: 10px; }
 .source-card { position: relative; display: block; padding: 15px 46px 15px 16px; border: 1px solid var(--line); border-radius: 10px; background: white; color: var(--ink); text-decoration: none; }
 .source-card:hover, .source-card:focus-visible { border-color: var(--accent); }

@@ -7,55 +7,156 @@ let showcaseInitialized = false;
 
 const projects = [
   {
+    category: "Active products",
     title: "YoCateTin",
-    detail: "AI assisted expense tracking platform",
-    impact: "Product · Founder-led",
+    detail: "AI-assisted finance platform that turns daily spending into structured records through familiar chat workflows.",
+    impact: "AI · Founder-led product · Active",
+    stack: ["AI platform", "Personal finance", "Web application"],
     image: "yocatetin.com.showcase-3.webp",
-    alt: "YoCateTin product dashboard and chat interface"
+    alt: "YoCateTin product dashboard and chat interface",
+    href: "https://yocatetin.com"
   },
   {
-    title: "SAL maritime operations",
-    detail: "Digital tools for port and fleet workflows",
-    impact: "Web platform · Maritime operations",
-    image: "sal-poster.webp",
-    alt: "SAL maritime operations dashboard",
+    category: "Active products",
+    title: "YoClipper",
+    detail: "AI video clipping tool that finds strong moments in long-form recordings and turns them into short-form content.",
+    impact: "AI · Video workflow · Active",
+    stack: ["AI video", "Short-form content", "Creator tools"],
+    visual: "yoclipper",
+    href: "https://yocatetin.com/yoclipper"
+  },
+  {
+    category: "Enterprise & international",
+    title: "Japan enterprise platform",
+    detail: "Modernized a 20-year-old Japanese desktop system into a scalable web application, translating 200+ UI designs and migrating data from MySQL to Oracle 12c.",
+    impact: "System modernization · Confidential client",
+    stack: ["Laravel 7", "Vue.js", "Laravue", "MySQL", "Oracle 12c"],
+    image: "japan-enterprise-platform.jpg",
+    alt: "Japanese enterprise scheduling interface during implementation"
+  },
+  {
+    category: "Enterprise & international",
+    title: "Casual Chase",
+    detail: "Australian recruitment platform with job discovery and subscription payment integration.",
+    impact: "Web platform · Australia",
+    stack: ["Laravel", "Alpine.js", "Payment API"],
+    image: "casual-chase.jpg",
+    alt: "Casual Chase recruitment platform homepage"
+  },
+  {
+    category: "Enterprise & international",
+    title: "Kulsummarssy",
+    detail: "Client-facing gallery and administration platform delivered for a client in Poland.",
+    impact: "Web platform · Poland",
+    stack: ["React", "Ant Design", "Lumen", "MySQL"],
+    image: "kulsummarssy.jpg",
+    alt: "Kulsummarssy gallery website presentation"
+  },
+  {
+    category: "Web applications",
+    title: "Skripsi Management",
+    detail: "Web-based thesis management system for Universitas 17 Agustus 1945 Samarinda.",
+    impact: "Education · Workflow platform",
+    stack: ["React", "Ant Design", "Lumen", "MySQL"],
+    image: "skripsi-management.jpg",
+    alt: "Skripsi Management login page for Universitas 17 Agustus 1945 Samarinda"
+  },
+  {
+    category: "Web applications",
+    title: "Belanja Malang",
+    detail: "E-commerce platform with dedicated customer and administration interfaces.",
+    impact: "Commerce · Web platform",
+    stack: ["Bootstrap", "React", "Ant Design", "Lumen", "MySQL"],
+    image: "belanja-malang.jpg",
+    alt: "Belanja Malang e-commerce platform presentation"
+  },
+  {
+    category: "Mobile applications",
+    title: "BI NGETROL",
+    detail: "Cross-platform monitoring and productivity application developed for Bank Indonesia.",
+    impact: "Mobile · Bank Indonesia",
+    stack: ["Flutter", "Node.js", "Sequelize"],
+    image: "bi-ngetrol.jpg",
+    alt: "BI NGETROL mobile application screens"
+  },
+  {
+    category: "Mobile applications",
+    title: "SCODEID Attendance & Monitoring",
+    detail: "Employee attendance and monitoring application developed for a client.",
+    impact: "Mobile · Workforce operations",
+    stack: ["Kotlin", "Java", "Lumen", "MySQL"],
+    image: "scodeid-attendance.jpg",
+    alt: "SCODEID attendance and monitoring application presentation"
+  },
+  {
+    category: "Private client work",
+    title: "River / Jetty Monitoring",
+    detail: "Mobile workflow for river positions, jetty activity, vessel details, status updates, and operational notifications.",
+    impact: "Mobile · PT SAL",
+    stack: ["Mobile application", "Enterprise system"],
+    image: "river-jetty-monitoring.jpg",
+    alt: "River and jetty monitoring mobile workflow for PT SAL",
     video: "sal.webm"
   },
   {
-    title: "Smart parking",
-    detail: "Parking management app project",
+    category: "Additional projects",
+    title: "Security & QR Verification",
+    detail: "Mobile security workflow covering QR scanning, verification, and one-time-pass access screens.",
+    impact: "Mobile · Security workflow",
+    stack: ["Mobile application", "QR verification"],
+    image: "security-qr-verification.jpg",
+    alt: "Mobile security and QR verification application screens"
+  },
+  {
+    category: "Additional projects",
+    title: "Leave Management",
+    detail: "Localized leave request and attendance workflow built for a Japanese project.",
+    impact: "Mobile · Japan",
+    stack: ["Flutter", "Riverpod"],
+    image: "flutter-leave-management.jpg",
+    alt: "Flutter leave management form with localized inputs"
+  },
+  {
+    category: "Additional projects",
+    title: "SIMAK",
+    detail: "Internal information system for organizing and managing operational activities.",
+    impact: "Internal system · Activity management",
+    stack: ["Laravel 5.5", "MySQL", "jQuery", "Sass", "Bootstrap"]
+  },
+  {
+    category: "Additional projects",
+    title: "Realtime Chat",
+    detail: "In-app chat feature for marketplace conversations within Belanja Malang.",
+    impact: "Mobile · Marketplace",
+    stack: ["Kotlin", "Firebase"],
+    image: "realtime-chat-belanja-malang.jpg",
+    alt: "Realtime marketplace chat interface in Belanja Malang"
+  },
+  {
+    category: "Additional projects",
+    title: "Confidential University Platform",
+    detail: "University application with encrypted QR-based operational workflows.",
+    impact: "Web platform · Confidential client",
+    stack: ["Vue.js", "Node.js", "Sequelize", "MySQL"]
+  },
+  {
+    category: "Products & prototypes",
+    title: "Smart Parking",
+    detail: "Parking management application exploring a simpler smart-city workflow.",
     impact: "Mobile · Smart city",
+    stack: ["Mobile application"],
     image: "yo-parkir.webp",
     alt: "Smart parking app interface"
   },
   {
-    title: "IoT & embedded systems",
-    detail: "Hardware prototypes and connected systems",
-    impact: "Embedded · Prototyping",
-    image: "iot-project.webp",
-    alt: "IoT project prototype",
-    video: "iot-yogi-solder.webm"
-  },
-  {
-    title: "IoT prototype demo",
-    detail: "Connected hardware project walkthrough",
+    category: "Products & prototypes",
+    title: "IoT & Embedded Systems",
+    detail: "Connected hardware prototypes combining software, sensors, and hands-on electronics.",
     impact: "IoT · Prototyping",
-    image: "iot1.webp",
-    alt: "IoT project interface",
-    video: "iot-yogithesymbian.webm"
-  },
-  {
-    title: "Academic project",
-    detail: "Informatics Engineering thesis project",
-    impact: "Academic · Web platform",
-    image: "skripsi-untag.webp",
-    alt: "Thesis project interface"
-  },
-  {
-    title: "Tokyo project clip",
-    detail: "Video showcase",
-    impact: "Project walkthrough",
-    video: "tokyo-cert.webm"
+    stack: ["Embedded systems", "Hardware prototyping"],
+    image: "iot-project.webp",
+    alt: "IoT hardware prototype",
+    video: "iot-yogi-solder.webm"
   }
 ];
 const openSourceProjects = [
@@ -109,7 +210,19 @@ function makeProjectCard(project) {
   const card = document.createElement("article");
   card.className = "project-card";
   let media;
-  if (project.video) {
+  if (project.visual === "yoclipper") {
+    media = document.createElement("div");
+    media.className = "project-visual yoclipper-visual";
+    media.setAttribute("role", "img");
+    media.setAttribute("aria-label", "YoClipper AI video upload and clipping interface");
+    media.innerHTML = `
+      <span class="visual-kicker">YoClipper</span>
+      <strong>Clip viral videos</strong>
+      <span>Upload video, let AI find the moments.</span>
+      <span class="visual-input">Paste URL (YouTube, Threads, IG…) <b>↵</b></span>
+      <span class="visual-platforms">YouTube · TikTok · Instagram</span>
+    `;
+  } else if (project.video) {
     media = document.createElement("video");
     media.controls = true;
     media.preload = "none";
@@ -119,7 +232,7 @@ function makeProjectCard(project) {
     source.dataset.src = `assets/favorite_projects/${project.video}`;
     source.type = "video/webm";
     media.append(source, "Your browser does not support WebM video.");
-  } else {
+  } else if (project.image) {
     media = document.createElement("img");
     media.src = `assets/favorite_projects/${project.image}`;
     media.alt = project.alt;
@@ -136,7 +249,28 @@ function makeProjectCard(project) {
   impact.className = "project-impact";
   impact.textContent = project.impact;
   copy.append(title, detail, impact);
-  card.append(media, copy);
+  if (project.stack?.length) {
+    const stack = document.createElement("ul");
+    stack.className = "project-stack";
+    stack.setAttribute("aria-label", "Technologies");
+    project.stack.forEach(item => {
+      const technology = document.createElement("li");
+      technology.textContent = item;
+      stack.append(technology);
+    });
+    copy.append(stack);
+  }
+  if (project.href) {
+    const link = document.createElement("a");
+    link.className = "project-link";
+    link.href = project.href;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = "Open live product ↗";
+    copy.append(link);
+  }
+  if (media) card.append(media);
+  card.append(copy);
   return card;
 }
 
@@ -182,10 +316,24 @@ function makeClientCard(client) {
 
 function initializeShowcase() {
   if (showcaseInitialized) return;
-  const projectGrid = document.createElement("div");
-  projectGrid.className = "project-grid";
-  projects.forEach(project => projectGrid.append(makeProjectCard(project)));
-  document.querySelector('[data-panel="projects"]').append(projectGrid);
+  const projectPanel = document.querySelector('[data-panel="projects"]');
+  const projectIntro = document.createElement("p");
+  projectIntro.className = "showcase-intro";
+  // projectIntro.textContent = "Selected client, product, and private work across enterprise systems, web platforms, mobile applications, and connected hardware.";
+  projectPanel.append(projectIntro);
+  [...new Set(projects.map(project => project.category))].forEach(category => {
+    const group = document.createElement("section");
+    group.className = "project-group";
+    const heading = document.createElement("h3");
+    heading.className = "project-group-title";
+    heading.textContent = category;
+    const projectGrid = document.createElement("div");
+    projectGrid.className = "project-grid";
+    projects.filter(project => project.category === category)
+      .forEach(project => projectGrid.append(makeProjectCard(project)));
+    group.append(heading, projectGrid);
+    projectPanel.append(group);
+  });
 
   const clientGrid = document.createElement("div");
   clientGrid.className = "client-grid";
@@ -221,14 +369,14 @@ showcase.addEventListener("click", event => {
   if (event.target === showcase) showcase.close();
 });
 function selectTab(tab) {
-    const selected = tab.dataset.tab;
-    tabs.forEach(item => {
-      const active = item === tab;
-      item.classList.toggle("is-active", active);
-      item.setAttribute("aria-selected", String(active));
-      item.tabIndex = active ? 0 : -1;
-    });
-    panels.forEach(panel => { panel.hidden = panel.dataset.panel !== selected; });
+  const selected = tab.dataset.tab;
+  tabs.forEach(item => {
+    const active = item === tab;
+    item.classList.toggle("is-active", active);
+    item.setAttribute("aria-selected", String(active));
+    item.tabIndex = active ? 0 : -1;
+  });
+  panels.forEach(panel => { panel.hidden = panel.dataset.panel !== selected; });
 }
 
 tabs.forEach(tab => {
