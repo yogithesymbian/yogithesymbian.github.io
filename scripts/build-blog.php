@@ -129,7 +129,7 @@ function markdown_html(string $markdown): string {
 }
 
 function page_shell(string $title, string $description, string $body, string $canonical): string {
-    return str_replace('\\n', "\n", '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <meta name="description" content="' . escape_html($description) . '">\n  <link rel="canonical" href="' . escape_html($canonical) . '">\n  <link rel="stylesheet" href="../assets/css/site.css">\n  <title>' . escape_html($title) . ' | Yogi Arif Widodo</title>\n</head>\n<body>\n  <main class="blog-page">\n' . $body . '\n  </main>\n</body>\n</html>\n');
+    return str_replace('\\n', "\n", '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <!-- Google tag (gtag.js) -->\n  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZ0XL2F96B"></script>\n  <script>\n    window.dataLayer = window.dataLayer || [];\n    function gtag(){dataLayer.push(arguments);}\n    gtag("js", new Date());\n    gtag("config", "G-JZ0XL2F96B");\n  </script>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <meta name="description" content="' . escape_html($description) . '">\n  <link rel="canonical" href="' . escape_html($canonical) . '">\n  <link rel="stylesheet" href="../assets/css/site.css">\n  <title>' . escape_html($title) . ' | Yogi Arif Widodo</title>\n</head>\n<body>\n  <main class="blog-page">\n' . $body . '\n  </main>\n</body>\n</html>\n');
 }
 
 if (!is_dir(CONTENT)) { fwrite(STDERR, "Missing content directory.\n"); exit(1); }
