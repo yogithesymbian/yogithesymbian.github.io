@@ -1,3 +1,7 @@
+---
+summary: "How to reserve a static IP and run a Google Cloud Web Security Scanner scan against the Cymbal Bank application."
+---
+
 # Running a Web Security Scan on Cymbal Bank Application
 
 To run a Web Security scan against the Cymbal Bank application, you need to first reserve a static external IP for the cls-vm instance and then configure and run the scan.

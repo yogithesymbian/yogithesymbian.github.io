@@ -16,7 +16,7 @@ This site is the personal portfolio of Yogi Arif Widodo, a Software Engineer bas
 - Name: Yogi Arif Widodo
 - Role: Software Engineer
 - Location: Balikpapan, Indonesia
-- Website: https://yogithesymbian.github.io/
+- Website: https://yogiarifwidodo.my.id/
 - GitHub: https://github.com/yogithesymbian
 - LinkedIn: https://linkedin.com/in/yogi-arif-widodo
 

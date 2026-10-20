@@ -9,6 +9,7 @@ declare(strict_types=1);
 const ROOT = __DIR__ . '/..';
 const CONTENT = ROOT . '/content';
 const OUTPUT = ROOT . '/writing';
+const SITE_URL = 'https://yogiarifwidodo.my.id';
 
 function escape_html(string $value): string {
     return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -128,8 +129,8 @@ function markdown_html(string $markdown): string {
     return $html;
 }
 
-function page_shell(string $title, string $description, string $body, string $canonical): string {
-    return str_replace('\\n', "\n", '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <!-- Google tag (gtag.js) -->\n  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZ0XL2F96B"></script>\n  <script>\n    window.dataLayer = window.dataLayer || [];\n    function gtag(){dataLayer.push(arguments);}\n    gtag("js", new Date());\n    gtag("config", "G-JZ0XL2F96B");\n  </script>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <meta name="description" content="' . escape_html($description) . '">\n  <link rel="canonical" href="' . escape_html($canonical) . '">\n  <link rel="stylesheet" href="../assets/css/site.css">\n  <title>' . escape_html($title) . ' | Yogi Arif Widodo</title>\n</head>\n<body>\n  <main class="blog-page">\n' . $body . '\n  </main>\n</body>\n</html>\n');
+function page_shell(string $title, string $description, string $body, string $canonical, string $lang = 'en'): string {
+    return str_replace('\\n', "\n", '<!DOCTYPE html>\n<html lang="' . escape_html($lang) . '">\n<head>\n  <!-- Google tag (gtag.js) -->\n  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZ0XL2F96B"></script>\n  <script>\n    window.dataLayer = window.dataLayer || [];\n    function gtag(){dataLayer.push(arguments);}\n    gtag("js", new Date());\n    gtag("config", "G-JZ0XL2F96B");\n  </script>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <meta name="description" content="' . escape_html($description) . '">\n  <link rel="canonical" href="' . escape_html($canonical) . '">\n  <link rel="stylesheet" href="../assets/css/site.css">\n  <title>' . escape_html($title) . ' | Yogi Arif Widodo</title>\n</head>\n<body>\n  <main class="blog-page">\n' . $body . '\n  </main>\n</body>\n</html>\n');
 }
 
 if (!is_dir(CONTENT)) { fwrite(STDERR, "Missing content directory.\n"); exit(1); }
@@ -146,6 +147,7 @@ foreach (array_merge(glob(CONTENT . '/*.mdx'), glob(CONTENT . '/*.md')) as $file
         'title' => $metadata['title'] ?? $fallback_title,
         'date' => $metadata['publishedAt'] ?? '',
         'summary' => $metadata['summary'] ?? '',
+        'lang' => $metadata['lang'] ?? 'en',
         'html' => markdown_html($markdown),
     ];
 }
@@ -155,7 +157,7 @@ foreach ($posts as $post) {
     $date_label = $post['date'] ? ' · <time datetime="' . escape_html($post['date']) . '">' . escape_html(date('F j, Y', strtotime($post['date']))) . '</time>' : '';
     $summary = $post['summary'] ? '<p class="post-summary">' . escape_html($post['summary']) . '</p>\n      ' : '';
     $body = '    <a class="back-link" href="../#writing">← Home</a>\n    <article class="post">\n      <p class="eyebrow">Writing' . $date_label . '</p>\n      <h1>' . escape_html($post['title']) . '</h1>\n      ' . $summary . '<div class="post-content">' . $post['html'] . '</div>\n    </article>';
-    file_put_contents(OUTPUT . '/' . $post['slug'] . '.html', page_shell($post['title'], $post['summary'], $body, 'https://yogithesymbian.github.io/writing/' . $post['slug'] . '.html'));
+    file_put_contents(OUTPUT . '/' . $post['slug'] . '.html', page_shell($post['title'], $post['summary'], $body, SITE_URL . '/writing/' . $post['slug'] . '.html', $post['lang']));
 }
 
 $items = '';
@@ -165,15 +167,13 @@ foreach ($posts as $post) {
     $items .= '      <article class="writing-item">\n        ' . $date . '<h2><a href="' . escape_html($post['slug']) . '.html">' . escape_html($post['title']) . '</a></h2>\n        ' . $summary . '</article>\n';
 }
 $index_body = '    <a class="back-link" href="../">← Home</a>\n    <header class="writing-header">\n      <p class="eyebrow">Notes from the work</p>\n      <h1>Writing</h1>\n      <p class="intro">Technical notes, engineering reflections, and practical lessons from building software.</p>\n    </header>\n    <section class="writing-list writing-index">\n' . $items . '    </section>';
-file_put_contents(OUTPUT . '/index.html', page_shell('Writing', 'Technical notes, engineering reflections, and practical lessons from building software.', $index_body, 'https://yogithesymbian.github.io/writing/'));
+file_put_contents(OUTPUT . '/index.html', page_shell('Writing', 'Technical notes, engineering reflections, and practical lessons from building software.', $index_body, SITE_URL . '/writing/'));
 
 $sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
-$sitemap .= "  <url><loc>https://yogithesymbian.github.io/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>\n";
-$sitemap .= "  <url><loc>https://yogithesymbian.github.io/writing/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n";
+$sitemap .= '  <url><loc>' . SITE_URL . "/</loc></url>\n";
+$sitemap .= '  <url><loc>' . SITE_URL . "/writing/</loc></url>\n";
 foreach ($posts as $post) {
-    $sitemap .= '  <url><loc>https://yogithesymbian.github.io/writing/' . escape_html($post['slug']) . '.html</loc>';
-    if ($post['date']) $sitemap .= '<lastmod>' . escape_html($post['date']) . '</lastmod>';
-    $sitemap .= '<changefreq>monthly</changefreq><priority>0.6</priority></url>' . "\n";
+    $sitemap .= '  <url><loc>' . SITE_URL . '/writing/' . escape_html($post['slug']) . '.html</loc></url>' . "\n";
 }
 $sitemap .= "</urlset>\n";
 file_put_contents(ROOT . '/sitemap.xml', $sitemap);

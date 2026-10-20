@@ -11,8 +11,8 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <link rel="canonical" href="https://yogithesymbian.github.io/writing/firewall.html">
+  <meta name="description" content="Steps to review Google Cloud firewall findings and restrict publicly open SSH and RDP ports.">
+  <link rel="canonical" href="https://yogiarifwidodo.my.id/writing/firewall.html">
   <link rel="stylesheet" href="../assets/css/site.css">
   <title>Resolving &quot;Open SSH port&quot; and &quot;Open RDP port&quot; Vulnerabilities | Yogi Arif Widodo</title>
 </head>
@@ -22,6 +22,7 @@
     <article class="post">
       <p class="eyebrow">Writing</p>
       <h1>Resolving &quot;Open SSH port&quot; and &quot;Open RDP port&quot; Vulnerabilities</h1>
+      <p class="post-summary">Steps to review Google Cloud firewall findings and restrict publicly open SSH and RDP ports.</p>
       <div class="post-content"><h1>Resolving &quot;Open SSH port&quot; and &quot;Open RDP port&quot; Vulnerabilities</h1><p>To resolve the &quot;Open SSH port&quot; and &quot;Open RDP port&quot; high vulnerability findings, you&#039;ll need to modify the associated firewall rules in your Google Cloud project.</p><h2>Step-by-step instructions</h2><h3>Access Security Command Center Findings</h3><p>1. In the Google Cloud Console, navigate to <strong>Security Command Center</strong>
 2. From the left-hand navigation, select <strong>Findings</strong>
 3. Filter the findings to show <strong>Severity: High</strong> and look for categories like &quot;Open SSH port&quot; and &quot;Open RDP port&quot;</p><h3>Identify the Affected Firewall Rule for &quot;Open SSH port&quot;</h3><p>1. Click on the &quot;Open SSH port&quot; finding

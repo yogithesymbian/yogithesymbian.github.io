@@ -1,6 +1,6 @@
 # Portfolio UI Enhancement Spec
 
-Status: portfolio implemented, including certification marquee and footer signoff; browser visual QA pending
+Status: portfolio UI and repo-side SEO implemented; Search Console setup, deployment, and live verification pending
 Tanggal: 20 Oktober 2026
 
 ## 1. Tujuan
@@ -220,6 +220,36 @@ Nilai final boleh disesuaikan saat visual QA, tetapi rasio kontras wajib tetap l
 - Target Lighthouse mobile: Performance ≥ 90, Accessibility ≥ 95, Best Practices ≥ 95, SEO ≥ 95.
 - Tidak boleh ada layout shift yang terlihat dari image, video, atau font loading.
 
+## 8A. SEO & Google Search Discoverability — Implementation Spec
+
+Tujuan: membuat halaman publik mudah ditemukan, dirayapi, dipahami, dan dipantau di Google Search. **Tidak ada jaminan langsung terindeks atau mendapat peringkat tertentu.** Utamakan halaman yang menjawab pencarian nama Yogi, software engineer di Balikpapan, proyek nyata, dan topik artikel; jangan menjejalkan kata kunci.
+
+### P0 — Satu URL utama dan akses crawl
+
+- Gunakan `https://yogiarifwidodo.my.id/` sebagai domain utama: `CNAME` menunjuk ke sana, domain tersebut merespons `200`, sedangkan `https://yogithesymbian.github.io/` mengarah `301` ke domain tersebut (dicek 20 Oktober 2026). Audit ulang sesaat sebelum implementasi/deploy.
+- Selaraskan canonical absolut **setiap halaman HTML**, `og:url`, URL pada JSON-LD, `robots.txt`, dan semua `<loc>` dalam `sitemap.xml` ke domain utama. Jangan biarkan canonical menunjuk ke URL GitHub Pages yang redirect.
+- Pilih satu URL kanonis untuk Writing index (`/writing/`, bukan sekaligus `/writing/` dan `/writing/index.html` dalam sitemap). Pastikan URL yang disertakan benar-benar merespons `200`, dapat diakses melalui tautan HTML, dan tidak memuat `noindex`.
+- Rapikan sitemap menjadi daftar URL kanonis yang memang ingin diindeks. Isi `<lastmod>` hanya dengan tanggal perubahan konten yang benar-benar signifikan; jangan memakai tanggal deploy secara otomatis. Hapus `<priority>` dan `<changefreq>` karena Google mengabaikannya.
+- Pertahankan `robots.txt` yang membolehkan crawl halaman publik dan arahkan `Sitemap:` ke domain utama. Jangan mengandalkan `robots.txt` untuk menyembunyikan dokumen pribadi: file sensitif tidak boleh dipublikasikan sama sekali.
+
+### P1 — Konten halaman dan metadata yang relevan
+
+- Audit `<title>` dan meta description yang unik untuk homepage, Writing index, dan setiap artikel. Judul ringkas dan sesuai isi/heading; deskripsi menjelaskan nilai halaman secara alami. Perbaiki deskripsi kosong, generik, rusak, atau sekadar catatan internal pada artikel lama.
+- Homepage: tonjolkan nama lengkap, peran, lokasi, pengalaman, dan contoh pekerjaan nyata pada teks HTML yang terlihat. Pertahankan satu `<h1>` jelas. Target istilah pencarian secara natural, misalnya `Yogi Arif Widodo`, `Software Engineer`, `Balikpapan`, `full-stack`, dan `cloud infrastructure`; jangan membuat daftar keyword tersembunyi.
+- Artikel: judul, ringkasan, tanggal, heading, dan tautan internal harus mencerminkan isi artikel. Pertahankan bahasa artikel yang sebenarnya pada `lang`/metadata; jangan memaksa artikel Indonesia menjadi title berbahasa Inggris bila kontennya Indonesia.
+- Tambahkan tautan HTML kontekstual dari homepage ke artikel unggulan dan dari artikel ke halaman/proyek relevan. Detail proyek dalam `<dialog>` tetap berguna untuk pengunjung, tetapi jika ingin tiap proyek punya peluang ditemukan lewat pencarian spesifik, perlu halaman proyek dengan URL tersendiri; itu keputusan konten terpisah, bukan bagian dari implementasi SEO awal.
+- Pertahankan JSON-LD `ProfilePage`/`Person` yang sesuai fakta di halaman; perbarui URL dan tanggal modifikasi secara akurat. Tambahkan `WebSite` structured data hanya bila nilai `name` dan URL sesuai situs. Validasi markup, tetapi jangan menganggap schema menjamin rich result.
+
+### P2 — Verifikasi dan pemantauan setelah deploy
+
+- Buka [Google Search Console](https://search.google.com/search-console) dengan akun pemilik dan cek apakah properti `yogiarifwidodo.my.id` sudah ada; jangan membuat properti duplikat bila sudah terverifikasi. Bila belum ada, tambah **Domain property** `yogiarifwidodo.my.id` (tanpa `https://`), lalu verifikasi melalui record DNS yang diberikan Google. Perubahan DNS perlu akses pengelola domain dan tidak bisa diselesaikan dari repo saja.
+- Setelah URL kanonis dan sitemap versi domain utama sudah live, kirim `https://yogiarifwidodo.my.id/sitemap.xml` pada menu Sitemaps. Periksa status `Success` dan apakah URL yang terbaca sesuai daftar halaman publik.
+- Gunakan URL Inspection pada homepage, `/writing/`, dan 2–3 artikel representatif: cek `Google-selected canonical`, status index, dan hasil live test. Ajukan `Request Indexing` hanya untuk halaman prioritas yang baru diperbaiki; pengajuan tidak menjamin indeks langsung.
+- Ukur status `Indexed`/alasan pengecualian, canonical pilihan Google, jumlah impression dan query di Search Console. Prioritaskan error crawl, canonical, dan halaman bernilai tinggi yang belum terindeks sebelum menambah metadata kosmetik.
+- GA4 portfolio **sudah ada**: screenshot pemilik menunjukkan web stream `Yogi Portfolio` untuk `https://yogiarifwidodo.my.id`, measurement ID `G-JZ0XL2F96B`, dan data collection aktif dalam 48 jam terakhir; ID yang sama sudah dipasang di `index.html`. Tidak perlu membuat stream atau tag GA baru. Search Console tetap perlu dipakai karena GA4 mengukur kunjungan, bukan memberi diagnosis crawl/indexing. Menghubungkan GA4 ke Search Console hanya opsional untuk laporan gabungan, bukan syarat indeks.
+- Setelah perubahan live, cek HTTP `200`/redirect, source HTML, sitemap, robots, dan structured data. Permintaan indeks ulang boleh dilakukan untuk URL utama yang berubah, tetapi indexing dan ranking tetap keputusan Google.
+- Lindungi PDF sertifikat mentah yang berisi informasi pribadi: jangan letakkan/tautkan pada output publik. Bila pernah terpublikasi, evaluasi penghapusan dari hosting dan hasil pencarian secara terpisah; `noindex` atau robots bukan pengganti penghapusan file sensitif.
+
 ## 9. Acceptance Criteria
 
 - Visual baru tetap dikenali sebagai portfolio Yogi, bukan template generik.
@@ -240,6 +270,8 @@ Nilai final boleh disesuaikan saat visual QA, tetapi rasio kontras wajib tetap l
 - View transitions dan glass memiliki fallback yang layak.
 - Layout lolos pengecekan pada `320px`, `768px`, `1024px`, dan `1440px`.
 - Tidak ada regresi pada Writing pages, SEO metadata, analytics, download CV, atau project data.
+- Setelah SEO diimplementasikan: semua URL kanonis di metadata, JSON-LD, `robots.txt`, dan sitemap memakai domain utama yang sama; sitemap tidak memuat duplikat `/writing/index.html`, dan tidak ada deskripsi artikel yang kosong/rusak.
+- Search Console mencatat sitemap berhasil diproses dan URL Inspection untuk halaman prioritas tidak menunjukkan blokir teknis; status indeks/ranking dipantau, bukan dijanjikan.
 - Tidak ada dependency runtime baru tanpa persetujuan.
 
 ## 10. Out of Scope
@@ -261,6 +293,12 @@ Nilai final boleh disesuaikan saat visual QA, tetapi rasio kontras wajib tetap l
 - [W3C — WCAG 2.2](https://www.w3.org/WAI/standards-guidelines/wcag/new-in-22/)
 - [W3C — prefers-reduced-motion technique](https://www.w3.org/WAI/WCAG22/Techniques/css/C39.html)
 - [USWDS — Footer](https://designsystem.digital.gov/components/footer/)
+- [Google Search Central — SEO developer guide](https://developers.google.com/search/docs/fundamentals/get-started-developers)
+- [Google Search Central — Canonicalization](https://developers.google.com/search/docs/crawling-indexing/canonicalization)
+- [Google Search Central — Build and submit a sitemap](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
+- [Google Search Central — Title links](https://developers.google.com/search/docs/appearance/title-link)
+- [Google Search Central — Search Console](https://developers.google.com/search/docs/monitor-debug/search-console-start)
+- [Google Search Console Help — Add a property](https://support.google.com/webmasters/answer/34592)
 
 ## 12. Implementation Notes
 
@@ -268,3 +306,6 @@ Nilai final boleh disesuaikan saat visual QA, tetapi rasio kontras wajib tetap l
 - CTA kontak berulang dan counter publik sudah dihapus dari footer; konfigurasi Google Analytics dan GoatCounter tetap utuh.
 - View Transition API digunakan sebagai progressive enhancement pada showcase dan pergantian tab. Transisi project ke halaman detail belum relevan karena portfolio saat ini belum memiliki halaman detail project.
 - Target Lighthouse dan visual QA pada browser nyata masih perlu diukur di lingkungan dengan browser tersedia.
+- SEO repo-side sudah diterapkan: canonical homepage/artikel, `og:url`, JSON-LD, robots, sitemap, serta generator blog kini memakai `yogiarifwidodo.my.id`; entri sitemap `/writing/index.html`, `<priority>`, dan `<changefreq>` dihapus. Deskripsi artikel kosong/generik telah diperbaiki di sumber konten dan HTML hasil build.
+- PDF sertifikat mentah dikeluarkan dari Git tracking dan di-ignore, sementara salinan lokal tetap ada. Saat audit 20 Oktober 2026, URL PDF pada situs live masih merespons `200`; file baru hilang dari situs setelah perubahan ini dideploy. Riwayat Git lama dan kemungkinan indeks Google memerlukan penanganan lanjutan terpisah.
+- Status properti Search Console belum diverifikasi di akun pemilik; screenshot yang tersedia hanya menunjukkan status GA4, bukan Search Console.

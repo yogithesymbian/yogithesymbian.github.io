@@ -1,3 +1,7 @@
+---
+summary: "Steps to review Google Cloud firewall findings and restrict publicly open SSH and RDP ports."
+---
+
 # Resolving "Open SSH port" and "Open RDP port" Vulnerabilities
 
 To resolve the "Open SSH port" and "Open RDP port" high vulnerability findings, you'll need to modify the associated firewall rules in your Google Cloud project.

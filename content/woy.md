@@ -1,3 +1,7 @@
+---
+summary: "A step-by-step guide to exposing a Google Cloud Function through API Gateway with an OpenAPI configuration."
+---
+
 # Create an API Gateway for Cloud Function
 
 Okay, let's create an API Gateway to expose your outofstock Cloud Function. Follow these steps:
