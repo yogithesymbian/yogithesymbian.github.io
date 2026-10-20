@@ -1,6 +1,6 @@
 # Portfolio UI Enhancement Spec
 
-Status: implemented; browser visual QA and Lighthouse measurement pending
+Status: portfolio implemented, including certification marquee and footer signoff; browser visual QA pending
 Tanggal: 20 Oktober 2026
 
 ## 1. Tujuan
@@ -94,14 +94,28 @@ Ubah hanya section `Background`. Pertahankan dua kredensial yang sudah ada dan t
 
 - Judul `Background.` tetap ringkas, dengan eyebrow kecil `Education & credentials`.
 - Baris utama: `Informatics Engineering` sebagai judul paling menonjol, `Politeknik Negeri Samarinda` sebagai institusi, dan `GPA 3.91 / 4.00` sebagai badge yang mudah dipindai.
-- Baris kedua: `TOEFL · Certificate of Completion` sebagai judul, dengan `International Centre for English Excellence (ICEE)` sebagai penerbit. Jangan menampilkan skor, level bahasa, atau klaim sertifikasi yang tidak tercantum.
+- Baris kedua perlu koreksi saat implementasi berikutnya: halaman 15 PDF menunjukkan **ICEE one-year English program Certificate of Completion**, sedangkan halaman 22 adalah **TOEFL-equivalent result** dari Politeknik Negeri Samarinda. Jangan gabungkan keduanya menjadi `TOEFL · ICEE Certificate of Completion`. Tampilkan ICEE sebagai program bahasa; hasil tes TOEFL-equivalent opsional sebagai kredensial terpisah.
 - Gunakan garis tipis dan ruang yang cukup sebagai pemisah. Desktop: label kecil di kiri, isi utama di tengah, metadata di kanan. Mobile: baris bertumpuk tanpa horizontal overflow.
 - Bobot visual section tetap di bawah Hero, Selected Work, dan Capabilities. Tidak perlu animasi, ikon, foto kampus, atau tautan tanpa tujuan yang jelas.
 - Semantik: gunakan daftar dua item, heading yang berurutan, dan teks yang tetap terbaca pada zoom `200%`.
 
 Acuan: [Material Design 3 typography](https://m3.material.io/styles/typography/applying-type) untuk hierarki teks dan [USWDS collection guidance](https://designsystem.digital.gov/components/collection/) untuk daftar ringkas dengan metadata.
 
-### 3.5 Expressive Motion
+### 3.5 Certifications & Learning — Lightweight Marquee
+
+Tempatkan section baru **tepat di bawah Background dan sebelum Writing**. Referensi visual: gambar marquee logo yang diberikan pemilik portfolio; ambil kartu logo, potongan kartu di kedua ujung, dan fade halus pada tepi. Judul yang aman: `Certifications & learning.` Hindari `Certified by`, `Trusted by`, atau `Worked with` karena penerbit kursus, mitra program, dan skill badges bukan relasi yang sama.
+
+- Baris bergerak berisi maksimal enam kartu unik: **Dicoding**, **Alibaba Cloud**, **Oracle Academy**, **Udemy**, **ICEE**, dan **Google Skills**. Empat pertama memakai logo WebP yang benar-benar diekstrak dari PDF; ICEE dan Google Skills memakai tipografi teks sampai ada mark yang jelas dari sumbernya.
+- Caption kecil wajib membedakan jenis bukti: Dicoding course certificates (PDF halaman 1/3/5/11/12/16–19), Alibaba Cloud course completions (7–9), Oracle Academy Database Foundations course completion (10), Udemy course completions (14/21), ICEE English program completion (15), Google Skills achievements/badges (23–24).
+- Logo Alibaba Cloud pada halaman 7–9 adalah bukti penyelesaian historis; sertifikat di halaman 7 menampilkan tanggal validitas yang sudah lewat. Jangan menyebutnya sertifikasi aktif. Google.org/AVPN pada sertifikat Dicoding adalah pendukung/kolaborator program, bukan penerbit sertifikat Yogi.
+- Aset siap pakai di `assets/certifications/`: `dicoding.webp` (halaman 1), `alibaba-cloud.webp` (7), `oracle-academy.webp` (10), dan `udemy.webp` (14). Semua hasil crop sumber PDF; sekitar 2–4 KB per file. Sertakan `width`/`height`, alt text nama penerbit, dan `object-fit: contain`.
+- Desktop: kartu putih kecil dengan logo di tengah dan caption ringkas, bergerak perlahan dari kanan ke kiri dalam loop mulus. Kedua sisi viewport menampilkan sebagian kartu dengan edge fade tipis; jangan membuat teks aktif menjadi terlalu pudar.
+- Gunakan CSS `transform: translateX()` untuk satu track yang bergerak; duplikat item hanya untuk kontinuitas visual dan tandai duplikat `aria-hidden="true"` serta `inert`. Jangan memakai animation library atau timer JavaScript.
+- Durasi target sekitar `30–45s` per putaran, linear, tanpa percepatan ketika hover. Pause saat hover dan `focus-within`. Pada `prefers-reduced-motion: reduce`, matikan auto-scroll dan jadikan daftar horizontal yang bisa digeser manual.
+- Mobile: tinggi kartu lebih ringkas dan potongan kartu berikutnya tetap terlihat. Jangan memaksa semua kartu masuk satu layar.
+- Satu CTA `View credentials` boleh ditambahkan setelah ada dokumen publik yang sudah disunting dari informasi pribadi atau tautan verifikasi individual. PDF sumber 24 halaman memuat tanggal lahir, nomor mahasiswa, nomor sertifikat, dan QR; **jangan tautkan PDF mentah langsung dari portfolio** tanpa review/redaksi.
+
+### 3.6 Expressive Motion
 
 - Motion hanya untuk memberi hierarchy dan feedback, bukan dekorasi terus-menerus.
 - Hero: staggered reveal ringan saat halaman masuk.
@@ -110,20 +124,20 @@ Acuan: [Material Design 3 typography](https://m3.material.io/styles/typography/a
 - Durasi target: interaction `140–220ms`; entrance `300–500ms`.
 - Animasi hanya pada `transform`, `opacity`, atau properti compositor-friendly.
 
-### 3.6 Seamless View Transitions
+### 3.7 Seamless View Transitions
 
 - Terapkan View Transition API secara progressive enhancement untuk membuka/menutup showcase dan perpindahan visual project ke detail.
 - UI harus tetap berfungsi penuh jika browser tidak mendukung View Transition API.
 - Hindari routing/framework baru hanya untuk efek transisi.
 
-### 3.7 Selective Liquid Glass
+### 3.8 Selective Liquid Glass
 
 - Glass hanya digunakan pada floating navigation/action bar atau controls di atas media.
 - Styling target: translucent surface, blur ringan, border putih transparan, shadow lembut, dan radius capsule.
 - Jangan gunakan glass pada body, seluruh card, atau area teks panjang.
 - Sediakan fallback opaque dengan kontras yang setara ketika `backdrop-filter` tidak tersedia.
 
-### 3.8 Accessibility as Visual Quality
+### 3.9 Accessibility as Visual Quality
 
 - Target WCAG 2.2 AA.
 - Semua interaction harus dapat dipakai dengan keyboard dan memiliki `:focus-visible` yang jelas.
@@ -133,6 +147,14 @@ Acuan: [Material Design 3 typography](https://m3.material.io/styles/typography/a
 - Dialog wajib mempertahankan focus management, Escape-to-close, label, dan focus return.
 - Hover enhancement wajib memiliki padanan focus/touch.
 
+### 3.10 Footer — Quiet Signoff
+
+- Ganti kalimat CTA `Have a project or opportunity in mind? Book a call or get in touch by email.` karena jalur kontak sudah jelas di hero dan navigasi.
+- Footer menjadi penutup editorial yang ringkas: `Yogi Arif Widodo` dan `Software Engineer · Balikpapan, Indonesia`, dengan satu tautan utilitas `Back to top ↑`.
+- Gunakan garis pemisah tipis, ruang napas cukup, dan tipografi yang konsisten; tanpa kartu, animasi dekoratif, atau CTA primer baru.
+- Hapus penghitung pengunjung yang terlihat dari footer. Script analytics boleh tetap berjalan; jangan menghapus atau mengubah konfigurasi tracking hanya karena tampilan counter dihapus.
+- Di mobile, susun teks dan tautan secara vertikal tanpa overflow; tautan tetap punya focus state yang jelas.
+
 ## 4. Struktur Halaman yang Diusulkan
 
 1. Floating utility navigation: Work, About, Writing, Contact.
@@ -140,9 +162,10 @@ Acuan: [Material Design 3 typography](https://m3.material.io/styles/typography/a
 3. Selected Work featured carousel: 3–5 project terbaik, satu project aktif dan preview slide tetangga.
 4. Impact strip: angka/proof seperti 9+ years, 10+ products, 5 countries, team 2→11.
 5. Capabilities editorial index: headline kuat di kiri dan empat baris keahlian dengan contoh kerja di kanan.
-6. Selected writing: aktifkan kembali maksimal tiga artikel terbaru/terkuat.
-7. Background sebagai dua baris kredensial editorial, lalu compact footer CTA.
-8. Full project archive tetap menggunakan showcase dialog yang ditingkatkan.
+6. Background sebagai dua baris kredensial editorial.
+7. Certifications & learning marquee ringan di bawah Background.
+8. Selected writing: maksimal tiga artikel terbaru/terkuat.
+9. Footer signoff ringkas dengan tautan kembali ke atas, tanpa CTA kontak berulang atau counter publik; full project archive tetap menggunakan showcase dialog.
 
 ## 5. Content Rules
 
@@ -188,6 +211,7 @@ Nilai final boleh disesuaikan saat visual QA, tetapi rasio kontras wajib tetap l
 ## 8. Performance Constraints
 
 - Tidak menambah framework UI atau animation library kecuali ada kebutuhan yang terukur.
+- Marquee sertifikasi memakai empat logo WebP kecil dari PDF; total aset gambar target di bawah `40 KB`, tanpa memuat halaman PDF sebagai gambar di viewport.
 - Carousel Selected Work memakai CSS `scroll-snap`, `transform`/`opacity` seperlunya, dan JavaScript tanpa dependency; hindari blur/filter animasi, shadow besar yang bergerak, dan cloning slide.
 - Gambar slide pertama diberi prioritas muat; gambar slide lain `loading="lazy"`. Video tetap `preload="metadata"` atau `none` dan tidak otomatis diputar.
 - Pertahankan progressive enhancement dan native browser APIs.
@@ -203,7 +227,10 @@ Nilai final boleh disesuaikan saat visual QA, tetapi rasio kontras wajib tetap l
 - Hero tetap terbaca dan tidak overflow pada `320px`; saat zoom browser `200%`, urutan konten dan fokus keyboard tetap logis.
 - Selected Work mengikuti komposisi referensi: satu frame project aktif dominan, slide tetangga terlihat sebagian, dan kontrol sebelumnya/berikutnya plus indikator posisi di bawah.
 - Capabilities tampil sebagai editorial index; headline dan contoh kerja nyata lebih menonjol daripada daftar teknologi. Tidak ada informasi yang bergantung pada hover.
-- Background menonjolkan bidang studi dan GPA, dengan kredensial ICEE terbaca jelas tanpa menyiratkan skor TOEFL.
+- Background menonjolkan bidang studi dan GPA; ICEE completion tidak salah dilabeli sebagai sertifikat TOEFL.
+- Marquee menampilkan penerbit/jenis kredensial yang sesuai isi PDF, loop halus tanpa jeda, edge fade di kiri dan kanan, serta mode statis yang dapat digeser saat reduced motion.
+- Tidak ada tautan publik ke PDF sumber mentah sebelum informasi pribadi ditinjau dan disunting.
+- Footer tidak mengulang ajakan kontak dari hero, tidak menampilkan visitor counter, dan menyediakan `Back to top` yang bisa dipakai dengan keyboard.
 - Tombol, swipe, trackpad, dan keyboard mengubah slide tanpa tersendat; posisi tombol/indikator selalu sesuai slide yang terlihat setelah scroll manual.
 - Pada slide pertama/terakhir, tombol yang tidak bisa dipakai berstatus disabled dan carousel tidak memaksa loop.
 - Pada `prefers-reduced-motion: reduce`, perpindahan slide berlangsung tanpa smooth scrolling atau animasi posisi.
@@ -233,9 +260,11 @@ Nilai final boleh disesuaikan saat visual QA, tetapi rasio kontras wajib tetap l
 - [MDN — CSS Container Queries](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Containment/Container_queries)
 - [W3C — WCAG 2.2](https://www.w3.org/WAI/standards-guidelines/wcag/new-in-22/)
 - [W3C — prefers-reduced-motion technique](https://www.w3.org/WAI/WCAG22/Techniques/css/C39.html)
+- [USWDS — Footer](https://designsystem.digital.gov/components/footer/)
 
 ## 12. Implementation Notes
 
-- Hero editorial gelap, Selected Work carousel, impact strip, Capabilities editorial index, Background credential index, floating navigation, dan selected writing sudah diterapkan.
+- Hero editorial gelap, Selected Work carousel, impact strip, Capabilities editorial index, Background credential index, marquee sertifikasi, floating navigation, selected writing, dan footer signoff sudah diterapkan. Marquee memakai empat aset WebP dari PDF dan dua wordmark teks.
+- CTA kontak berulang dan counter publik sudah dihapus dari footer; konfigurasi Google Analytics dan GoatCounter tetap utuh.
 - View Transition API digunakan sebagai progressive enhancement pada showcase dan pergantian tab. Transisi project ke halaman detail belum relevan karena portfolio saat ini belum memiliki halaman detail project.
 - Target Lighthouse dan visual QA pada browser nyata masih perlu diukur di lingkungan dengan browser tersedia.
