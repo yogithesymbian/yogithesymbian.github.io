@@ -360,13 +360,21 @@ function activateShowcaseMedia() {
 }
 
 initializeShowcase();
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+function transitionView(update) {
+  if (!document.startViewTransition || reduceMotion.matches) {
+    update();
+    return;
+  }
+  document.startViewTransition(update);
+}
 openButtons.forEach(button => button.addEventListener("click", () => {
   activateShowcaseMedia();
-  showcase.showModal();
+  transitionView(() => showcase.showModal());
 }));
-closeButton.addEventListener("click", () => showcase.close());
+closeButton.addEventListener("click", () => transitionView(() => showcase.close()));
 showcase.addEventListener("click", event => {
-  if (event.target === showcase) showcase.close();
+  if (event.target === showcase) transitionView(() => showcase.close());
 });
 function selectTab(tab) {
   const selected = tab.dataset.tab;
@@ -380,13 +388,71 @@ function selectTab(tab) {
 }
 
 tabs.forEach(tab => {
-  tab.addEventListener("click", () => selectTab(tab));
+  tab.addEventListener("click", () => transitionView(() => selectTab(tab)));
   tab.addEventListener("keydown", event => {
     if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
     event.preventDefault();
     const direction = event.key === "ArrowRight" ? 1 : -1;
     const nextIndex = (tabs.indexOf(tab) + direction + tabs.length) % tabs.length;
     tabs[nextIndex].focus();
-    selectTab(tabs[nextIndex]);
+    transitionView(() => selectTab(tabs[nextIndex]));
   });
 });
+
+const workCarousel = document.querySelector("#featured-work-carousel");
+if (workCarousel) {
+  const slides = [...workCarousel.querySelectorAll(".project-slide")];
+  const dots = [...document.querySelectorAll("[data-carousel-dot]")];
+  const previous = document.querySelector("[data-carousel-prev]");
+  const next = document.querySelector("[data-carousel-next]");
+  let activeIndex = 0;
+  let scrollFrame = 0;
+
+  function updateCarousel(index) {
+    activeIndex = Math.max(0, Math.min(index, slides.length - 1));
+    slides.forEach((slide, slideIndex) => {
+      const active = slideIndex === activeIndex;
+      slide.classList.toggle("is-active", active);
+      slide.inert = !active;
+    });
+    dots.forEach((dot, dotIndex) => {
+      if (dotIndex === activeIndex) dot.setAttribute("aria-current", "true");
+      else dot.removeAttribute("aria-current");
+    });
+    previous.disabled = activeIndex === 0;
+    next.disabled = activeIndex === slides.length - 1;
+  }
+
+  function slidePosition(index) {
+    return slides[index].offsetLeft - slides[0].offsetLeft;
+  }
+
+  function goToSlide(index) {
+    const target = Math.max(0, Math.min(index, slides.length - 1));
+    updateCarousel(target);
+    workCarousel.scrollTo({ left: slidePosition(target), behavior: reduceMotion.matches ? "auto" : "smooth" });
+  }
+
+  function syncCarousel() {
+    scrollFrame = 0;
+    const nearest = slides.reduce((best, slide, index) =>
+      Math.abs(slidePosition(index) - workCarousel.scrollLeft) < Math.abs(slidePosition(best) - workCarousel.scrollLeft) ? index : best, 0);
+    if (nearest !== activeIndex) updateCarousel(nearest);
+  }
+
+  workCarousel.addEventListener("scroll", () => {
+    if (!scrollFrame) scrollFrame = requestAnimationFrame(syncCarousel);
+  }, { passive: true });
+  workCarousel.addEventListener("keydown", event => {
+    if (event.target !== workCarousel || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+    event.preventDefault();
+    goToSlide(activeIndex + (event.key === "ArrowRight" ? 1 : -1));
+  });
+  previous.addEventListener("click", () => goToSlide(activeIndex - 1));
+  next.addEventListener("click", () => goToSlide(activeIndex + 1));
+  dots.forEach(dot => dot.addEventListener("click", () => goToSlide(Number(dot.dataset.carouselDot))));
+  window.addEventListener("resize", () => {
+    workCarousel.scrollTo({ left: slidePosition(activeIndex), behavior: "auto" });
+  });
+  updateCarousel(0);
+}

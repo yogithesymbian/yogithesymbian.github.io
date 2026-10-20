@@ -64,10 +64,20 @@
   <script src="assets/js/showcase.js" defer></script>
 </head>
 <body>
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="site-mark" href="#top" aria-label="Yogi Arif Widodo, back to top">YA<span aria-hidden="true">/</span>W</a>
+    <div class="site-nav-links">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="writing/">Writing</a>
+      <a class="nav-contact" href="mailto:yogirenbox33@gmail.com">Contact <span aria-hidden="true">↗</span></a>
+    </div>
+  </nav>
   <main>
-    <header>
+    <header class="hero" id="top">
       <p class="eyebrow">Software Engineer · Balikpapan, Indonesia</p>
       <h1>Yogi Arif Widodo</h1>
+      <p class="hero-statement">Building useful software, from product interface to infrastructure.</p>
       <p class="intro">I build web and mobile products, modernize legacy systems, and run the infrastructure behind them. I have 9+ years of experience working with teams and clients across Indonesia and abroad.</p>
       <p class="availability"><span aria-hidden="true"></span> Open to full-stack, backend, cloud infrastructure, and technical leadership opportunities.</p>
       <nav class="links" aria-label="Contact and profiles">
@@ -87,70 +97,112 @@
       </nav>
     </header>
 
-    <section class="featured-work" aria-labelledby="featured-work-title">
+    <section class="featured-work" id="work" aria-labelledby="featured-work-title">
       <div class="featured-work-heading">
         <div>
           <p class="eyebrow">Selected work</p>
-          <h2 id="featured-work-title">A few things I’ve built</h2>
+          <h2 id="featured-work-title">Selected work<span class="heading-period">.</span></h2>
         </div>
         <button class="text-button" type="button" data-showcase-open>View all projects <span aria-hidden="true">↗</span></button>
       </div>
-      <div class="featured-work-grid">
-        <article class="project-card">
-          <img src="assets/favorite_projects/yocatetin.com.showcase-3.webp" alt="YoCateTin expense tracking dashboard and chat interface" loading="lazy" decoding="async">
-          <div class="project-copy">
-            <p class="project-type">AI · Personal finance</p>
-            <h3>YoCatetin</h3>
-            <p>AI-assisted expense tracking platform for turning everyday spending into structured records.</p>
-            <p class="project-impact">Product · Founder-led</p>
-            <a class="project-link" href="https://yocatetin.com" target="_blank" rel="noopener noreferrer">Open live product ↗</a>
+      <div class="featured-work-carousel" id="featured-work-carousel" role="region" aria-roledescription="carousel" aria-label="Selected projects" tabindex="0">
+        <article class="project-card project-slide is-active" aria-roledescription="slide" aria-label="1 of 3: YoCatetin">
+          <div class="project-window">
+            <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <img src="assets/favorite_projects/yocatetin.com.showcase-3.webp" alt="YoCateTin expense tracking dashboard and chat interface" loading="eager" fetchpriority="high" decoding="async">
+            <div class="project-copy">
+              <p class="project-type">AI · Personal finance</p>
+              <h3>YoCatetin</h3>
+              <p>Founder-led platform that turns everyday spending into structured records through familiar chat workflows.</p>
+              <p class="project-impact">Product · Founder-led</p>
+              <a class="project-link" href="https://yocatetin.com" target="_blank" rel="noopener noreferrer">Open live product ↗</a>
+            </div>
           </div>
         </article>
-        <article class="project-card">
-          <div class="project-visual yoclipper-visual" role="img" aria-label="YoClipper AI video upload and clipping interface">
-            <span class="visual-kicker">YoClipper</span>
-            <strong>Clip viral videos</strong>
-            <span>Upload video, let AI find the moments.</span>
-            <span class="visual-input">Paste URL (YouTube, Threads, IG…) <b>↵</b></span>
-            <span class="visual-platforms">YouTube · TikTok · Instagram</span>
-          </div>
-          <div class="project-copy">
-            <p class="project-type">AI · Creator tools</p>
-            <h3>YoClipper</h3>
-            <p>AI-assisted video clipping for finding strong moments and creating short-form content.</p>
-            <p class="project-impact">Active product · Founder-led</p>
-            <a class="project-link" href="https://yocatetin.com/yoclipper" target="_blank" rel="noopener noreferrer">Open live product ↗</a>
+        <article class="project-card project-slide" aria-roledescription="slide" aria-label="2 of 3: YoClipper">
+          <div class="project-window">
+            <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="project-visual yoclipper-visual" role="img" aria-label="YoClipper AI video upload and clipping interface">
+              <span class="visual-kicker">YoClipper</span>
+              <strong>Clip viral videos</strong>
+              <span>Upload video, let AI find the moments.</span>
+              <span class="visual-input">Paste URL (YouTube, Threads, IG…) <b>↵</b></span>
+              <span class="visual-platforms">YouTube · TikTok · Instagram</span>
+            </div>
+            <div class="project-copy">
+              <p class="project-type">AI · Creator tools</p>
+              <h3>YoClipper</h3>
+              <p>AI-assisted video clipping for finding strong moments and creating short-form content.</p>
+              <p class="project-impact">Active product · Founder-led</p>
+              <a class="project-link" href="https://yocatetin.com/yoclipper" target="_blank" rel="noopener noreferrer">Open live product ↗</a>
+            </div>
           </div>
         </article>
-        <article class="project-card">
-          <video controls preload="metadata" poster="assets/favorite_projects/sal-poster.webp" aria-label="SAL maritime operations walkthrough">
-            <source src="assets/favorite_projects/sal.webm" type="video/webm">
-            Your browser does not support WebM video.
-          </video>
-          <div class="project-copy">
-            <p class="project-type">Maritime · Operations</p>
-            <h3>SAL maritime operations</h3>
-            <p>Digital tools for port and fleet workflows, including operational monitoring and integrations.</p>
-            <p class="project-impact">Web &amp; Mobile platform · Maritime operations</p>
+        <article class="project-card project-slide" aria-roledescription="slide" aria-label="3 of 3: SAL maritime operations">
+          <div class="project-window">
+            <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <video controls preload="metadata" poster="assets/favorite_projects/sal-poster.webp" aria-label="SAL maritime operations walkthrough">
+              <source src="assets/favorite_projects/sal.webm" type="video/webm">
+              Your browser does not support WebM video.
+            </video>
+            <div class="project-copy">
+              <p class="project-type">Maritime · Operations</p>
+              <h3>SAL maritime operations</h3>
+              <p>Digital tools for port and fleet workflows, including operational monitoring and integrations.</p>
+              <p class="project-impact">Web &amp; Mobile platform · Maritime operations</p>
+            </div>
           </div>
         </article>
       </div>
+      <div class="carousel-controls" aria-label="Selected work controls">
+        <button class="carousel-arrow" type="button" data-carousel-prev aria-label="Previous project" disabled>←</button>
+        <div class="carousel-dots" aria-label="Choose project">
+          <button type="button" data-carousel-dot="0" aria-label="Show YoCatetin" aria-current="true"></button>
+          <button type="button" data-carousel-dot="1" aria-label="Show YoClipper"></button>
+          <button type="button" data-carousel-dot="2" aria-label="Show SAL maritime operations"></button>
+        </div>
+        <button class="carousel-arrow" type="button" data-carousel-next aria-label="Next project">→</button>
+      </div>
     </section>
 
-    <section aria-labelledby="highlights">
-      <h2 id="highlights">A few highlights</h2>
-      <ul>
-        <li>Delivered maritime software integrations.</li>
-        <li>Turned a 20-year-old desktop system into a web platform, translating 200+ designs into working features.</li>
-        <li>Co-founded and grew an engineering team from 2 to 11 people.</li>
-        <li>Built 10+ web and mobile products for clients in India, Japan, Australia, Poland, and Indonesia.</li>
-      </ul>
+    <section class="impact-section" aria-labelledby="highlights">
+      <div class="section-heading"><div><p class="eyebrow">A few highlights</p><h2 id="highlights">Work with real reach<span class="heading-period">.</span></h2></div></div>
+      <div class="impact-grid">
+        <div><strong>9+</strong><span>years building software</span></div>
+        <div><strong>10+</strong><span>web and mobile products</span></div>
+        <div><strong>5</strong><span>countries served</span></div>
+        <div><strong>2 → 11</strong><span>engineering team growth</span></div>
+      </div>
+      <p class="impact-note">Also delivered maritime integrations and helped bring a 20-year-old desktop system to the web, translating 200+ designs into working features.</p>
     </section>
 
-    <section aria-labelledby="focus">
-      <h2 id="focus">What I work with</h2>
-      <p class="skills">Full-stack development · Cloud infrastructure · System modernization · AI platforms</p>
-      <p class="muted">Node.js, TypeScript, PHP, Rust, Vue, Next.js, Flutter, PostgreSQL, MySQL, Oracle, AWS, Vultr and GCP.</p>
+    <section class="about-section" id="about" aria-labelledby="focus">
+      <div class="capability-layout">
+        <div class="capability-intro">
+          <p class="eyebrow">Capabilities</p>
+          <h2 id="focus"><span>Build.</span> <span class="capability-accent">Modernize.</span> <span>Keep it running.</span></h2>
+          <p>I connect product thinking, engineering, and operations to make software useful over time.</p>
+        </div>
+        <ol class="capability-list">
+          <li>
+            <span class="capability-number" aria-hidden="true">01 /</span>
+            <div><h3>Product engineering</h3><p>Web and mobile products shaped around practical workflows.</p><span class="capability-example">In practice · YoCatetin</span></div>
+          </li>
+          <li>
+            <span class="capability-number" aria-hidden="true">02 /</span>
+            <div><h3>System modernization</h3><p>Turning established systems into maintainable web platforms.</p><span class="capability-example">In practice · Japan enterprise platform</span></div>
+          </li>
+          <li>
+            <span class="capability-number" aria-hidden="true">03 /</span>
+            <div><h3>Cloud &amp; infrastructure</h3><p>Deployment and operations behind reliable software.</p><span class="capability-example">Focus · Production operations</span></div>
+          </li>
+          <li>
+            <span class="capability-number" aria-hidden="true">04 /</span>
+            <div><h3>Applied AI</h3><p>AI features built into useful product workflows.</p><span class="capability-example">In practice · YoClipper</span></div>
+          </li>
+        </ol>
+      </div>
+      <p class="capability-stack"><span>Tools &amp; platforms</span> Node.js, TypeScript, PHP, Rust, Vue, Next.js, Flutter, PostgreSQL, MySQL, Oracle, AWS, Vultr and GCP.</p>
     </section>
 
     
@@ -160,11 +212,11 @@
       <p class="muted">TOEFL · International Centre for English Excellence (ICEE) Certificate of Completion.</p>
     </section>
 
-    <!-- <section class="writing" id="writing" aria-labelledby="writing">
+    <section class="writing" id="writing" aria-labelledby="writing-title">
       <div class="section-heading">
         <div>
           <p class="eyebrow">Notes from the work</p>
-          <h2 id="writing">Writing</h2>
+          <h2 id="writing-title">Writing<span class="heading-period">.</span></h2>
         </div>
         <a class="writing-all" href="writing/">All writing <span aria-hidden="true">→</span></a>
       </div>
@@ -186,7 +238,7 @@
           <p>A breakdown of the hardware, software, and consumption layers behind AI infrastructure at scale.</p>
         </article>
       </div>
-    </section> -->
+    </section>
 
     <footer>
       <p>Have a project or opportunity in mind? <a href="https://calendly.com/yogithesymbian/you-are-amazing" target="_blank" rel="noopener noreferrer">Book a call</a> or <a href="mailto:yogirenbox33@gmail.com">get in touch by email</a>.</p>
