@@ -88,7 +88,20 @@ Contoh copy arah visual (final copy boleh dirapikan saat implementasi):
 
 Alasan desain: tipografi display memberi fokus pada pesan utama; konten berurutan yang harus dibaca satu per satu lebih cocok sebagai daftar daripada kumpulan kartu. Acuan: [Material Design 3 typography](https://m3.material.io/styles/typography/applying-type) dan [USWDS card guidance](https://designsystem.digital.gov/components/card/).
 
-### 3.4 Expressive Motion
+### 3.4 Background — Compact Credential Index
+
+Ubah hanya section `Background`. Pertahankan dua kredensial yang sudah ada dan tampilkan sebagai dua baris editorial dengan hierarki jelas, bukan dua paragraf polos atau kartu dekoratif.
+
+- Judul `Background.` tetap ringkas, dengan eyebrow kecil `Education & credentials`.
+- Baris utama: `Informatics Engineering` sebagai judul paling menonjol, `Politeknik Negeri Samarinda` sebagai institusi, dan `GPA 3.91 / 4.00` sebagai badge yang mudah dipindai.
+- Baris kedua: `TOEFL · Certificate of Completion` sebagai judul, dengan `International Centre for English Excellence (ICEE)` sebagai penerbit. Jangan menampilkan skor, level bahasa, atau klaim sertifikasi yang tidak tercantum.
+- Gunakan garis tipis dan ruang yang cukup sebagai pemisah. Desktop: label kecil di kiri, isi utama di tengah, metadata di kanan. Mobile: baris bertumpuk tanpa horizontal overflow.
+- Bobot visual section tetap di bawah Hero, Selected Work, dan Capabilities. Tidak perlu animasi, ikon, foto kampus, atau tautan tanpa tujuan yang jelas.
+- Semantik: gunakan daftar dua item, heading yang berurutan, dan teks yang tetap terbaca pada zoom `200%`.
+
+Acuan: [Material Design 3 typography](https://m3.material.io/styles/typography/applying-type) untuk hierarki teks dan [USWDS collection guidance](https://designsystem.digital.gov/components/collection/) untuk daftar ringkas dengan metadata.
+
+### 3.5 Expressive Motion
 
 - Motion hanya untuk memberi hierarchy dan feedback, bukan dekorasi terus-menerus.
 - Hero: staggered reveal ringan saat halaman masuk.
@@ -97,20 +110,20 @@ Alasan desain: tipografi display memberi fokus pada pesan utama; konten beruruta
 - Durasi target: interaction `140–220ms`; entrance `300–500ms`.
 - Animasi hanya pada `transform`, `opacity`, atau properti compositor-friendly.
 
-### 3.5 Seamless View Transitions
+### 3.6 Seamless View Transitions
 
 - Terapkan View Transition API secara progressive enhancement untuk membuka/menutup showcase dan perpindahan visual project ke detail.
 - UI harus tetap berfungsi penuh jika browser tidak mendukung View Transition API.
 - Hindari routing/framework baru hanya untuk efek transisi.
 
-### 3.6 Selective Liquid Glass
+### 3.7 Selective Liquid Glass
 
 - Glass hanya digunakan pada floating navigation/action bar atau controls di atas media.
 - Styling target: translucent surface, blur ringan, border putih transparan, shadow lembut, dan radius capsule.
 - Jangan gunakan glass pada body, seluruh card, atau area teks panjang.
 - Sediakan fallback opaque dengan kontras yang setara ketika `backdrop-filter` tidak tersedia.
 
-### 3.7 Accessibility as Visual Quality
+### 3.8 Accessibility as Visual Quality
 
 - Target WCAG 2.2 AA.
 - Semua interaction harus dapat dipakai dengan keyboard dan memiliki `:focus-visible` yang jelas.
@@ -128,7 +141,7 @@ Alasan desain: tipografi display memberi fokus pada pesan utama; konten beruruta
 4. Impact strip: angka/proof seperti 9+ years, 10+ products, 5 countries, team 2→11.
 5. Capabilities editorial index: headline kuat di kiri dan empat baris keahlian dengan contoh kerja di kanan.
 6. Selected writing: aktifkan kembali maksimal tiga artikel terbaru/terkuat.
-7. Background dan compact footer CTA.
+7. Background sebagai dua baris kredensial editorial, lalu compact footer CTA.
 8. Full project archive tetap menggunakan showcase dialog yang ditingkatkan.
 
 ## 5. Content Rules
@@ -190,6 +203,7 @@ Nilai final boleh disesuaikan saat visual QA, tetapi rasio kontras wajib tetap l
 - Hero tetap terbaca dan tidak overflow pada `320px`; saat zoom browser `200%`, urutan konten dan fokus keyboard tetap logis.
 - Selected Work mengikuti komposisi referensi: satu frame project aktif dominan, slide tetangga terlihat sebagian, dan kontrol sebelumnya/berikutnya plus indikator posisi di bawah.
 - Capabilities tampil sebagai editorial index; headline dan contoh kerja nyata lebih menonjol daripada daftar teknologi. Tidak ada informasi yang bergantung pada hover.
+- Background menonjolkan bidang studi dan GPA, dengan kredensial ICEE terbaca jelas tanpa menyiratkan skor TOEFL.
 - Tombol, swipe, trackpad, dan keyboard mengubah slide tanpa tersendat; posisi tombol/indikator selalu sesuai slide yang terlihat setelah scroll manual.
 - Pada slide pertama/terakhir, tombol yang tidak bisa dipakai berstatus disabled dan carousel tidak memaksa loop.
 - Pada `prefers-reduced-motion: reduce`, perpindahan slide berlangsung tanpa smooth scrolling atau animasi posisi.
@@ -222,6 +236,6 @@ Nilai final boleh disesuaikan saat visual QA, tetapi rasio kontras wajib tetap l
 
 ## 12. Implementation Notes
 
-- Hero editorial gelap, Selected Work carousel, impact strip, Capabilities editorial index, floating navigation, dan selected writing sudah diterapkan.
+- Hero editorial gelap, Selected Work carousel, impact strip, Capabilities editorial index, Background credential index, floating navigation, dan selected writing sudah diterapkan.
 - View Transition API digunakan sebagai progressive enhancement pada showcase dan pergantian tab. Transisi project ke halaman detail belum relevan karena portfolio saat ini belum memiliki halaman detail project.
 - Target Lighthouse dan visual QA pada browser nyata masih perlu diukur di lingkungan dengan browser tersedia.
