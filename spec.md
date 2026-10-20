@@ -20,20 +20,33 @@ Kombinasi arah UI:
 
 - Stack tetap static HTML, CSS, dan vanilla JavaScript.
 - Identitas visual saat ini: paper white, dark green, muted green, garis tipis.
-- Layout utama `760px` membuat tiga kartu project terasa sempit pada desktop.
+- Canvas desktop sekitar `1160px`; hero kini memakai bidang dark forest green dengan nama dominan dan hierarki CTA yang jelas.
 - Konten utama sudah kuat: intro, availability, selected work, highlights, skills, background, dan project showcase.
 - Showcase berbentuk native `<dialog>` drawer dan sudah memiliki tab keyboard-friendly.
 - Dukungan `prefers-reduced-motion` sudah tersedia dan wajib dipertahankan.
 
 ## 3. Arah Visual
 
-### 3.1 Editorial Minimalism — prioritas utama
+### 3.1 Hero — Editorial Statement
 
-- Gunakan headline hero yang lebih dominan dengan ukuran responsif `clamp()` dan line-height rapat.
-- Lebarkan canvas desktop ke kisaran `1120–1200px`; teks panjang tetap dibatasi sekitar `60–70ch`.
-- Pertahankan palet hijau saat ini sebagai identitas; tambahkan maksimal satu warna aksen hangat.
-- Gunakan whitespace besar, divider tipis, dan hierarchy tipografi yang jelas.
-- Gunakan variable font lokal atau self-hosted bila aset tersedia; fallback system font wajib ada.
+Ubah **hanya area hero**, dari eyebrow `Software Engineer · Balikpapan, Indonesia` sampai kumpulan CTA/profil. Navigasi mengambang, Selected Work, dan section lain tetap di luar cakupan perubahan ini.
+
+- Jadikan hero satu bidang **dark forest green** dengan teks terang, kontras kuat, dan aksen hijau terang atau warm orange yang dipakai hemat. Bidang dapat melebar ke tepi viewport; isi tetap sejajar dengan canvas utama `1120–1200px`.
+- Nama `Yogi Arif Widodo` tetap menjadi satu-satunya `<h1>` dan elemen terbesar. Pada desktop pecah secara visual menjadi dua baris (`Yogi Arif` / `Widodo`); pada mobile biarkan membungkus alami tanpa memotong nama.
+- Di atas nama, eyebrow kecil berisi peran dan lokasi. Di samping/di bawah nama, tampilkan satu kalimat positioning yang lebih spesifik. Hindari dua headline besar yang saling bersaing.
+- Copy yang disarankan:
+
+  > I build products people use and systems teams can rely on.
+
+  Deskripsi pendukung maksimal dua kalimat: `From web and mobile products to legacy modernization and cloud operations, I work across the stack with teams in Indonesia and abroad.` Klaim `9+ years` tetap boleh muncul sebagai metadata kecil, tetapi jangan mengulang impact strip di section berikutnya.
+- Desktop: komposisi editorial asimetris. Nama dominan di kiri (sekitar 60–65%); positioning, deskripsi, dan CTA membentuk kolom kanan/bawah. Mobile: satu kolom dengan urutan eyebrow → nama → positioning → deskripsi → CTA → availability.
+- Hierarki aksi: **Explore selected work** (`#work`) sebagai CTA primer; **Book a call** sebagai CTA sekunder. `Download CV` sebagai tautan utilitas. Email, GitHub, dan LinkedIn masuk ke baris profil kecil berlabel jelas. `Writing` cukup di navigasi atas; tombol `View projects & clients` tetap tersedia dekat Selected Work/showcase, tidak perlu di hero.
+- Availability dipadatkan menjadi satu baris/badge yang mudah dipindai, misalnya `Open to engineering and technical leadership opportunities`. Detail peran dapat ditempatkan pada CV atau kontak.
+- Tidak perlu foto stok, ilustrasi 3D, video latar, parallax, custom cursor, atau animasi teks per huruf. Karakter visual datang dari skala tipografi, bidang warna, whitespace, dan garis editorial tipis.
+- Entrance motion, jika dipakai, hanya opacity/translate pendek pada kelompok konten; durasi sekitar `300–450ms` dan dimatikan pada `prefers-reduced-motion: reduce`.
+- Semua teks, link, dan tombol harus tetap terbaca pada kondisi tanpa efek/animasi. CTA minimum `44px` tinggi, fokus keyboard jelas, dan kontras teks sesuai WCAG 2.2 AA.
+
+Acuan hierarki: [Material Design 3 typography](https://m3.material.io/styles/typography/applying-type) untuk display type dan [USWDS button guidance](https://designsystem.digital.gov/components/button/) untuk satu aksi utama yang mudah dikenali.
 
 ### 3.2 Selected Work — Featured Project Carousel
 
@@ -44,7 +57,7 @@ Referensi visual: gambar yang diberikan pemilik portfolio pada percakapan ini. A
 - Project sebelum/sesudahnya terlihat sebagian di tepi viewport sebagai petunjuk bahwa carousel dapat digeser. Preview tetangga lebih redup, tetapi judul dan tombolnya tetap terbaca saat menjadi aktif.
 - Dalam frame: media project di atas; kategori, judul, deskripsi singkat, kontribusi/hasil, dan satu CTA di bawah. Gunakan konten dan aset project yang sudah ada; jangan mengarang hasil baru.
 - Tampilkan navigasi di bawah: tombol sebelumnya/berikutnya dan indikator posisi. Status aktif harus jelas tanpa bergantung pada warna saja.
-- Tombol `View all projects` tetap membuka showcase yang sudah ada. Carousel hanya untuk project pilihan, bukan seluruh arsip.
+- Tombol `View projects & clients` tetap membuka showcase yang sudah ada. Carousel hanya untuk project pilihan, bukan seluruh arsip.
 - Tidak ada autoplay, looping paksa, parallax, video autoplay, atau efek blur berat pada setiap slide.
 - Interaksi: tombol, keyboard, touch swipe, dan trackpad/horizontal scroll. Klik CTA project tidak boleh menggeser slide.
 - Gunakan native horizontal scrolling dengan CSS `scroll-snap` dan vanilla JavaScript kecil untuk sinkronisasi tombol serta indikator. Jangan tambah library carousel.
@@ -110,7 +123,7 @@ Alasan desain: tipografi display memberi fokus pada pesan utama; konten beruruta
 ## 4. Struktur Halaman yang Diusulkan
 
 1. Floating utility navigation: Work, About, Writing, Contact.
-2. Hero editorial: nama, positioning, proof singkat, CTA utama, availability.
+2. Hero editorial gelap: nama dominan, positioning spesifik, CTA ke Selected Work, CTA kontak sekunder, dan availability ringkas.
 3. Selected Work featured carousel: 3–5 project terbaik, satu project aktif dan preview slide tetangga.
 4. Impact strip: angka/proof seperti 9+ years, 10+ products, 5 countries, team 2→11.
 5. Capabilities editorial index: headline kuat di kiri dan empat baris keahlian dengan contoh kerja di kanan.
@@ -121,6 +134,7 @@ Alasan desain: tipografi display memberi fokus pada pesan utama; konten beruruta
 ## 5. Content Rules
 
 - Prioritaskan outcome dan kontribusi, bukan daftar teknologi.
+- Hero menyampaikan siapa Yogi, nilai yang diberikan, dan langkah berikutnya dalam satu pandangan layar desktop; hindari mengulang seluruh daftar keahlian di sana.
 - Format ringkas project: `Context → Contribution → Outcome`.
 - Tampilkan stack sebagai metadata sekunder.
 - Jangan membuat klaim angka baru tanpa bukti dari konten/CV yang tersedia.
@@ -172,6 +186,8 @@ Nilai final boleh disesuaikan saat visual QA, tetapi rasio kontras wajib tetap l
 ## 9. Acceptance Criteria
 
 - Visual baru tetap dikenali sebagai portfolio Yogi, bukan template generik.
+- Hero punya satu fokus tipografi pada nama dan satu kalimat positioning; CTA primer langsung menuju Selected Work, sedangkan kontak/CV tetap dapat ditemukan tanpa memenuhi baris utama.
+- Hero tetap terbaca dan tidak overflow pada `320px`; saat zoom browser `200%`, urutan konten dan fokus keyboard tetap logis.
 - Selected Work mengikuti komposisi referensi: satu frame project aktif dominan, slide tetangga terlihat sebagian, dan kontrol sebelumnya/berikutnya plus indikator posisi di bawah.
 - Capabilities tampil sebagai editorial index; headline dan contoh kerja nyata lebih menonjol daripada daftar teknologi. Tidak ada informasi yang bergantung pada hover.
 - Tombol, swipe, trackpad, dan keyboard mengubah slide tanpa tersendat; posisi tombol/indikator selalu sesuai slide yang terlihat setelah scroll manual.
@@ -206,6 +222,6 @@ Nilai final boleh disesuaikan saat visual QA, tetapi rasio kontras wajib tetap l
 
 ## 12. Implementation Notes
 
-- Editorial hero, Selected Work carousel, impact strip, Capabilities editorial index, floating navigation, dan selected writing sudah diterapkan.
+- Hero editorial gelap, Selected Work carousel, impact strip, Capabilities editorial index, floating navigation, dan selected writing sudah diterapkan.
 - View Transition API digunakan sebagai progressive enhancement pada showcase dan pergantian tab. Transisi project ke halaman detail belum relevan karena portfolio saat ini belum memiliki halaman detail project.
 - Target Lighthouse dan visual QA pada browser nyata masih perlu diukur di lingkungan dengan browser tersedia.
