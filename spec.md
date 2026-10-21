@@ -1,7 +1,7 @@
 # Portfolio UI Enhancement Spec
 
-Status: portfolio UI and repo-side SEO implemented; Search Console setup, deployment, and live verification pending
-Tanggal: 20 Oktober 2026
+Status: portfolio UI, compact hero identity stamp, and repo-side SEO implemented; browser visual QA, Search Console setup, deployment, and live verification pending
+Tanggal: 22 Oktober 2026
 
 ## 1. Tujuan
 
@@ -42,11 +42,27 @@ Ubah **hanya area hero**, dari eyebrow `Software Engineer · Balikpapan, Indones
 - Desktop: komposisi editorial asimetris. Nama dominan di kiri (sekitar 60–65%); positioning, deskripsi, dan CTA membentuk kolom kanan/bawah. Mobile: satu kolom dengan urutan eyebrow → nama → positioning → deskripsi → CTA → availability.
 - Hierarki aksi: **Explore selected work** (`#work`) sebagai CTA primer; **Book a call** sebagai CTA sekunder. `Download CV` sebagai tautan utilitas. Email, GitHub, dan LinkedIn masuk ke baris profil kecil berlabel jelas. `Writing` cukup di navigasi atas; tombol `View projects & clients` tetap tersedia dekat Selected Work/showcase, tidak perlu di hero.
 - Availability dipadatkan menjadi satu baris/badge yang mudah dipindai, misalnya `Open to engineering and technical leadership opportunities`. Detail peran dapat ditempatkan pada CV atau kontak.
-- Tidak perlu foto stok, ilustrasi 3D, video latar, parallax, custom cursor, atau animasi teks per huruf. Karakter visual datang dari skala tipografi, bidang warna, whitespace, dan garis editorial tipis.
+- Tidak perlu foto stok, ilustrasi 3D, video latar, parallax, custom cursor, atau animasi teks per huruf. Foto asli Yogi boleh menjadi aksen identitas sesuai spesifikasi cutout di bawah; karakter utama tetap datang dari skala tipografi, bidang warna, whitespace, dan garis editorial tipis.
 - Entrance motion, jika dipakai, hanya opacity/translate pendek pada kelompok konten; durasi sekitar `300–450ms` dan dimatikan pada `prefers-reduced-motion: reduce`.
 - Semua teks, link, dan tombol harus tetap terbaca pada kondisi tanpa efek/animasi. CTA minimum `44px` tinggi, fokus keyboard jelas, dan kontras teks sesuai WCAG 2.2 AA.
 
 Acuan hierarki: [Material Design 3 typography](https://m3.material.io/styles/typography/applying-type) untuk display type dan [USWDS button guidance](https://designsystem.digital.gov/components/button/) untuk satu aksi utama yang mudah dikenali.
+
+### 3.1A Hero Portrait — Compact Identity Stamp (revisi)
+
+Gunakan foto asli `assets/profile-yogiarifwidodo-rounded-12.png` (800×1200) sebagai sumber dan cutout transparan yang sudah tersedia. Arah finalnya **typography-first hero dengan compact identity stamp**. Layout hero sebelum penambahan foto adalah fondasi yang harus dipulihkan; portrait hanya menjadi tanda tangan visual kecil, bukan kolom konten, background besar, atau focal point kedua.
+
+- Buat cutout subjek yang rapi: hapus latar pucat dan bentuk rounded-corner lama hingga transparan; pertahankan wajah, tekstur rambut, bahu, kedua lengan/tangan, dan tepi pakaian. Bersihkan halo terang di rambut/jaket tanpa menghaluskan wajah berlebihan, mengubah ekspresi, atau mengganti pakaian. Periksa hasil di atas latar dark forest green hero pada ukuran 100% dan 200%.
+- Simpan hasil master transparan sebagai **`assets/yogiarifwidodo-photo.png`**; jangan sekadar mengganti nama PNG lama karena latarnya masih ada. Pertahankan sumber asli sampai cutout baru lolos review. Jika PNG transparan terlalu besar untuk hero, buat turunan WebP transparan untuk `srcset`/delivery, tetapi nama master PNG tetap sesuai permintaan.
+- Pulihkan komposisi hero desktop awal: `.hero-main` kembali menjadi dua kolom sekitar `3fr / 2fr`; nama besar berada di kiri, sedangkan positioning, deskripsi, CTA, dan availability berada di kanan. Portrait **tidak ikut menjadi grid column** dan tidak boleh mengubah ukuran nama, jarak copy, atau tinggi hero secara material.
+- Desktop `≥900px`: portrait menjadi cutout editorial sekunder di layer belakang nama, dengan sisi bawah tepat berhenti **di atas garis pemisah profil** dan digeser di antara kolom nama/copy. Lebarnya sekitar `220–300px`; gunakan treatment foto natural seperti versi overlay awal dengan bidang radial hijau lembut, tanpa opacity/fade yang membuat wajah terlihat kusam. Portrait tidak boleh menembus garis, menyentuh sticky navigation, atau mengambil kolom grid tersendiri.
+- Pangkas ruang vertikal hero agar headline mulai lebih dekat ke eyebrow. Teks, CTA, dan garis footer hero selalu berada di layer depan; cutout boleh terlihat di belakang nama tetapi tidak di belakang body copy. Tidak ada glow, shadow besar, glass card, atau bidang foto persegi.
+- Tablet `600–899px`: cutout tetap di-anchor ke bawah dan bergeser ke kanan agar tidak mengganggu headline. Mobile `<600px`: ubah kembali menjadi avatar sekitar `72–84px` tepat setelah availability; pilih posisi yang tidak memecah nama dan tidak menambah ruang kosong besar.
+- Gunakan elemen `<img>` nyata di dalam wrapper yang mengontrol crop: `alt="Portrait of Yogi Arif Widodo"`, `width`/`height` fallback `128×128`, `object-fit: cover`, dan `object-position` diarahkan ke wajah. Gunakan WebP transparan untuk delivery dan PNG sebagai fallback. Foto kecil tidak perlu `fetchpriority="high"`; Selected Work tetap menjadi gambar prioritas utama.
+- Target tambahan transfer hero seminimal mungkin: kompres PNG tanpa merusak tepi cutout; bila masih lebih dari kira-kira `300 KB`, gunakan WebP transparan sebagai aset yang dikirim browser. Tidak ada library animasi/background-removal di runtime. Motion opsional hanya reveal opacity/translate pendek, dan harus mati pada `prefers-reduced-motion: reduce`.
+- Jangan mengubah copy, link, hierarki CTA, navigasi, atau baris profil yang sudah ada. Foto tidak boleh menjadi alasan untuk mengecilkan `<h1>` atau memindahkan CTA dari posisi hero awal. Pada `320px` dan zoom `200%`, stamp harus kembali ke alur normal bila ruang tidak cukup; tidak boleh ada overlap, overflow horizontal, atau elemen keluar dari bidang hero.
+
+Arah ini mengikuti [Webflow 2026 web design trends](https://webflow.com/blog/web-design-trends-2026) tentang identitas visual yang khas, dan [Webflow hero imagery guidance](https://webflow.com/blog/website-hero-image) yang mengutamakan fotografi asli untuk portfolio. Penempatan spesifik portrait di atas adalah keputusan desain untuk layout Yogi, bukan aturan dari sumber tersebut.
 
 ### 3.2 Selected Work — Featured Project Carousel
 
@@ -158,7 +174,7 @@ Tempatkan section baru **tepat di bawah Background dan sebelum Writing**. Refere
 ## 4. Struktur Halaman yang Diusulkan
 
 1. Floating utility navigation: Work, About, Writing, Contact.
-2. Hero editorial gelap: nama dominan, positioning spesifik, CTA ke Selected Work, CTA kontak sekunder, dan availability ringkas.
+2. Hero editorial gelap dengan komposisi dua kolom asli: nama dominan, copy/CTA di kanan, serta portrait identity stamp kecil sebagai aksen sekunder.
 3. Selected Work featured carousel: 3–5 project terbaik, satu project aktif dan preview slide tetangga.
 4. Impact strip: angka/proof seperti 9+ years, 10+ products, 5 countries, team 2→11.
 5. Capabilities editorial index: headline kuat di kiri dan empat baris keahlian dengan contoh kerja di kanan.
@@ -212,6 +228,7 @@ Nilai final boleh disesuaikan saat visual QA, tetapi rasio kontras wajib tetap l
 
 - Tidak menambah framework UI atau animation library kecuali ada kebutuhan yang terukur.
 - Marquee sertifikasi memakai empat logo WebP kecil dari PDF; total aset gambar target di bawah `40 KB`, tanpa memuat halaman PDF sebagai gambar di viewport.
+- Portrait hero transparan memakai ukuran intrinsik dan format delivery yang dioptimalkan; jangan menambah library removal atau animasi runtime. Ukur dampaknya pada LCP/mobile sebelum menetapkan prioritas muat tinggi.
 - Carousel Selected Work memakai CSS `scroll-snap`, `transform`/`opacity` seperlunya, dan JavaScript tanpa dependency; hindari blur/filter animasi, shadow besar yang bergerak, dan cloning slide.
 - Gambar slide pertama diberi prioritas muat; gambar slide lain `loading="lazy"`. Video tetap `preload="metadata"` atau `none` dan tidak otomatis diputar.
 - Pertahankan progressive enhancement dan native browser APIs.
@@ -255,6 +272,7 @@ Tujuan: membuat halaman publik mudah ditemukan, dirayapi, dipahami, dan dipantau
 - Visual baru tetap dikenali sebagai portfolio Yogi, bukan template generik.
 - Hero punya satu fokus tipografi pada nama dan satu kalimat positioning; CTA primer langsung menuju Selected Work, sedangkan kontak/CV tetap dapat ditemukan tanpa memenuhi baris utama.
 - Hero tetap terbaca dan tidak overflow pada `320px`; saat zoom browser `200%`, urutan konten dan fokus keyboard tetap logis.
+- Portrait hero memakai cutout transparan sebagai aksen editorial di belakang nama pada desktop/tablet dan avatar `72–84px` pada mobile. Kaki cutout berhenti di atas garis pemisah profil—tidak masuk ke area `9+ years` dan link—serta tidak mengganggu copy/navigation atau menimbulkan scrollbar horizontal.
 - Selected Work mengikuti komposisi referensi: satu frame project aktif dominan, slide tetangga terlihat sebagian, dan kontrol sebelumnya/berikutnya plus indikator posisi di bawah.
 - Capabilities tampil sebagai editorial index; headline dan contoh kerja nyata lebih menonjol daripada daftar teknologi. Tidak ada informasi yang bergantung pada hover.
 - Background menonjolkan bidang studi dan GPA; ICEE completion tidak salah dilabeli sebagai sertifikat TOEFL.
@@ -293,6 +311,9 @@ Tujuan: membuat halaman publik mudah ditemukan, dirayapi, dipahami, dan dipantau
 - [W3C — WCAG 2.2](https://www.w3.org/WAI/standards-guidelines/wcag/new-in-22/)
 - [W3C — prefers-reduced-motion technique](https://www.w3.org/WAI/WCAG22/Techniques/css/C39.html)
 - [USWDS — Footer](https://designsystem.digital.gov/components/footer/)
+- [Webflow — 2026 web design trends](https://webflow.com/blog/web-design-trends-2026)
+- [Webflow — Hero image best practices](https://webflow.com/blog/website-hero-image)
+- [web.dev — Responsive images and fetch priority](https://web.dev/learn/design/responsive-images)
 - [Google Search Central — SEO developer guide](https://developers.google.com/search/docs/fundamentals/get-started-developers)
 - [Google Search Central — Canonicalization](https://developers.google.com/search/docs/crawling-indexing/canonicalization)
 - [Google Search Central — Build and submit a sitemap](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
@@ -309,3 +330,4 @@ Tujuan: membuat halaman publik mudah ditemukan, dirayapi, dipahami, dan dipantau
 - SEO repo-side sudah diterapkan: canonical homepage/artikel, `og:url`, JSON-LD, robots, sitemap, serta generator blog kini memakai `yogiarifwidodo.my.id`; entri sitemap `/writing/index.html`, `<priority>`, dan `<changefreq>` dihapus. Deskripsi artikel kosong/generik telah diperbaiki di sumber konten dan HTML hasil build.
 - PDF sertifikat mentah dikeluarkan dari Git tracking dan di-ignore, sementara salinan lokal tetap ada. Saat audit 20 Oktober 2026, URL PDF pada situs live masih merespons `200`; file baru hilang dari situs setelah perubahan ini dideploy. Riwayat Git lama dan kemungkinan indeks Google memerlukan penanganan lanjutan terpisah.
 - Status properti Search Console belum diverifikasi di akun pemilik; screenshot yang tersedia hanya menunjukkan status GA4, bukan Search Console.
+- Master transparan `assets/yogiarifwidodo-photo.png` dan delivery WebP transparan (~83 KB) sudah tersedia. Pada 22 Oktober 2026, layout hero `3fr / 2fr` dipulihkan, ruang vertikal dipadatkan, dan portrait diimplementasikan sebagai cutout editorial di belakang nama yang menempel pada garis bawah; mobile memakai avatar `80px` dalam alur normal setelah copy. Foto diproses dengan built-in imagegen; pemilik tetap perlu mengecek kemiripan wajah dan crop akhir saat visual QA sebelum deploy.
