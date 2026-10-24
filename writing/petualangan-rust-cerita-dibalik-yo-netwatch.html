@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZ0XL2F96B"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-JZ0XL2F96B");
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050505">
   <meta name="description" content="Cerita singkat tentang bagaimana `yo_netwatch` lahir — library kecil tapi bermanfaat untuk deteksi koneksi internet di Rust.">
   <link rel="canonical" href="https://yogiarifwidodo.my.id/writing/petualangan-rust-cerita-dibalik-yo-netwatch.html">
-  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/site.css?v=20261025-remake-1">
+  <script data-goatcounter="https://yogithesymbian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   <title>Petualangan Rust &amp; Cerita Dibalik `yo_netwatch` | Yogi Arif Widodo</title>
 </head>
-<body>
-  <main class="blog-page">
-    <a class="back-link" href="../#writing">← Home</a>
-    <article class="post">
-      <p class="eyebrow">Writing · <time datetime="2025-05-21">May 21, 2025</time></p>
-      <h1>Petualangan Rust &amp; Cerita Dibalik `yo_netwatch`</h1>
-      <p class="post-summary">Cerita singkat tentang bagaimana `yo_netwatch` lahir — library kecil tapi bermanfaat untuk deteksi koneksi internet di Rust.</p>
+<body class="blog-body">
+  <a class="skip-link" href="#article-content">Skip to content</a>
+  <header class="blog-masthead">
+    <a class="site-mark" href="../" aria-label="YA/W — Yogi Arif Widodo, homepage">YA<span aria-hidden="true">/</span>W</a>
+    <span>Engineering notes</span>
+    <a class="back-link" href="../#writing">← Portfolio</a>
+  </header>
+  <main class="blog-page" id="article-content">
+    <article class="article-shell">
+      <header class="post-header">
+        <div><p class="eyebrow">Engineering / <time datetime="2025-05-21">May 21, 2025</time></p><h1>Petualangan Rust &amp; Cerita Dibalik `yo_netwatch`</h1></div>
+        <p class="post-summary">Cerita singkat tentang bagaimana `yo_netwatch` lahir — library kecil tapi bermanfaat untuk deteksi koneksi internet di Rust.</p>
+      </header>
       <div class="post-content"><p>_Disclaimer:_ Masih simpel, masih banyak ruang eksplorasi. Tapi bangga juga bisa bikin sesuatu dari ide kecil — jadi crate beneran di crates.io 🦀💖</p><p>🚀 <strong>Petualangan Rust: Dari <code>egui</code> sampai <code>yo_netwatch</code>!</strong> 🦀📡</p><p>Awalnya cuma coba-coba <code>egui</code> — GUI framework di Rust. Tapi seperti biasa, Rust nggak pernah setengah-setengah ngasih tantangan.</p><p>Berjumpalah aku dengan:
-🔁 _ownership_, _borrow checker_, <code>unwrap</code>, <code>lock</code>, <code>channel</code>, <code>Receiver</code>, <code>multi-threading</code>, sampai ke dunia <code>async</code> dan <code>tokio</code>.</p><p>Satu hal yang bikin aku kepikiran:</p><blockquote><p><strong>&quot;Kenapa di Rust belum ada yang simple buat deteksi status koneksi kayak <code>connectivity_plus</code> di Flutter?&quot;</strong></p></blockquote><p>Akhirnya aku coba bikin sendiri dari nol, dan lahirlah…</p><p>🛠️ <a href="https://crates.io/crates/yo_netwatch" rel="noopener"><code>yo_netwatch</code></a> — network status watcher ringan untuk Rust!
+🔁 _ownership_, _borrow checker_, <code>unwrap</code>, <code>lock</code>, <code>channel</code>, <code>Receiver</code>, <code>multi-threading</code>, sampai ke dunia <code>async</code> dan <code>tokio</code>.</p><p>Satu hal yang bikin aku kepikiran:</p><blockquote><p><strong>&quot;Kenapa di Rust belum ada yang simple buat deteksi status koneksi kayak <code>connectivity_plus</code> di Flutter?&quot;</strong></p></blockquote><p>Akhirnya aku coba bikin sendiri dari nol, dan lahirlah…</p><p>🛠️ <a href="https://crates.io/crates/yo_netwatch" rel="noopener noreferrer"><code>yo_netwatch</code></a> — network status watcher ringan untuk Rust!
 📦 Native. No async. No loop polling. Langsung trigger saat status berubah (online/offline).</p><h2>✨ Fitur</h2><ul><li>Deteksi status koneksi <code>online</code> / <code>offline</code></li><li>Gunakan <code>channel</code> untuk broadcast perubahan status</li><li>Tanpa dependensi berat</li><li>Mudah diintegrasikan ke <code>egui</code>, <code>Tauri</code>, CLI, atau backend-native</li></ul><h2>🚀 Contoh Penggunaan</h2><pre><code class="language-rust">use yo_netwatch::{start_network_watcher, Receiver as YoReceiver};
 
 let rx = start_network_watcher();
@@ -40,6 +41,7 @@ if let Ok(online) = rx.recv() {
     }
 }</code></pre><p>Kalau kamu lagi belajar Rust, tertarik bikin library sendiri, atau pengen diskusi tentang async &amp; jaringan, feel free to connect ya! 🔗✨</p><p>🔖 Tags
 #RustLang #RustCrate #AsyncRust #egui #Tauri #OpenSource #yo_netwatch #Connectivity #Networking #FromScratch #BelajarRust</p></div>
+      <footer class="post-footer"><a href="index.html">← All writing</a><a href="../#contact">Start a conversation ↗</a></footer>
     </article>
   </main>
 </body>

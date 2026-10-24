@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZ0XL2F96B"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-JZ0XL2F96B");
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050505">
   <meta name="description" content="How to reserve a static IP and run a Google Cloud Web Security Scanner scan against the Cymbal Bank application.">
   <link rel="canonical" href="https://yogiarifwidodo.my.id/writing/SCC.html">
-  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/site.css?v=20261025-remake-1">
+  <script data-goatcounter="https://yogithesymbian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   <title>Running a Web Security Scan on Cymbal Bank Application | Yogi Arif Widodo</title>
 </head>
-<body>
-  <main class="blog-page">
-    <a class="back-link" href="../#writing">← Home</a>
-    <article class="post">
-      <p class="eyebrow">Writing</p>
-      <h1>Running a Web Security Scan on Cymbal Bank Application</h1>
-      <p class="post-summary">How to reserve a static IP and run a Google Cloud Web Security Scanner scan against the Cymbal Bank application.</p>
-      <div class="post-content"><h1>Running a Web Security Scan on Cymbal Bank Application</h1><p>To run a Web Security scan against the Cymbal Bank application, you need to first reserve a static external IP for the cls-vm instance and then configure and run the scan.</p><h2>Step-by-step instructions</h2><h3>Navigate to VM Instances</h3><p>1. In the Google Cloud Console, use the <strong>Navigation menu</strong> (three horizontal lines) on the top left
+<body class="blog-body">
+  <a class="skip-link" href="#article-content">Skip to content</a>
+  <header class="blog-masthead">
+    <a class="site-mark" href="../" aria-label="YA/W — Yogi Arif Widodo, homepage">YA<span aria-hidden="true">/</span>W</a>
+    <span>Engineering notes</span>
+    <a class="back-link" href="../#writing">← Portfolio</a>
+  </header>
+  <main class="blog-page" id="article-content">
+    <article class="article-shell">
+      <header class="post-header">
+        <div><p class="eyebrow">Security &amp; infrastructure / <span>Undated</span></p><h1>Running a Web Security Scan on Cymbal Bank Application</h1></div>
+        <p class="post-summary">How to reserve a static IP and run a Google Cloud Web Security Scanner scan against the Cymbal Bank application.</p>
+      </header>
+      <div class="post-content"><h2>Running a Web Security Scan on Cymbal Bank Application</h2><p>To run a Web Security scan against the Cymbal Bank application, you need to first reserve a static external IP for the cls-vm instance and then configure and run the scan.</p><h2>Step-by-step instructions</h2><h3>Navigate to VM Instances</h3><p>1. In the Google Cloud Console, use the <strong>Navigation menu</strong> (three horizontal lines) on the top left
 2. Select <strong>Compute Engine &gt; VM instances</strong></p><h3>Edit cls-vm Instance</h3><p>1. Find the VM instance named <code>cls-vm</code> in the list
 2. Click on the <code>cls-vm</code> instance name to open its VM instance details page
 3. Click the <strong>EDIT</strong> button at the top of the page</p><h3>Reserve a Static External IP</h3><p>1. Scroll down to the <strong>Network interfaces</strong> section
@@ -45,6 +46,7 @@
 3. Click the <strong>Run scan</strong> button
 4. The scan will be queued. It may take some time for the scan to start and complete
 5. Once finished, you can view the results on the scan&#039;s overview page or in <strong>Security Command Center Findings</strong></p><hr><p>gcloud scc findings list ORGANIZATION_ID --location=us-west1</p></div>
+      <footer class="post-footer"><a href="index.html">← All writing</a><a href="../#contact">Start a conversation ↗</a></footer>
     </article>
   </main>
 </body>

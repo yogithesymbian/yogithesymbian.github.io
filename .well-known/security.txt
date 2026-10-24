@@ -1,0 +1,5 @@
+Contact: mailto:yogirenbox33@gmail.com
+Expires: 2027-10-25T00:00:00.000Z
+Preferred-Languages: id, en
+Canonical: https://yogiarifwidodo.my.id/.well-known/security.txt
+Policy: https://yogiarifwidodo.my.id/#contact

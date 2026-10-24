@@ -361,6 +361,8 @@ function activateShowcaseMedia() {
 
 initializeShowcase();
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+let archiveTrigger = null;
+
 function transitionView(update) {
   if (!document.startViewTransition || reduceMotion.matches) {
     update();
@@ -369,13 +371,22 @@ function transitionView(update) {
   document.startViewTransition(update);
 }
 openButtons.forEach(button => button.addEventListener("click", () => {
+  archiveTrigger = button;
   activateShowcaseMedia();
-  transitionView(() => showcase.showModal());
+  transitionView(() => {
+    showcase.showModal();
+    closeButton.focus();
+  });
 }));
-closeButton.addEventListener("click", () => transitionView(() => showcase.close()));
+function closeShowcase() {
+  if (!showcase.open) return;
+  transitionView(() => showcase.close());
+}
+closeButton.addEventListener("click", closeShowcase);
 showcase.addEventListener("click", event => {
-  if (event.target === showcase) transitionView(() => showcase.close());
+  if (event.target === showcase) closeShowcase();
 });
+showcase.addEventListener("close", () => archiveTrigger?.focus());
 function selectTab(tab) {
   const selected = tab.dataset.tab;
   tabs.forEach(item => {
@@ -399,60 +410,33 @@ tabs.forEach(tab => {
   });
 });
 
-const workCarousel = document.querySelector("#featured-work-carousel");
-if (workCarousel) {
-  const slides = [...workCarousel.querySelectorAll(".project-slide")];
-  const dots = [...document.querySelectorAll("[data-carousel-dot]")];
-  const previous = document.querySelector("[data-carousel-prev]");
-  const next = document.querySelector("[data-carousel-next]");
-  let activeIndex = 0;
-  let scrollFrame = 0;
+const menuButton = document.querySelector(".menu-toggle");
+const menu = document.querySelector("#site-nav-links");
 
-  function updateCarousel(index) {
-    activeIndex = Math.max(0, Math.min(index, slides.length - 1));
-    slides.forEach((slide, slideIndex) => {
-      const active = slideIndex === activeIndex;
-      slide.classList.toggle("is-active", active);
-      slide.inert = !active;
-    });
-    dots.forEach((dot, dotIndex) => {
-      if (dotIndex === activeIndex) dot.setAttribute("aria-current", "true");
-      else dot.removeAttribute("aria-current");
-    });
-    previous.disabled = activeIndex === 0;
-    next.disabled = activeIndex === slides.length - 1;
-  }
-
-  function slidePosition(index) {
-    return slides[index].offsetLeft - slides[0].offsetLeft;
-  }
-
-  function goToSlide(index) {
-    const target = Math.max(0, Math.min(index, slides.length - 1));
-    updateCarousel(target);
-    workCarousel.scrollTo({ left: slidePosition(target), behavior: reduceMotion.matches ? "auto" : "smooth" });
-  }
-
-  function syncCarousel() {
-    scrollFrame = 0;
-    const nearest = slides.reduce((best, slide, index) =>
-      Math.abs(slidePosition(index) - workCarousel.scrollLeft) < Math.abs(slidePosition(best) - workCarousel.scrollLeft) ? index : best, 0);
-    if (nearest !== activeIndex) updateCarousel(nearest);
-  }
-
-  workCarousel.addEventListener("scroll", () => {
-    if (!scrollFrame) scrollFrame = requestAnimationFrame(syncCarousel);
-  }, { passive: true });
-  workCarousel.addEventListener("keydown", event => {
-    if (event.target !== workCarousel || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
-    event.preventDefault();
-    goToSlide(activeIndex + (event.key === "ArrowRight" ? 1 : -1));
-  });
-  previous.addEventListener("click", () => goToSlide(activeIndex - 1));
-  next.addEventListener("click", () => goToSlide(activeIndex + 1));
-  dots.forEach(dot => dot.addEventListener("click", () => goToSlide(Number(dot.dataset.carouselDot))));
-  window.addEventListener("resize", () => {
-    workCarousel.scrollTo({ left: slidePosition(activeIndex), behavior: "auto" });
-  });
-  updateCarousel(0);
+function closeMenu() {
+  if (!menuButton || !menu) return;
+  menuButton.setAttribute("aria-expanded", "false");
+  menu.classList.remove("is-open");
+  document.body.classList.remove("menu-open");
 }
+
+menuButton?.addEventListener("click", () => {
+  const opening = menuButton.getAttribute("aria-expanded") !== "true";
+  menuButton.setAttribute("aria-expanded", String(opening));
+  menu.classList.toggle("is-open", opening);
+  document.body.classList.toggle("menu-open", opening);
+});
+menu?.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMenu));
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && menuButton?.getAttribute("aria-expanded") === "true") {
+    closeMenu();
+    menuButton.focus();
+  }
+});
+window.matchMedia("(min-width: 821px)").addEventListener("change", event => {
+  if (event.matches) closeMenu();
+});
+
+document.querySelectorAll("[data-current-year]").forEach(node => {
+  node.textContent = String(new Date().getFullYear());
+});

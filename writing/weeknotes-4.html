@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZ0XL2F96B"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-JZ0XL2F96B");
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050505">
   <meta name="description" content="A comparison of smooth-scroll tools and practical GSAP patterns for static, dynamic, and server-rendered Next.js pages.">
   <link rel="canonical" href="https://yogiarifwidodo.my.id/writing/weeknotes-4.html">
-  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/site.css?v=20261025-remake-1">
+  <script data-goatcounter="https://yogithesymbian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   <title>Weeknotes #4 (January 04, 2026) | Yogi Arif Widodo</title>
 </head>
-<body>
-  <main class="blog-page">
-    <a class="back-link" href="../#writing">← Home</a>
-    <article class="post">
-      <p class="eyebrow">Writing · <time datetime="2026-01-04">January 4, 2026</time></p>
-      <h1>Weeknotes #4 (January 04, 2026)</h1>
-      <p class="post-summary">A comparison of smooth-scroll tools and practical GSAP patterns for static, dynamic, and server-rendered Next.js pages.</p>
+<body class="blog-body">
+  <a class="skip-link" href="#article-content">Skip to content</a>
+  <header class="blog-masthead">
+    <a class="site-mark" href="../" aria-label="YA/W — Yogi Arif Widodo, homepage">YA<span aria-hidden="true">/</span>W</a>
+    <span>Engineering notes</span>
+    <a class="back-link" href="../#writing">← Portfolio</a>
+  </header>
+  <main class="blog-page" id="article-content">
+    <article class="article-shell">
+      <header class="post-header">
+        <div><p class="eyebrow">Engineering / <time datetime="2026-01-04">January 4, 2026</time></p><h1>Weeknotes #4 (January 04, 2026)</h1></div>
+        <p class="post-summary">A comparison of smooth-scroll tools and practical GSAP patterns for static, dynamic, and server-rendered Next.js pages.</p>
+      </header>
       <div class="post-content"><h3>Smooth Scroll Library Comparison</h3><div class="table-wrap"><table><thead><tr><th>Feature</th><th>Locomotive-scroll</th><th>GSAP ScrollSmoother</th><th>Lenis</th></tr></thead><tbody></tbody></table></div><p>| Native scrollbar            | ❌                | �
                   | �
       |
@@ -39,7 +40,7 @@
                 | ❌                  | �
       |
 | Built-in animation system   | �
-                | �</p><div class="table-wrap"><table><thead><tr><th></th><th>❌</th></tr></thead><tbody></tbody></table></div><h1>Best Practices &amp; Approaches for Using GSAP with Next.js</h1><p>When integrating GSAP animations into a Next.js project, it&#039;s important to consider the nature of your content and layout. Different scenarios require different approaches to ensure smooth animations and avoid common pitfalls like layout shifts and hydration issues.</p><p><strong>Key Takeaway:</strong></p><ul><li>Explore best practices for integrating GSAP animations with Next.js projects.</li><li>Learn when to use different GSAP setup patterns for static, dynamic, and complex layouts.</li><li>Get practical tips to avoid common pitfalls with SSR, hydration, and dynamic content.</li></ul><h2>Simple static content (no images/dynamic content)</h2><pre><code class="language-tsx">useEffect(() =&gt; {
+                | �</p><div class="table-wrap"><table><thead><tr><th></th><th>❌</th></tr></thead><tbody></tbody></table></div><h2>Best Practices &amp; Approaches for Using GSAP with Next.js</h2><p>When integrating GSAP animations into a Next.js project, it&#039;s important to consider the nature of your content and layout. Different scenarios require different approaches to ensure smooth animations and avoid common pitfalls like layout shifts and hydration issues.</p><p><strong>Key Takeaway:</strong></p><ul><li>Explore best practices for integrating GSAP animations with Next.js projects.</li><li>Learn when to use different GSAP setup patterns for static, dynamic, and complex layouts.</li><li>Get practical tips to avoid common pitfalls with SSR, hydration, and dynamic content.</li></ul><h2>Simple static content (no images/dynamic content)</h2><pre><code class="language-tsx">useEffect(() =&gt; {
   const ctx = gsap.context(() =&gt; {
     // Your GSAP animations
   });
@@ -75,6 +76,7 @@
 3. Call ScrollTrigger.refresh() - After dynamic content loads
 4. Use requestAnimationFrame - Only when experiencing timing/layout issues
 5. Check typeof window !== &#039;undefined&#039; - For SSR safety (optional with &quot;use client&quot;)</p><p>The pattern I provided is the safest/most robust for production, for simple demos you can use the basic approach.</p></div>
+      <footer class="post-footer"><a href="index.html">← All writing</a><a href="../#contact">Start a conversation ↗</a></footer>
     </article>
   </main>
 </body>

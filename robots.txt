@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+User-agent: Google-Extended
+Disallow: /
+
 Sitemap: https://yogiarifwidodo.my.id/sitemap.xml

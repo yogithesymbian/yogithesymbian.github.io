@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZ0XL2F96B"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-JZ0XL2F96B");
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050505">
   <meta name="description" content="A comprehensive guide to installing Zsh, Oh My Zsh, and the Powerlevel10k theme on Ubuntu for an enhanced terminal experience.">
   <link rel="canonical" href="https://yogiarifwidodo.my.id/writing/weeknotes-9.html">
-  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/site.css?v=20261025-remake-1">
+  <script data-goatcounter="https://yogithesymbian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   <title>Setup Zsh on Ubuntu (How and Why) | Yogi Arif Widodo</title>
 </head>
-<body>
-  <main class="blog-page">
-    <a class="back-link" href="../#writing">← Home</a>
-    <article class="post">
-      <p class="eyebrow">Writing · <time datetime="2026-02-08">February 8, 2026</time></p>
-      <h1>Setup Zsh on Ubuntu (How and Why)</h1>
-      <p class="post-summary">A comprehensive guide to installing Zsh, Oh My Zsh, and the Powerlevel10k theme on Ubuntu for an enhanced terminal experience.</p>
+<body class="blog-body">
+  <a class="skip-link" href="#article-content">Skip to content</a>
+  <header class="blog-masthead">
+    <a class="site-mark" href="../" aria-label="YA/W — Yogi Arif Widodo, homepage">YA<span aria-hidden="true">/</span>W</a>
+    <span>Engineering notes</span>
+    <a class="back-link" href="../#writing">← Portfolio</a>
+  </header>
+  <main class="blog-page" id="article-content">
+    <article class="article-shell">
+      <header class="post-header">
+        <div><p class="eyebrow">Tooling / <time datetime="2026-02-08">February 8, 2026</time></p><h1>Setup Zsh on Ubuntu (How and Why)</h1></div>
+        <p class="post-summary">A comprehensive guide to installing Zsh, Oh My Zsh, and the Powerlevel10k theme on Ubuntu for an enhanced terminal experience.</p>
+      </header>
       <div class="post-content"><p>NB: resource original post is from here: https://dev.to/kanakos01/setup-zsh-on-ubuntu-how-and-why-2kl4</p><h2>What is Zsh?</h2><p>Zsh (Z shell) is a program that allows you to interact with your computer using commands instead of a mouse. While similar to Bash, the default shell in Ubuntu, Zsh is often preferred because of its rich customization options, better plugins, and features like stronger autosuggestions and tab completions.</p><hr><h2>Setting up Zsh</h2><p>Follow these steps to install and configure Zsh on your Ubuntu system.</p><h3>1. Update System and Install Zsh</h3><p>First, ensure your system is up to date and install the Zsh package.</p><pre><code class="language-bash">sudo apt update &amp;&amp; sudo apt upgrade -y
 sudo apt install zsh -y</code></pre><h3>2. Change Default Shell</h3><p>Set Zsh as your default shell. Note that you may need to restart your terminal for this to take effect.</p><pre><code class="language-bash">chsh -s /usr/bin/zsh</code></pre><h3>3. Install Oh My Zsh</h3><p>Oh My Zsh is a framework that makes managing your Zsh configuration much easier.</p><pre><code class="language-bash">sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&quot;</code></pre><hr><h2>Theming and Visuals</h2><p>To make the terminal look better, we will install powerline fonts and the Powerlevel10k theme.</p><h3>1. Install Fonts and Tools</h3><p>Install the necessary fonts and <code>dconf-cli</code> for configuration support.</p><pre><code class="language-bash">sudo apt-get install fonts-powerline
 sudo apt-get install dconf-cli</code></pre><h3>2. Install Powerlevel10k Theme</h3><p>Clone the repository for the Powerlevel10k theme.</p><pre><code class="language-bash">git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k</code></pre><hr><h2>Plugins and Configuration</h2><p>Enhance functionality with syntax highlighting and autosuggestions.</p><h3>1. Install Plugins</h3><p>Clone the repositories for the recommended plugins.</p><pre><code class="language-bash">git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting</code></pre><h3>2. Update .zshrc File</h3><p>Now, edit your configuration file to apply the theme and plugins.</p><pre><code class="language-bash">nano ~/.zshrc</code></pre><p>Inside the file, make the following changes:</p><ul><li>Find <code>ZSH_THEME=&quot;&lt;theme_name&gt;&quot;</code> and replace it with: <code>ZSH_THEME=&quot;powerlevel10k/powerlevel10k&quot;</code></li><li>Find <code>plugins=(git)</code> and replace it with: <code>plugins=(git zsh-autosuggestions zsh-syntax-highlighting)</code></li></ul><h3>3. Apply Changes and Configure</h3><p>Save the file, exit the editor, and apply the changes.</p><pre><code class="language-bash">source ~/.zshrc</code></pre><p>Finally, run the configuration wizard for the theme if it doesn&#039;t start automatically.</p><pre><code class="language-bash">p10k configure</code></pre></div>
+      <footer class="post-footer"><a href="index.html">← All writing</a><a href="../#contact">Start a conversation ↗</a></footer>
     </article>
   </main>
 </body>
