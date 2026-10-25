@@ -12,7 +12,7 @@ const projects = [
     detail: "AI-assisted finance platform that turns daily spending into structured records through familiar chat workflows.",
     impact: "AI · Founder-led product · Active",
     stack: ["AI platform", "Personal finance", "Web application"],
-    image: "yocatetin.com.showcase-3.webp",
+    image: "yocatetin-dashboard.webp",
     alt: "YoCateTin product dashboard and chat interface",
     href: "https://yocatetin.com"
   },
@@ -96,7 +96,7 @@ const projects = [
     stack: ["Mobile application", "Enterprise system"],
     image: "river-jetty-monitoring.jpg",
     alt: "River and jetty monitoring mobile workflow for PT SAL",
-    video: "sal.webm"
+    video: "river-jetty-monitoring-demo.webm"
   },
   {
     category: "Additional projects",
@@ -156,7 +156,7 @@ const projects = [
     stack: ["Embedded systems", "Hardware prototyping"],
     image: "iot-project.webp",
     alt: "IoT hardware prototype",
-    video: "iot-yogi-solder.webm"
+    video: "iot-soldering-demo.webm"
   }
 ];
 const openSourceProjects = [
@@ -193,17 +193,17 @@ const openSourceProjects = [
 ];
 
 const clientLogos = [
-  { name: "Astra", file: "assets/client_p/astra.webp" },
-  { name: "Digitalent", file: "assets/client_p/digitalent.webp" },
-  { name: "PF Soft", file: "assets/client_p/pfsoft.webp" },
-  { name: "PT IMT", file: "assets/client_p/ptimt.webp" },
-  { name: "PT SAL", file: "assets/client_p/ptsal.webp" },
-  { name: "PT Samatech", file: "assets/client_p/ptsama.webp" },
-  { name: "Restu Ibu Hospital", file: "assets/client_p/restuibuhospitalbpn.webp" },
-  { name: "Scodeid", file: "assets/client_p/scodeid.svg" },
-  { name: "Politeknik Negeri Samarinda", file: "assets/client_p/partner/polnes.webp" },
-  { name: "Universitas Mulawarman", file: "assets/client_p/partner/unmul.webp" },
-  { name: "Universitas 17 Agustus Samarinda", file: "assets/client_p/partner/untag.webp" }
+  { name: "Astra", file: "assets/organizations/clients/astra.webp" },
+  { name: "Digitalent", file: "assets/organizations/clients/digital-talent.webp" },
+  { name: "PF Soft", file: "assets/organizations/clients/pf-soft.webp" },
+  { name: "PT IMT", file: "assets/organizations/clients/pt-imt.webp" },
+  { name: "PT SAL", file: "assets/organizations/clients/pt-sal.webp" },
+  { name: "PT Samatech", file: "assets/organizations/clients/pt-samatech.webp" },
+  { name: "Restu Ibu Hospital", file: "assets/organizations/clients/restu-ibu-hospital-balikpapan.webp" },
+  { name: "Scodeid", file: "assets/organizations/clients/scodeid.svg" },
+  { name: "Politeknik Negeri Samarinda", file: "assets/organizations/partners/politeknik-negeri-samarinda.webp" },
+  { name: "Universitas Mulawarman", file: "assets/organizations/partners/universitas-mulawarman.webp" },
+  { name: "Universitas 17 Agustus Samarinda", file: "assets/organizations/partners/universitas-17-agustus-1945-samarinda.webp" }
 ];
 
 function makeProjectCard(project) {
@@ -226,15 +226,15 @@ function makeProjectCard(project) {
     media = document.createElement("video");
     media.controls = true;
     media.preload = "none";
-    if (project.image) media.dataset.poster = `assets/favorite_projects/${project.image}`;
+    if (project.image) media.dataset.poster = `assets/projects/${project.image}`;
     media.setAttribute("aria-label", `${project.title} video`);
     const source = document.createElement("source");
-    source.dataset.src = `assets/favorite_projects/${project.video}`;
+    source.dataset.src = `assets/projects/${project.video}`;
     source.type = "video/webm";
     media.append(source, "Your browser does not support WebM video.");
   } else if (project.image) {
     media = document.createElement("img");
-    media.src = `assets/favorite_projects/${project.image}`;
+    media.src = `assets/projects/${project.image}`;
     media.alt = project.alt;
     media.loading = "lazy";
     media.decoding = "async";
