@@ -359,6 +359,50 @@ function activateShowcaseMedia() {
   });
 }
 
+function selectCaseMedia(group, selectedTab) {
+  const selected = selectedTab.dataset.caseMediaTab;
+  const mediaTabs = [...group.querySelectorAll("[data-case-media-tab]")];
+  const mediaPanels = [...group.querySelectorAll("[data-case-media-panel]")];
+
+  mediaTabs.forEach(tab => {
+    const active = tab === selectedTab;
+    tab.setAttribute("aria-selected", String(active));
+    tab.tabIndex = active ? 0 : -1;
+  });
+  mediaPanels.forEach(panel => {
+    const active = panel.dataset.caseMediaPanel === selected;
+    panel.hidden = !active;
+    if (!active) panel.querySelector("video")?.pause();
+  });
+}
+
+document.querySelectorAll("[data-case-media]").forEach(group => {
+  const mediaTabs = [...group.querySelectorAll("[data-case-media-tab]")];
+  mediaTabs.forEach(tab => {
+    tab.addEventListener("click", () => selectCaseMedia(group, tab));
+    tab.addEventListener("keydown", event => {
+      const supportedKeys = ["ArrowRight", "ArrowLeft", "Home", "End"];
+      if (!supportedKeys.includes(event.key)) return;
+      event.preventDefault();
+      let nextIndex = mediaTabs.indexOf(tab);
+      if (event.key === "ArrowRight") nextIndex = (nextIndex + 1) % mediaTabs.length;
+      if (event.key === "ArrowLeft") nextIndex = (nextIndex - 1 + mediaTabs.length) % mediaTabs.length;
+      if (event.key === "Home") nextIndex = 0;
+      if (event.key === "End") nextIndex = mediaTabs.length - 1;
+      mediaTabs[nextIndex].focus();
+      selectCaseMedia(group, mediaTabs[nextIndex]);
+    });
+  });
+});
+
+document.querySelectorAll("video").forEach(video => {
+  video.addEventListener("play", () => {
+    document.querySelectorAll("video").forEach(otherVideo => {
+      if (otherVideo !== video) otherVideo.pause();
+    });
+  });
+});
+
 initializeShowcase();
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let archiveTrigger = null;

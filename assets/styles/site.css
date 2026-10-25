@@ -116,6 +116,20 @@ a:focus-visible, button:focus-visible, video:focus-visible { outline: 3px solid 
 .case-red .case-facts dd { color: var(--white); }
 .case-red .case-media { background: #111; }
 .case-video video { object-fit: contain; }
+.case-media-switcher { display: grid; grid-template-rows: auto minmax(0, 1fr); isolation: isolate; background: #080808; }
+.case-media-tabs { display: flex; min-width: 0; overflow-x: auto; border-bottom: 1px solid #343434; background: #080808; scrollbar-width: thin; }
+.case-media-tabs button { position: relative; display: inline-flex; min-height: 70px; padding: 14px clamp(16px, 2.1vw, 30px); flex: 1 0 auto; align-items: center; justify-content: flex-start; gap: 14px; border: 0; border-right: 1px solid #292929; background: transparent; color: #999; font: inherit; font-size: clamp(.68rem, .9vw, .82rem); font-weight: 800; letter-spacing: .045em; text-align: left; text-transform: uppercase; cursor: pointer; transition: color .18s ease, background-color .18s ease; }
+.case-media-tabs button::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 3px; background: transparent; content: ""; }
+.case-media-tabs button[aria-selected="true"] { background: #111; color: var(--white); }
+.case-media-tabs button[aria-selected="true"]::after { background: var(--red); }
+.case-media-tabs button:hover { background: #151515; color: var(--white); }
+.case-media-tabs button:focus-visible { z-index: 1; outline: 3px solid var(--white); outline-offset: -5px; }
+.media-tab-index { color: #777; font-size: .66rem; font-weight: 900; letter-spacing: .08em; }
+.case-media-tabs button[aria-selected="true"] .media-tab-index { color: var(--red); }
+.case-media-panel { position: relative; display: grid; min-width: 0; min-height: 0; margin: 0; grid-template-rows: minmax(0, 1fr) auto; }
+.case-media-panel[hidden] { display: none; }
+.case-media-panel video { display: block; min-width: 0; min-height: 0; background: #101010; object-fit: contain; }
+.case-media-panel figcaption { position: static; min-height: 42px; padding: 13px 20px; border-top: 1px solid #343434; background: #080808; color: #aaa; font-size: .62rem; font-weight: 800; letter-spacing: .1em; }
 .confidential-label { margin: auto 0 0; color: #878787; font-size: .66rem; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
 .archive-trigger { display: flex; width: 100%; min-height: 132px; padding: 26px clamp(24px, 4vw, 56px); align-items: center; justify-content: space-between; border: 0; border-bottom: 1px solid var(--ink); background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
 .archive-trigger span { font-size: clamp(1.5rem, 3.2vw, 3.25rem); font-weight: 850; line-height: 1; letter-spacing: -.045em; }
@@ -354,6 +368,8 @@ a:focus-visible, button:focus-visible, video:focus-visible { outline: 3px solid 
   .case-copy h3 { font-size: 3rem; }
   .case-facts div { grid-template-columns: 78px 1fr; }
   .case-media { min-height: 300px; }
+  .case-media-tabs button { min-height: 60px; padding: 12px 15px; gap: 10px; font-size: .63rem; }
+  .case-media-panel figcaption { padding-inline: 14px; font-size: .56rem; }
   .archive-trigger { padding-inline: 0; }
   .capability-lead h2 { font-size: 3.8rem; }
   .capability-list li { grid-template-columns: 42px 1fr; }

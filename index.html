@@ -198,12 +198,34 @@
             </div>
           </dl>
         </div>
-        <figure class="case-media case-video"><video controls preload="metadata"
-            poster="assets/projects/river-jetty-monitoring-poster.webp" aria-label="SAL maritime operations walkthrough">
-            <source src="assets/projects/river-jetty-monitoring-demo.webm" type="video/webm">Your browser does not support WebM video.
-          </video>
-          <figcaption>User-controlled walkthrough / no autoplay</figcaption>
-        </figure>
+        <div class="case-media case-video case-media-switcher" data-case-media>
+          <div class="case-media-tabs" role="tablist" aria-label="SAL operations media">
+            <button id="sal-monitoring-tab" type="button" role="tab" aria-selected="true"
+              aria-controls="sal-monitoring-panel" data-case-media-tab="monitoring"><span
+                class="media-tab-index">01</span><span>River &amp; jetty monitoring</span></button>
+            <button id="sal-automation-tab" type="button" role="tab" aria-selected="false" tabindex="-1"
+              aria-controls="sal-automation-panel" data-case-media-tab="automation"><span
+                class="media-tab-index">02</span><span>Barge setup workflow</span></button>
+          </div>
+          <figure id="sal-monitoring-panel" class="case-media-panel" role="tabpanel"
+            aria-labelledby="sal-monitoring-tab" data-case-media-panel="monitoring">
+            <video controls preload="metadata" poster="assets/projects/river-jetty-monitoring-poster.webp"
+              aria-label="River and jetty monitoring walkthrough">
+              <source src="assets/projects/river-jetty-monitoring-demo.webm" type="video/webm">Your browser does not
+              support WebM video.
+            </video>
+            <figcaption>River &amp; jetty monitoring / user-controlled walkthrough</figcaption>
+          </figure>
+          <figure id="sal-automation-panel" class="case-media-panel" role="tabpanel"
+            aria-labelledby="sal-automation-tab" data-case-media-panel="automation" hidden>
+            <video controls preload="none" poster="assets/automation/create-barge-tbbm-patra-niaga-tem-poster.webp"
+              aria-label="Barge setup workflow automation walkthrough">
+              <source src="assets/automation/create-barge-tbbm-patra-niaga-tem.webm" type="video/webm">Your browser
+              does not support WebM video.
+            </video>
+            <figcaption>Barge setup workflow / structured operational data entry</figcaption>
+          </figure>
+        </div>
       </article>
       <button class="archive-trigger" type="button" data-showcase-open><span><small>Project archive</small>Explore all
           projects, clients, and open source</span><b aria-hidden="true">↗</b></button>
