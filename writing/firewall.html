@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src &#039;self&#039;; script-src &#039;self&#039; https://gc.zgo.at &#039;sha256-vPgCjYvQlZPjDx6SjTprc7ghE/+a52jWdHcA7RCN5JU=&#039;; style-src &#039;self&#039;; img-src &#039;self&#039; data: https://yogithesymbian.goatcounter.com; media-src &#039;self&#039;; font-src &#039;self&#039;; connect-src &#039;self&#039; https://yogithesymbian.goatcounter.com; object-src &#039;none&#039;; base-uri &#039;self&#039;; form-action &#039;none&#039;; upgrade-insecure-requests">
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050505">
+  <meta name="description" content="Steps to review Google Cloud firewall findings and restrict publicly open SSH and RDP ports.">
+  <link rel="canonical" href="https://yogiarifwidodo.my.id/writing/firewall.html">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/site.css?v=20261025-remake-1">
+  <script data-goatcounter="https://yogithesymbian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+  <title>Resolving &quot;Open SSH port&quot; and &quot;Open RDP port&quot; Vulnerabilities | Yogi Arif Widodo</title>
+</head>
+<body class="blog-body">
+  <a class="skip-link" href="#article-content">Skip to content</a>
+  <header class="blog-masthead">
+    <a class="site-mark" href="../" aria-label="YA/W — Yogi Arif Widodo, homepage">YA<span aria-hidden="true">/</span>W</a>
+    <span>Engineering notes</span>
+    <a class="back-link" href="../#writing">← Portfolio</a>
+  </header>
+  <main class="blog-page" id="article-content">
+    <article class="article-shell">
+      <header class="post-header">
+        <div><p class="eyebrow">Engineering / <span>Undated</span></p><h1>Resolving &quot;Open SSH port&quot; and &quot;Open RDP port&quot; Vulnerabilities</h1></div>
+        <p class="post-summary">Steps to review Google Cloud firewall findings and restrict publicly open SSH and RDP ports.</p>
+      </header>
+      <div class="post-content"><h2>Resolving &quot;Open SSH port&quot; and &quot;Open RDP port&quot; Vulnerabilities</h2><p>To resolve the &quot;Open SSH port&quot; and &quot;Open RDP port&quot; high vulnerability findings, you&#039;ll need to modify the associated firewall rules in your Google Cloud project.</p><h2>Step-by-step instructions</h2><h3>Access Security Command Center Findings</h3><p>1. In the Google Cloud Console, navigate to <strong>Security Command Center</strong>
+2. From the left-hand navigation, select <strong>Findings</strong>
+3. Filter the findings to show <strong>Severity: High</strong> and look for categories like &quot;Open SSH port&quot; and &quot;Open RDP port&quot;</p><h3>Identify the Affected Firewall Rule for &quot;Open SSH port&quot;</h3><p>1. Click on the &quot;Open SSH port&quot; finding
+2. In the finding details pane, locate the <strong>Resource path</strong> or similar information that points to the specific Google Cloud Firewall rule responsible for this vulnerability (typically a Google Compute Engine firewall rule)</p><pre><code>Navy Projects  gcp_low_extra  gcp_low_extra navy-01  qwiklabs-gcp-01-417bbf485867</code></pre><p>3. Note down the name of this firewall rule</p><h3>Modify the &quot;Open SSH port&quot; Firewall Rule</h3><p>1. In the Google Cloud Console, navigate to <strong>VPC network &gt; Firewall</strong>
+2. Locate the firewall rule you identified in the previous step
+3. Click on the rule name to open its details, then click <strong>Edit</strong>
+4. Find the section for <strong>Source IPv4 ranges</strong> (or similar, indicating the allowed source IPs)
+5. You will likely see <code>0.0.0.0/0</code> listed, which means the rule is open to the entire internet
+6. Change this range to <code>35.235.240.0/20</code>
+7. Click <strong>Save</strong></p><h3>Identify the Affected Firewall Rule for &quot;Open RDP port&quot;</h3><p>1. Go back to <strong>Security Command Center &gt; Findings</strong>
+2. Click on the &quot;Open RDP port&quot; finding
+3. Similar to the SSH finding, locate the <strong>Resource path</strong> or other identifying information for the firewall rule allowing RDP traffic
+4. Note down the name of this firewall rule</p><h3>Modify the &quot;Open RDP port&quot; Firewall Rule</h3><p>1. In the Google Cloud Console, navigate to <strong>VPC network &gt; Firewall</strong>
+2. Locate the firewall rule you identified in the previous step
+3. Click on the rule name to open its details, then click <strong>Edit</strong>
+4. Find the section for <strong>Source IPv4 ranges</strong>
+5. Change the range from <code>0.0.0.0/0</code> to <code>35.235.240.0/20</code>
+6. Click <strong>Save</strong></p><h2>Result</h2><p>After these changes, Security Command Center will eventually re-scan your environment. The &quot;Open SSH port&quot; and &quot;Open RDP port&quot; findings should then either disappear or show as resolved in a subsequent scan, as the firewall rules will no longer allow public internet access.</p></div>
+      <footer class="post-footer"><a href="index.html">← All writing</a><a href="../#contact">Start a conversation ↗</a></footer>
+    </article>
+  </main>
+</body>
+</html>

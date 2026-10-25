@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src &#039;self&#039;; script-src &#039;self&#039; https://gc.zgo.at &#039;sha256-vPgCjYvQlZPjDx6SjTprc7ghE/+a52jWdHcA7RCN5JU=&#039;; style-src &#039;self&#039;; img-src &#039;self&#039; data: https://yogithesymbian.goatcounter.com; media-src &#039;self&#039;; font-src &#039;self&#039;; connect-src &#039;self&#039; https://yogithesymbian.goatcounter.com; object-src &#039;none&#039;; base-uri &#039;self&#039;; form-action &#039;none&#039;; upgrade-insecure-requests">
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050505">
+  <meta name="description" content="Moving from Vercel to Google Cloud Compute Engine requires a hands-on approach to security. How we solved Error 526 using Cloudflare Origin CA and strict Nginx proxying.">
+  <link rel="canonical" href="https://yogiarifwidodo.my.id/writing/weeknotes-10.html">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/site.css?v=20261025-remake-1">
+  <script data-goatcounter="https://yogithesymbian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+  <title>The Great Migration: Hardening SSL with Cloudflare &amp; Nginx | Yogi Arif Widodo</title>
+</head>
+<body class="blog-body">
+  <a class="skip-link" href="#article-content">Skip to content</a>
+  <header class="blog-masthead">
+    <a class="site-mark" href="../" aria-label="YA/W — Yogi Arif Widodo, homepage">YA<span aria-hidden="true">/</span>W</a>
+    <span>Engineering notes</span>
+    <a class="back-link" href="../#writing">← Portfolio</a>
+  </header>
+  <main class="blog-page" id="article-content">
+    <article class="article-shell">
+      <header class="post-header">
+        <div><p class="eyebrow">Security &amp; infrastructure / <time datetime="2026-02-15">February 15, 2026</time></p><h1>The Great Migration: Hardening SSL with Cloudflare &amp; Nginx</h1></div>
+        <p class="post-summary">Moving from Vercel to Google Cloud Compute Engine requires a hands-on approach to security. How we solved Error 526 using Cloudflare Origin CA and strict Nginx proxying.</p>
+      </header>
+      <div class="post-content"><h2>The Shift to Self-Hosted</h2><p>Migrating from Vercel&#039;s serverless environment to a Google Cloud VM (<code>e2-small</code>) gave us full control, but it also meant we had to manage our own security handshake. The biggest hurdle? Getting the &quot;green lock&quot; to work correctly between Cloudflare and our Nginx reverse proxy.</p><h2>The Problem: Error 526 &amp; Redirect Loops</h2><p>Initially, we encountered the dreaded <strong>Error 526: Invalid SSL Certificate</strong>. This happened because we set Cloudflare&#039;s SSL mode to <strong>Full (Strict)</strong>, but our origin server (the VM) didn&#039;t have a valid certificate that Cloudflare trusted.</p><p>Turning it down to &quot;Flexible&quot; caused redirect loops because Nginx was forcing HTTPS while Cloudflare was talking to it via HTTP.</p><h2>The Solution: Cloudflare Origin CA</h2><p>Instead of using Let&#039;s Encrypt (which requires renewal every 3 months and opening port 80), we opted for <strong>Cloudflare Origin CA</strong>. This allows Cloudflare to sign a certificate for our server that is valid for <strong>15 years</strong>.</p><h3>1. Generating the Certificate</h3><p>We generated a private key and certificate in the Cloudflare Dashboard under <strong>SSL/TLS &gt; Origin Server</strong> and saved them to the server (example):</p><ul><li><code>/etc/nginx/ssl/yo-license.pem</code></li><li><code>/etc/nginx/ssl/yo-license.key</code></li></ul><h3>2. Nginx Configuration</h3><p>We updated the Nginx block to listen on port 443 with <code>http2</code> enabled for performance, and pointed it to the new certificates. We also ensured the original IP is forwarded to Next.js.</p><pre><code>server {
+    listen 80;
+    server_name yo-license.pro www.yo-license.pro;
+    # Force redirect to HTTPS
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name yo-license.pro www.yo-license.pro;
+
+    # Cloudflare Origin Certificates
+    ssl_certificate /etc/nginx/ssl/yo-license.pem;
+    ssl_certificate_key /etc/nginx/ssl/yo-license.key;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &#039;upgrade&#039;;
+        proxy_set_header Host $host;
+
+        # Crucial for Turnstile &amp; Rate Limiting
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}</code></pre><h3>3. Strict Mode</h3><p>With the certificate in place, we could finally enable <strong>Full (Strict)</strong> mode in Cloudflare. This ensures end-to-end encryption:</p><p>1. <strong>User -&gt; Cloudflare:</strong> Encrypted via public trusted cert.
+2. <strong>Cloudflare -&gt; Nginx:</strong> Encrypted via Origin CA cert.</p><h2>Key Takeaway</h2><p>When using Cloudflare as a proxy, relying on &quot;Flexible&quot; SSL is a trap. The architectural correct way is to establish trust between the Edge (Cloudflare) and the Origin (GCP) using a dedicated certificate.</p></div>
+      <footer class="post-footer"><a href="index.html">← All writing</a><a href="../#contact">Start a conversation ↗</a></footer>
+    </article>
+  </main>
+</body>
+</html>
