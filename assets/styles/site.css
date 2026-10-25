@@ -188,11 +188,13 @@ a:focus-visible, button:focus-visible, video:focus-visible { outline: 3px solid 
 .writing-compact article { padding: clamp(30px, 4vw, 58px); border-bottom: 1px solid var(--line); }
 .writing-compact article:last-child { border-bottom: 0; }
 .writing-compact h3 { margin: 58px 0 0; font-size: clamp(1.6rem, 3vw, 3rem); line-height: 1; letter-spacing: -.05em; }
-.contact-section { padding: clamp(72px, 9vw, 138px) max(var(--gutter), calc((100vw - var(--canvas)) / 2)); background: var(--black); color: var(--white); }
+.contact-section { position: relative; display: flex; min-height: 700px; padding: clamp(72px, 9vw, 138px) max(var(--gutter), calc((100vw - var(--canvas)) / 2)) 32px; flex-direction: column; justify-content: center; overflow: hidden; isolation: isolate; background: var(--black); color: var(--white); }
 .contact-section .eyebrow { color: var(--red-on-dark); }
-.contact-section h2 { max-width: 14ch; margin: 25px 0 44px; font-size: clamp(3.5rem, 8vw, 8.6rem); font-weight: 900; line-height: .82; letter-spacing: -.08em; }
+.contact-main { position: relative; z-index: 2; width: min(56%, 720px); margin: auto 0; }
+.contact-section h2 { max-width: 10ch; margin: 25px 0 44px; font-size: clamp(3.5rem, 7.4vw, 8rem); font-weight: 900; line-height: .82; letter-spacing: -.08em; }
 .contact-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.official-profiles { display: flex; margin-top: 84px; padding-top: 22px; flex-wrap: wrap; gap: 16px 34px; border-top: 1px solid var(--line-dark); font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.contact-team { position: absolute; z-index: 1; right: max(0px, calc((100vw - var(--canvas)) / 2 - 35px)); bottom: 68px; width: min(65%, 920px); height: min(92%, 690px); object-fit: contain; object-position: right bottom; pointer-events: none; }
+.official-profiles { position: relative; z-index: 2; display: flex; width: 100%; margin-top: auto; padding-top: 22px; flex-wrap: wrap; gap: 16px 34px; border-top: 1px solid var(--line-dark); font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .official-profiles > span { margin-right: auto; color: #777; }
 .official-profiles a { text-decoration: none; }
 .official-profiles a:hover { color: var(--red); }
@@ -342,6 +344,11 @@ a:focus-visible, button:focus-visible, video:focus-visible { outline: 3px solid 
   .writing-featured { border-right: 0; border-bottom: 1px solid var(--line); }
   .site-footer { grid-template-columns: 1fr auto; }
   .site-footer .usage-note { grid-column: 1 / -1; grid-row: 2; }
+  .contact-section { min-height: 0; padding-top: 76px; }
+  .contact-main { width: min(100%, 680px); margin: 0; padding-bottom: 0; }
+  .contact-section h2 { max-width: 11ch; }
+  .contact-team { position: relative; right: auto; bottom: auto; align-self: center; width: min(100%, 650px); height: clamp(190px, 48vw, 340px); margin: 22px auto -22px; object-position: center bottom; }
+  .official-profiles { margin-top: 52px; }
   .project-group { grid-template-columns: 1fr; }
   .client-grid { grid-template-columns: repeat(2, 1fr); }
   .writing-item { grid-template-columns: 110px 1fr; }

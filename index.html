@@ -163,7 +163,11 @@
             </div>
             <div>
               <dt>Contribution</dt>
-              <dd>Translated 200+ UI designs and supported migration from MySQL to Oracle 12c.</dd>
+              <dd>Translated 200+ UI designs and contributed across the database transition.</dd>
+            </div>
+            <div>
+              <dt>Database path</dt>
+              <dd>Oracle → MySQL → Oracle 12c</dd>
             </div>
             <div>
               <dt>Stack</dt>
@@ -172,11 +176,29 @@
           </dl>
           <p class="confidential-label">Confidential client · Verified scope only</p>
         </div>
-        <figure class="case-media"><img src="assets/projects/japan-enterprise-platform.jpg" width="1280"
-            height="800" alt="Japanese enterprise scheduling interface during implementation" loading="lazy"
-            decoding="async">
-          <figcaption>Scheduling interface / enterprise workflow</figcaption>
-        </figure>
+        <div class="case-media case-media-switcher" data-case-media>
+          <div class="case-media-tabs" role="tablist" aria-label="Japan enterprise platform evidence">
+            <button id="japan-platform-tab" type="button" role="tab" aria-selected="true"
+              aria-controls="japan-platform-panel" data-case-media-tab="platform"><span
+                class="media-tab-index">01</span><span>Enterprise platform</span></button>
+            <button id="japan-database-tab" type="button" role="tab" aria-selected="false" tabindex="-1"
+              aria-controls="japan-database-panel" data-case-media-tab="database"><span
+                class="media-tab-index">02</span><span>Database transition</span></button>
+          </div>
+          <figure id="japan-platform-panel" class="case-media-panel" role="tabpanel"
+            aria-labelledby="japan-platform-tab" data-case-media-panel="platform">
+            <img src="assets/projects/japan-enterprise-platform.webp" width="1280" height="800"
+              alt="Japanese enterprise scheduling interface during implementation" loading="lazy" decoding="async">
+            <figcaption>Enterprise platform / operational scheduling</figcaption>
+          </figure>
+          <figure id="japan-database-panel" class="case-media-panel" role="tabpanel"
+            aria-labelledby="japan-database-tab" data-case-media-panel="database" hidden>
+            <img src="assets/projects/japan-enterprise-database-anonymized.webp" width="1280" height="800"
+              alt="Anonymized TablePlus-style view of a MySQL database during the platform transition" loading="lazy"
+              decoding="async">
+            <figcaption>Database transition / Oracle → MySQL → Oracle 12c</figcaption>
+          </figure>
+        </div>
       </article>
       <article class="case-study case-red">
         <div class="case-copy">
@@ -350,12 +372,17 @@
     </section>
 
     <section class="contact-section" id="contact" aria-labelledby="contact-title">
-      <p class="eyebrow">Start a conversation / Balikpapan, Indonesia</p>
-      <h2 id="contact-title">Have a system to build—or one to modernize?</h2>
-      <div class="contact-actions"><a class="button button-primary" href="mailto:yogirenbox33@gmail.com">Email Yogi
-          <span aria-hidden="true">↗</span></a><a class="button button-on-dark"
-          href="https://calendly.com/yogithesymbian/you-are-amazing" target="_blank" rel="noopener noreferrer">Book a
-          call</a></div>
+      <div class="contact-main">
+        <p class="eyebrow">Start a conversation / Balikpapan, Indonesia</p>
+        <h2 id="contact-title">Have a system to build—or one to modernize?</h2>
+        <div class="contact-actions"><a class="button button-primary" href="mailto:yogirenbox33@gmail.com">Email Yogi
+            <span aria-hidden="true">↗</span></a><a class="button button-on-dark"
+            href="https://calendly.com/yogithesymbian/you-are-amazing" target="_blank" rel="noopener noreferrer">Book a
+            call</a></div>
+      </div>
+      <img class="contact-team" src="assets/profile/engineering-modes-team.webp" width="1536" height="1024"
+        alt="Three original cybernetic tech characters representing product building, system modernization, and production operations; Yogi appears as the left-most character"
+        loading="lazy" decoding="async">
       <div class="official-profiles" aria-label="Official profiles"><span>Official profiles</span><a
           href="https://github.com/yogithesymbian" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a
           href="https://linkedin.com/in/yogi-arif-widodo" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a

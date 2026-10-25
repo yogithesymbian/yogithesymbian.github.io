@@ -28,10 +28,10 @@ const projects = [
   {
     category: "Enterprise & international",
     title: "Japan enterprise platform",
-    detail: "Modernized a 20-year-old Japanese desktop system into a scalable web application, translating 200+ UI designs and migrating data from MySQL to Oracle 12c.",
+    detail: "Modernized a 20-year-old Japanese desktop system into a scalable web application, translating 200+ UI designs and contributing across its Oracle → MySQL → Oracle 12c database path.",
     impact: "System modernization · Confidential client",
     stack: ["Laravel 7", "Vue.js", "Laravue", "MySQL", "Oracle 12c"],
-    image: "japan-enterprise-platform.jpg",
+    image: "japan-enterprise-platform.webp",
     alt: "Japanese enterprise scheduling interface during implementation"
   },
   {
@@ -40,7 +40,7 @@ const projects = [
     detail: "Australian recruitment platform with job discovery and subscription payment integration.",
     impact: "Web platform · Australia",
     stack: ["Laravel", "Alpine.js", "Payment API"],
-    image: "casual-chase.jpg",
+    image: "casual-chase.webp",
     alt: "Casual Chase recruitment platform homepage"
   },
   {
@@ -49,7 +49,7 @@ const projects = [
     detail: "Client-facing gallery and administration platform delivered for a client in Poland.",
     impact: "Web platform · Poland",
     stack: ["React", "Ant Design", "Lumen", "MySQL"],
-    image: "kulsummarssy.jpg",
+    image: "kulsummarssy.webp",
     alt: "Kulsummarssy gallery website presentation"
   },
   {
@@ -58,7 +58,7 @@ const projects = [
     detail: "Web-based thesis management system for Universitas 17 Agustus 1945 Samarinda.",
     impact: "Education · Workflow platform",
     stack: ["React", "Ant Design", "Lumen", "MySQL"],
-    image: "skripsi-management.jpg",
+    image: "skripsi-management.webp",
     alt: "Skripsi Management login page for Universitas 17 Agustus 1945 Samarinda"
   },
   {
@@ -67,7 +67,7 @@ const projects = [
     detail: "E-commerce platform with dedicated customer and administration interfaces.",
     impact: "Commerce · Web platform",
     stack: ["Bootstrap", "React", "Ant Design", "Lumen", "MySQL"],
-    image: "belanja-malang.jpg",
+    image: "belanja-malang.webp",
     alt: "Belanja Malang e-commerce platform presentation"
   },
   {
@@ -76,7 +76,7 @@ const projects = [
     detail: "Cross-platform monitoring and productivity application developed for Bank Indonesia.",
     impact: "Mobile · Bank Indonesia",
     stack: ["Flutter", "Node.js", "Sequelize"],
-    image: "bi-ngetrol.jpg",
+    image: "bi-ngetrol.webp",
     alt: "BI NGETROL mobile application screens"
   },
   {
@@ -85,7 +85,7 @@ const projects = [
     detail: "Employee attendance and monitoring application developed for a client.",
     impact: "Mobile · Workforce operations",
     stack: ["Kotlin", "Java", "Lumen", "MySQL"],
-    image: "scodeid-attendance.jpg",
+    image: "scodeid-attendance.webp",
     alt: "SCODEID attendance and monitoring application presentation"
   },
   {
@@ -94,7 +94,7 @@ const projects = [
     detail: "Mobile workflow for river positions, jetty activity, vessel details, status updates, and operational notifications.",
     impact: "Mobile · PT SAL",
     stack: ["Mobile application", "Enterprise system"],
-    image: "river-jetty-monitoring.jpg",
+    image: "river-jetty-monitoring.webp",
     alt: "River and jetty monitoring mobile workflow for PT SAL",
     video: "river-jetty-monitoring-demo.webm"
   },
@@ -104,7 +104,7 @@ const projects = [
     detail: "Mobile security workflow covering QR scanning, verification, and one-time-pass access screens.",
     impact: "Mobile · Security workflow",
     stack: ["Mobile application", "QR verification"],
-    image: "security-qr-verification.jpg",
+    image: "security-qr-verification.webp",
     alt: "Mobile security and QR verification application screens"
   },
   {
@@ -113,7 +113,7 @@ const projects = [
     detail: "Localized leave request and attendance workflow built for a Japanese project.",
     impact: "Mobile · Japan",
     stack: ["Flutter", "Riverpod"],
-    image: "flutter-leave-management.jpg",
+    image: "flutter-leave-management.webp",
     alt: "Flutter leave management form with localized inputs"
   },
   {
@@ -129,7 +129,7 @@ const projects = [
     detail: "In-app chat feature for marketplace conversations within Belanja Malang.",
     impact: "Mobile · Marketplace",
     stack: ["Kotlin", "Firebase"],
-    image: "realtime-chat-belanja-malang.jpg",
+    image: "realtime-chat-belanja-malang.webp",
     alt: "Realtime marketplace chat interface in Belanja Malang"
   },
   {
