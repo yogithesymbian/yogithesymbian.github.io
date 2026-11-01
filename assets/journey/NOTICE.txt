@@ -4,3 +4,7 @@ Source: https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_1
 Coordinates rounded to two decimals. Static world.svg rasterized to square geographic cells.
 Geography is schematic, not a representation of client office locations or political boundaries.
 Aircraft pixel pattern and UI are original code-native artwork for this portfolio.
+
+Country relief: Natural Earth 1:110m admin-0 countries (public domain), restricted to Japan, Poland, Australia, India, Indonesia; coordinates rounded to two decimals; polygon holes retained.
+Source: https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_admin_0_countries.geojson
+City platforms are schematic original artwork, not municipal boundaries.
