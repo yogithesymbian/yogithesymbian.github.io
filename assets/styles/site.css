@@ -674,3 +674,76 @@ body { line-height: 1.75; }
   html { cursor: auto; }
   a, button, [role="button"], [role="tab"], summary { cursor: pointer; }
 }
+
+/* Work Journey: static hero first, interaction only after explicit activation. */
+.hero { isolation: isolate; position: relative; }
+.journey-background { position: absolute; inset: 56px 0 0; z-index: -1; pointer-events: none; background: url('../journey/world.svg') center 45% / max(1100px, 100%) auto no-repeat; opacity: .55; mask-image: linear-gradient(90deg, transparent 3%, #000 75%); }
+.journey-entry { display: flex; align-items: flex-start; flex-direction: column; margin-top: 24px; gap: 3px; }
+.journey-launch { display: inline-flex; align-items: center; gap: 22px; min-height: 44px; padding: 6px 0; border: 0; border-bottom: 2px solid var(--ink); background: var(--paper); color: var(--ink); font-weight: 700; font-size: .9rem; cursor: pointer; }
+.journey-entry > span { font-size: .75rem; color: var(--muted); }
+.journey-dialog { width: min(1280px, calc(100% - 40px)); max-width: none; max-height: calc(100dvh - 40px); padding: 0; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); box-shadow: 8px 8px 0 #20231f44; overflow: auto; }
+.journey-dialog::backdrop { background: #20231fc9; }
+.journey-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 20px 24px; border-bottom: 2px solid var(--ink); }
+.journey-header h2 { font: 400 clamp(1.25rem, 3vw, 2rem)/1.3 var(--pixel-font); margin: 8px 0; }
+.journey-header p { margin: 0; font-size: .85rem; }
+.journey-dialog button { min-height: 44px; padding: 8px 14px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-size: .8rem; font-weight: 700; cursor: pointer; }
+.journey-dialog button:hover { background: var(--line); }
+.journey-dialog button:disabled { opacity: .4; cursor: default; }
+.journey-dialog .journey-close { flex-shrink: 0; border: 1px solid var(--ink); }
+.journey-body { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(280px, 1fr); }
+.journey-map-wrap { position: relative; min-width: 0; background: #eeede7; border-right: 1px solid var(--ink); }
+.journey-map { display: block; width: 100%; height: 440px; touch-action: none; cursor: grab; }
+.journey-map:active { cursor: grabbing; }
+.journey-map-caption { position: absolute; top: 16px; left: 16px; right: 16px; display: flex; justify-content: space-between; gap: 12px; font: .6rem var(--pixel-font); pointer-events: none; }
+.journey-zoom { position: absolute; bottom: 20px; left: 16px; display: flex; gap: 4px; }
+.journey-zoom button { box-shadow: 2px 2px 0 var(--line); }
+.journey-map-hint { position: absolute; bottom: 18px; right: 12px; margin: 0; max-width: 220px; text-align: right; font-size: .65rem; line-height: 1.5; pointer-events: none; }
+.journey-story { padding: 28px; max-height: 440px; overflow: auto; }
+.journey-count { font: .65rem var(--pixel-font); margin: 0 0 26px; color: var(--muted); }
+.journey-type { font-size: .75rem; margin: 0 0 6px; color: var(--muted); }
+.journey-story h3 { font: 400 clamp(1.4rem, 2.7vw, 2rem)/1.3 var(--pixel-font); margin: 0 0 20px; }
+.journey-story h4 { font-size: 1.1rem; line-height: 1.4; margin: 0 0 12px; }
+.journey-copy { margin: 0; font-size: 1.0625rem; }
+.journey-note { font-size: .75rem; color: var(--muted); margin: 20px 0 12px; }
+.journey-project { display: inline-flex; min-height: 44px; align-items: center; font-size: .85rem; font-weight: 700; }
+.journey-stops { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border-top: 2px solid var(--ink); }
+.journey-stops button { text-align: left; display: flex; flex-direction: column; gap: 5px; }
+.journey-stops button span { font: .6rem var(--pixel-font); opacity: .7; }
+.journey-stops button[aria-current] { background: var(--ink); color: var(--paper); }
+.journey-footer { padding: 16px 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 12px 20px; border-top: 1px solid var(--ink); }
+.journey-playback { display: flex; flex-wrap: wrap; gap: 6px; }
+.journey-playback [data-action="play"] { background: var(--ink); color: var(--paper); }
+.journey-state { font-size: .75rem; }
+.journey-footer > a { margin-left: auto; font-size: .65rem; }
+.journey-loading, .journey-retry { margin: 24px; }
+.journey-story:focus-visible { outline: 3px solid var(--ink); outline-offset: -5px; }
+@media(max-width: 760px) {
+  .journey-dialog { width: calc(100% - 16px); max-height: calc(100dvh - 16px); }
+  .journey-header { padding: 14px; position: sticky; top: 0; z-index: 2; background: var(--paper); }
+  .journey-body { grid-template-columns: 1fr; }
+  .journey-map-wrap { border-right: 0; border-bottom: 1px solid var(--ink); }
+  .journey-map { height: 280px; }
+  .journey-map-hint { display: none; }
+  .journey-story { padding: 20px; max-height: 290px; }
+  .journey-count { margin-bottom: 12px; }
+  .journey-stops { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .journey-dialog .journey-stops button { padding: 8px; font-size: .7rem; }
+  .journey-footer { position: sticky; bottom: 0; z-index: 2; padding: 10px; gap: 6px; background: var(--paper); }
+  .journey-playback { gap: 4px; }
+  .journey-dialog .journey-playback button { padding: 6px 9px; font-size: .7rem; }
+  .journey-background { opacity: .35; background-position: 60% 50%; }
+}
+@media(forced-colors: active) { .journey-background { display: none; } .journey-stops button[aria-current] { outline: 3px solid Highlight; outline-offset: -4px; } }
+/* Keep the default hero still; motion belongs to the explicitly opened journey. */
+.hero-meta, .hero-identity, .hero-visual, .proof-rail { animation: none; }
+/* Container sizing also handles browser/text zoom inside the modal. */
+.journey-dialog { container-type: inline-size; }
+@container (max-width: 760px) {
+  .journey-body { grid-template-columns: 1fr; }
+  .journey-map-wrap { border-right: 0; border-bottom: 1px solid var(--ink); }
+  .journey-map { height: 280px; }
+  .journey-map-hint { display: none; }
+  .journey-story { padding: 20px; max-height: 290px; }
+  .journey-stops { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .journey-dialog .journey-stops button { padding: 8px; font-size: .7rem; }
+}

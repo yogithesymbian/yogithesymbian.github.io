@@ -47,7 +47,9 @@
     }
   }
   </script>
+  <link rel="preload" as="image" href="assets/journey/world.svg">
   <link rel="stylesheet" href="assets/styles/site.css?v=20261025-remake-1">
+  <script src="assets/javascript/journey-loader.js" defer></script>
   <script src="assets/javascript/showcase.js?v=20261025-remake-1" defer></script>
   <script data-goatcounter="https://yogithesymbian.goatcounter.com/count" async
     src="https://gc.zgo.at/count.js"></script>
@@ -71,7 +73,7 @@
 
   <main id="main-content">
     <header class="hero" id="top">
-      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="journey-background" aria-hidden="true"></div>
       <div class="hero-meta">
         <p>Software Engineer / Balikpapan</p>
         <p><span class="status-dot"></span> Open to opportunities</p>
@@ -88,6 +90,10 @@
               <a class="button button-primary" href="#work">View projects <span aria-hidden="true">↗</span></a>
               <a class="button button-secondary" href="https://calendly.com/yogithesymbian/you-are-amazing"
                 target="_blank" rel="noopener noreferrer">Book a call</a>
+            </div>
+            <div class="journey-entry" hidden>
+              <button class="journey-launch" type="button" aria-haspopup="dialog" aria-controls="work-journey">Play my work journey <span aria-hidden="true">↗</span></button>
+              <span>Animated, interactive map</span>
             </div>
           </div>
         </div>
@@ -403,6 +409,16 @@
       may not be reused to impersonate or misrepresent the owner.</p>
     <a href="#top">Back to top ↑</a>
   </footer>
+
+  <dialog id="work-journey" class="journey-dialog" aria-labelledby="journey-title">
+    <header class="journey-header">
+      <div><p class="section-code">WORLD / WORK / HOME</p><h2 id="journey-title">Work journey<span>.</span></h2><p>A timeline of projects and collaborations.</p></div>
+      <button type="button" class="journey-close" aria-label="Close map">Close ×</button>
+    </header>
+    <div class="journey-loading" role="status">Opening the world map…</div>
+    <button class="journey-retry" type="button" hidden>Retry loading</button>
+    <div class="journey-experience" hidden></div>
+  </dialog>
 
   <dialog class="showcase" id="showcase" aria-labelledby="showcase-title">
     <div class="showcase-shell">

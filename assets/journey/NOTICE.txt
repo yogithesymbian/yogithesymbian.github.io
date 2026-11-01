@@ -1,0 +1,6 @@
+Map geometry: Natural Earth, 1:110m land, public domain.
+https://www.naturalearthdata.com/about/terms-of-use/
+Source: https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_land.geojson
+Coordinates rounded to two decimals. Static world.svg rasterized to square geographic cells.
+Geography is schematic, not a representation of client office locations or political boundaries.
+Aircraft pixel pattern and UI are original code-native artwork for this portfolio.
