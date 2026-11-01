@@ -666,10 +666,31 @@ body { line-height: 1.75; }
     cursor: url("../cursors/pixel-hand.svg") 12 3, pointer;
   }
   p, h1, h2, h3, h4, dt, dd, blockquote, pre, code,
-  input, textarea, [contenteditable="true"] { cursor: text; }
+  input, textarea, [contenteditable="true"] { cursor: url("../cursors/pixel-text.svg") 16 16, text; }
+  p, h1, h2, h3, h4, dt, dd, blockquote, pre, code { cursor: url("../cursors/pixel-text.svg") 16 16, text; }
   a *, button *, [role="button"] *, [role="tab"] *, summary * { cursor: inherit; }
   button:disabled, [aria-disabled="true"] { cursor: not-allowed; }
 }
+
+.scroll-progress { position: fixed; z-index: 45; bottom: 0; width: 29px; height: 29px; color: var(--ink); pointer-events: none; }
+.scroll-dino { display: block; width: 29px; height: 29px; }
+.scroll-cacti { position: fixed; z-index: 44; inset: auto 0 0; height: 22px; color: var(--ink); pointer-events: none; }
+.scroll-cactus { position: absolute; bottom: 0; width: 17px; height: 22px; }
+.scroll-cactus:nth-child(1) { left: 26%; }
+.scroll-cactus:nth-child(2) { left: 53%; }
+.scroll-cactus:nth-child(3) { left: 79%; }
+.dino-leg-b { display: none; }
+.scroll-progress.is-moving .dino-leg-a { animation: dino-leg-a .2s steps(1) infinite; }
+.scroll-progress.is-moving .dino-leg-b { display: block; animation: dino-leg-b .2s steps(1) infinite; }
+@keyframes dino-leg-a { 50% { opacity: 0; } }
+@keyframes dino-leg-b { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .scroll-progress.is-moving .dino-leg-a, .scroll-progress.is-moving .dino-leg-b { animation: none; } .scroll-progress.is-moving .dino-leg-b { display: none; } .scroll-cacti { display: none; } }
+/* Match native scroll surfaces throughout the page and its independent dialogs. */
+@supports (-moz-appearance: none) { * { scrollbar-color: var(--ink) var(--line); scrollbar-width: thin; } }
+*::-webkit-scrollbar { width: 14px; height: 14px; }
+*::-webkit-scrollbar-track { background: repeating-linear-gradient(to bottom, var(--paper) 0 6px, var(--line) 6px 8px); border-left: 2px solid var(--ink); }
+*::-webkit-scrollbar-thumb { border: 3px solid var(--paper); border-radius: 0; background: repeating-linear-gradient(to bottom, var(--ink) 0 7px, #50534e 7px 10px); }
+*::-webkit-scrollbar-thumb:hover { background: var(--ink); }
 @media (forced-colors: active) {
   html { cursor: auto; }
   a, button, [role="button"], [role="tab"], summary { cursor: pointer; }
