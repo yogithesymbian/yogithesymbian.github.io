@@ -159,6 +159,26 @@ const projects = [
     video: "iot-soldering-demo.webm"
   }
 ];
+// STAR copy stays close to the verified scope already described in each archive entry.
+const projectStories = {
+  "YoCateTin": ["Everyday expenses need an easier way to become records.", "Make capture feel like a chat.", "Led the product, engineering, and deployment.", "An active web product turns chat input into structured spending records."],
+  "YoClipper": ["Long recordings contain moments suited to short-form content.", "Make those moments easier to find and clip.", "Built an AI-assisted video clipping workflow.", "An active tool turns long-form recordings into short clips."],
+  "Japan enterprise platform": ["A 20-year-old desktop system needed modernization.", "Move established workflows to a web platform.", "Translated 200+ UI designs and contributed to the database transition.", "The web platform and anonymized database evidence show the delivered scope."],
+  "Casual Chase": ["Recruitment needed online job discovery and payments.", "Support discovery and subscriptions.", "Built the web platform and payment integration.", "The platform includes job discovery and subscription payments."],
+  "Kulsummarssy": ["A client in Poland needed a gallery and administration platform.", "Support public presentation and internal management.", "Delivered the client-facing gallery and administration platform.", "Both gallery and administration workflows were delivered."],
+  "Skripsi Management": ["Thesis management needed a web workflow.", "Support the university's thesis process.", "Built a web-based management system.", "The application provides thesis management for Universitas 17 Agustus 1945 Samarinda."],
+  "Belanja Malang": ["Commerce needed customer and administrator interfaces.", "Support shopping and store administration.", "Built the e-commerce platform.", "The platform includes dedicated customer and administration interfaces."],
+  "BI NGETROL": ["Monitoring and productivity needed a mobile workflow.", "Support Bank Indonesia users across platforms.", "Developed the cross-platform application.", "The application presents monitoring and productivity workflows."],
+  "SCODEID Attendance & Monitoring": ["A client needed employee attendance and monitoring.", "Bring workforce workflows to mobile.", "Developed the attendance and monitoring application.", "The app includes attendance and monitoring screens."],
+  "River / Jetty Monitoring": ["River and jetty operations need current vessel information.", "Support positions, activity, status, and notifications.", "Built a mobile monitoring workflow.", "The walkthrough shows those operational flows."],
+  "Security & QR Verification": ["Access workflows needed mobile verification.", "Support QR checks and one-time-pass access.", "Built the mobile security screens.", "The project includes scanning, verification, and access views."],
+  "Leave Management": ["A Japanese project needed localized leave workflows.", "Support leave requests and attendance.", "Built a localized mobile form workflow.", "The app includes localized leave and attendance inputs."],
+  "SIMAK": ["Operational activities needed an internal system.", "Organize and manage those activities.", "Built the information system.", "The system provides an internal activity management workflow."],
+  "Realtime Chat": ["Marketplace users needed in-app conversations.", "Support buyer and seller chat.", "Built a chat feature for Belanja Malang.", "The marketplace includes a realtime conversation interface."],
+  "Confidential University Platform": ["University operations needed QR-based workflows.", "Support secure verification in a web application.", "Built encrypted QR workflow features.", "The delivered scope includes encrypted QR-based operations."],
+  "Smart Parking": ["Parking management was explored as a smart-city workflow.", "Prototype a simpler mobile experience.", "Built a parking management application prototype.", "The prototype presents a mobile parking workflow."],
+  "IoT & Embedded Systems": ["Connected hardware needed software and sensor integration.", "Explore working embedded prototypes.", "Combined software, sensors, and electronics.", "The project includes connected hardware prototypes."]
+};
 const openSourceProjects = [
   {
     name: "Android Kotlin Generator Pattern",
@@ -243,12 +263,41 @@ function makeProjectCard(project) {
   copy.className = "project-copy";
   const title = document.createElement("h3");
   title.textContent = project.title;
-  const detail = document.createElement("p");
-  detail.textContent = project.detail;
+  const story = document.createElement("dl");
+  story.className = "project-star";
+  ["Situation", "Task", "Action", "Result"].forEach((label, index) => {
+    const row = document.createElement("div");
+    const term = document.createElement("dt");
+    const description = document.createElement("dd");
+    term.textContent = label;
+    description.textContent = projectStories[project.title][index];
+    row.append(term, description);
+    story.append(row);
+  });
+  const mobileResult = document.createElement("p");
+  mobileResult.className = "project-mobile-result";
+  const resultLabel = document.createElement("strong");
+  resultLabel.textContent = "Result";
+  mobileResult.append(resultLabel, document.createTextNode(` ${projectStories[project.title][3]}`));
+  const mobileStory = document.createElement("details");
+  mobileStory.className = "project-mobile-star";
+  const mobileSummary = document.createElement("summary");
+  mobileSummary.textContent = "Read the process";
+  const mobileList = document.createElement("dl");
+  ["Situation", "Task", "Action"].forEach((label, index) => {
+    const row = document.createElement("div");
+    const term = document.createElement("dt");
+    const description = document.createElement("dd");
+    term.textContent = label;
+    description.textContent = projectStories[project.title][index];
+    row.append(term, description);
+    mobileList.append(row);
+  });
+  mobileStory.append(mobileSummary, mobileList);
   const impact = document.createElement("p");
   impact.className = "project-impact";
   impact.textContent = project.impact;
-  copy.append(title, detail, impact);
+  copy.append(title, story, mobileResult, mobileStory, impact);
   if (project.stack?.length) {
     const stack = document.createElement("ul");
     stack.className = "project-stack";
