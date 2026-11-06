@@ -50,6 +50,7 @@
   <link rel="preload" as="image" href="assets/journey/world.svg">
   <link rel="stylesheet" href="assets/styles/site.css?v=20261103-mobile-star-1">
   <script src="assets/javascript/journey-loader.js" defer></script>
+  <script src="assets/javascript/comic-help.js" defer></script>
   <script src="assets/javascript/showcase.js?v=20261103-mobile-star-1" defer></script>
   <script src="assets/javascript/scroll-progress.js?v=4" defer></script>
   <script data-goatcounter="https://yogithesymbian.goatcounter.com/count" async
@@ -135,6 +136,63 @@
         </div>
       </dl>
     </header>
+
+    <section class="communication-section" aria-labelledby="communication-title" data-communication>
+      <div class="communication-inner">
+        <div class="communication-intro">
+          <p class="section-code">A better way to build together</p>
+          <h2 id="communication-title">Good software starts with understanding.</h2>
+          <p>Three small moments from software work: a clear request, a question worth asking, and a risk shared early.</p>
+        </div>
+        <div class="communication-stage" aria-label="Pixel comic scene showing customer, project manager, and developer conversations">
+          <div class="communication-art" aria-hidden="true">
+            <div class="communication-sky"></div>
+            <div class="pixel-character character-user"><span>USER</span><i></i></div>
+            <div class="pixel-character character-pm"><span>PM</span><i></i></div>
+            <div class="pixel-character character-dev"><span>DEV</span><i></i></div>
+            <div class="communication-object" data-object><span>?</span></div>
+            <div class="communication-ground"></div>
+          </div>
+        </div>
+      </div>
+      <div class="communication-comics" role="group" aria-label="Three short pixel comic conversations">
+        <article class="communication-comic">
+          <div class="comic-heading"><h3 class="comic-caption"><span>01</span> Clear request</h3><button class="comic-help" type="button" aria-expanded="false" aria-controls="comic-help-clear"><span aria-hidden="true">?</span><span class="comic-help-label">Kenapa?</span></button></div>
+          <div class="comic-frame">
+            <p class="comic-dialogue"><b>USER</b> “Pelanggan perlu bisa cek status pesanan.”</p>
+            <div class="comic-pixels" aria-hidden="true"><i class="mini-character mini-user"></i><span class="comic-arrow">→</span><i class="mini-character mini-pm"></i><span class="comic-arrow">→</span><i class="mini-character mini-dev"></i><span class="comic-object">▣</span></div>
+            <p class="comic-dialogue"><b>PM</b> “Oke, status kiriman terlihat di halaman pesanan.”</p>
+            <p class="comic-dialogue"><b>DEV</b> “Siap, saya kerjakan.”</p>
+          </div>
+          <p class="comic-takeaway">Jelas kebutuhannya, jelas langkah berikutnya.</p>
+          <p class="comic-explanation" id="comic-help-clear" hidden>Permintaannya sudah jelas, jadi PM merangkum hasil yang diinginkan. Developer mengulang kesepakatan dan mulai mengerjakannya.</p>
+        </article>
+        <article class="communication-comic">
+          <div class="comic-heading"><h3 class="comic-caption"><span>02</span> Clarify first</h3><button class="comic-help" type="button" aria-expanded="false" aria-controls="comic-help-clarify"><span aria-hidden="true">?</span><span class="comic-help-label">Kenapa?</span></button></div>
+          <div class="comic-frame">
+            <p class="comic-dialogue"><b>USER</b> “Bisa tambah diskon pelanggan baru?”</p>
+            <div class="comic-pixels" aria-hidden="true"><i class="mini-character mini-user"></i><span class="comic-arrow">?</span><i class="mini-character mini-pm"></i><span class="comic-object">%</span></div>
+            <p class="comic-dialogue"><b>PM</b> “Diskonnya berlaku untuk siapa dan kapan?”</p>
+            <p class="comic-dialogue"><b>USER</b> “Untuk pembelian pertama.”</p>
+            <p class="comic-dialogue"><b>PM</b> “Oke. Bisa selesai dalam sehari?”</p>
+            <p class="comic-dialogue"><b>DEV</b> “Saya cek cakupannya dulu. Hari ini saya kabari estimasi yang lebih pasti.”</p>
+          </div>
+          <p class="comic-takeaway">Klarifikasi dulu, lalu beri estimasi yang bertanggung jawab.</p>
+          <p class="comic-explanation" id="comic-help-clarify" hidden>PM memastikan arti “pelanggan baru” bersama user. Setelah aturannya jelas, Developer tetap tidak menebak durasi: ia mengecek cakupan dan berjanji kembali dengan estimasi pada waktu yang jelas.</p>
+        </article>
+        <article class="communication-comic">
+          <div class="comic-heading"><h3 class="comic-caption"><span>03</span> Raise risk early</h3><button class="comic-help" type="button" aria-expanded="false" aria-controls="comic-help-risk"><span aria-hidden="true">?</span><span class="comic-help-label">Kenapa?</span></button></div>
+          <div class="comic-frame">
+            <p class="comic-dialogue"><b>DEV · 09.00</b> “Target 12.00 berisiko mundur; kendalanya ada di sinkronisasi data.”</p>
+            <div class="comic-pixels" aria-hidden="true"><i class="mini-character mini-dev"></i><span class="comic-arrow">!</span><i class="mini-character mini-pm"></i><span class="comic-object">12:00</span></div>
+            <p class="comic-dialogue"><b>DEV</b> “Bisa rilis bagian inti dulu atau geser target. Saya kabari lagi 10.00.”</p>
+            <p class="comic-dialogue"><b>PM</b> “Saya cek prioritas dan sampaikan opsinya ke user.”</p>
+          </div>
+          <p class="comic-takeaway">Risiko disampaikan bersama opsi dan waktu update.</p>
+          <p class="comic-explanation" id="comic-help-risk" hidden>Developer memberi kabar saat masih ada waktu untuk memilih. Ia menjelaskan hambatan, menawarkan opsi, dan menetapkan waktu kabar berikutnya; PM membantu menyepakati prioritas dengan user.</p>
+        </article>
+      </div>
+    </section>
 
     <section class="work-section" id="work" aria-labelledby="work-title">
       <header class="section-intro">
