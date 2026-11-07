@@ -13,8 +13,8 @@
     if (meta) meta.content = theme === 'dark' ? '#151915' : '#faf9f6';
     document.querySelectorAll('.theme-toggle').forEach(button => {
       const next = theme === 'dark' ? 'Light' : 'Dark';
-      button.textContent = `${next} mode`;
       button.setAttribute('aria-label', `Switch to ${next.toLowerCase()} mode`);
+      button.dataset.activeTheme = theme;
     });
   }
 
@@ -29,6 +29,7 @@
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'theme-toggle';
+    button.innerHTML = '<span class="theme-toggle-option theme-toggle-light" aria-hidden="true">Light</span><span class="theme-toggle-option theme-toggle-dark" aria-hidden="true">Dark</span>';
     const before = header.querySelector('.menu-toggle, .site-nav-links, .back-link');
     header.insertBefore(button, before);
     apply(root.dataset.theme);

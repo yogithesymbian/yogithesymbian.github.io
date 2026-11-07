@@ -18,6 +18,10 @@
   const frame = overlay.querySelector('.pixel-replay-frame');
   const clipboard = overlay.querySelector('.pixel-replay-clipboard');
   const guide = overlay.querySelector('.pixel-replay-guide');
+  const cardToken = document.createElement('div');
+  cardToken.className = 'pixel-replay-card-token';
+  cardToken.setAttribute('aria-hidden', 'true');
+  overlay.appendChild(cardToken);
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const sequence = [
     ['.site-nav', 'A new path appears.'],
@@ -60,12 +64,18 @@
     const box = element.getBoundingClientRect();
     const x = Math.max(10, Math.min(innerWidth - 150, box.left + box.width * (0.18 + offsetX)));
     const y = Math.max(12, Math.min(innerHeight - 44, box.top + Math.min(box.height, innerHeight) * (0.16 + offsetY)));
-    agent.style.setProperty('--x', `${Math.round(x)}px`);
-    agent.style.setProperty('--y', `${Math.round(y)}px`);
-    agent.classList.add('is-visible');
+    moveAgentTo(agent, x, y);
   }
 
-  function moveAgentTo(agent, x, y) {
+  function moveAgentTo(agent, x, y, travelDuration) {
+    const previousX = Number.parseFloat(agent.style.getPropertyValue('--x'));
+    const previousY = Number.parseFloat(agent.style.getPropertyValue('--y'));
+    if (Number.isFinite(previousX) && Number.isFinite(previousY)) {
+      const distance = Math.hypot(x - previousX, y - previousY);
+      const role = agents.indexOf(agent);
+      const duration = travelDuration || Math.max(210, Math.min(740, 170 + distance * .67 + (role % 3) * 24));
+      agent.style.setProperty('--travel-duration', `${Math.round(duration)}ms`);
+    }
     agent.style.setProperty('--x', `${Math.round(x)}px`);
     agent.style.setProperty('--y', `${Math.round(y)}px`);
     agent.classList.add('is-visible');
@@ -77,6 +87,7 @@
   }
 
   async function dragFrame(element, index, token) {
+    const opening = index < 9;
     const subject = element.matches('main > section, .site-footer')
       ? element.querySelector('h2, h3, strong') || element : element;
     const box = subject.getBoundingClientRect();
@@ -127,26 +138,31 @@
     moveAgentTo(edgeWorker, corners[(origin + 1) % 4][0], corners[(origin + 1) % 4][1]);
     moveAgentTo(finishWorker, corners[(origin + 3) % 4][0], corners[(origin + 3) % 4][1]);
     moveAgentTo(lead, corners[origin][0] + paths[index].from[0], corners[origin][1] + paths[index].from[1]);
-    await wait(160);
+    await wait(opening ? 100 : 160);
     if (token !== run) return;
     lead.classList.add('is-dragging');
     moveAgentTo(lead, corners[origin][0], corners[origin][1]);
-    await wait(260);
+    moveAgentTo(mediaWorker, x + width * .58, y + height * .32);
+    moveAgentTo(scoutWorker, Math.min(innerWidth - 24, Math.max(12, nextBox.left + 40)), Math.min(innerHeight - 32, Math.max(95, nextBox.top + 14)));
+    await wait(opening ? 190 : 260);
     if (token !== run) return;
     frame.classList.add('is-dragging');
+    frame.style.setProperty('--frame-duration', opening ? '360ms' : '480ms');
     guide.classList.add('is-visible');
-    moveAgentTo(lead, end[0], end[1]);
+    moveAgentTo(lead, end[0], end[1], opening ? 360 : 480);
+    moveAgentTo(mediaWorker, x + width * .72, y + height * .45);
+    moveAgentTo(scoutWorker, Math.min(innerWidth - 24, Math.max(12, nextBox.left + 24)), Math.min(innerHeight - 32, Math.max(95, nextBox.top + 26)));
     clipboard.style.setProperty('--copy-x', `${Math.round(pasteX)}px`);
     clipboard.style.setProperty('--copy-y', `${Math.round(pasteY)}px`);
     moveAgentTo(copyWorker, pasteX + 8, pasteY + 8);
     moveAgentTo(alignWorker, x + width * .82, y + height + 9);
     moveAgentTo(edgeWorker, x + width * .7, y);
     moveAgentTo(finishWorker, x + width * .34, y + height);
-    await wait(520);
+    await wait(opening ? 390 : 520);
     if (token !== run) return;
     clipboard.querySelector('span').textContent = 'PASTE / ADAPT';
     clipboard.querySelector('strong').textContent = shortTitle(element);
-    await wait(180);
+    await wait(opening ? 110 : 180);
     frame.classList.remove('is-visible', 'is-dragging');
     clipboard.classList.remove('is-visible');
     guide.classList.remove('is-visible');
@@ -156,6 +172,7 @@
   }
 
   async function buildEnding(element, index, token) {
+    const footer = index === sequence.length - 1;
     const pieces = index === sequence.length - 2
       ? [...element.querySelectorAll('.contact-main > *, .official-profiles')]
       : [...element.children];
@@ -167,16 +184,74 @@
       const box = piece.getBoundingClientRect();
       const x = Math.max(16, Math.min(innerWidth - 155, box.left + box.width * (.2 + (worker % 3) * .22)));
       const y = Math.max(100, Math.min(innerHeight - 54, box.top + box.height * (.2 + (worker % 2) * .4)));
-      agent.style.transitionDelay = `${worker * 28}ms`;
+      agent.style.transitionDelay = `${worker * (footer ? 48 : 28)}ms`;
       moveAgentTo(agent, x, y);
     });
     for (let part = 0; part < pieces.length; part++) {
-      await wait(115);
+      await wait(footer ? 265 : 115);
       if (token !== run) return;
       pieces[part].dataset.replayDirection = ['right', 'top', 'left', 'bottom'][part % 4];
       pieces[part].setAttribute('data-replay-visible', '');
     }
-    await wait(180);
+    await wait(footer ? 460 : 180);
+  }
+
+  async function buildCommunication(element, token) {
+    const cards = [...element.querySelectorAll('.communication-comic')];
+    if (cards.length !== 3) return;
+    cards.forEach(card => card.setAttribute('data-replay-piece', ''));
+    element.dataset.replayDirection = 'left';
+    element.setAttribute('data-replay-visible', '');
+    cards[0].dataset.replayDirection = 'left';
+    cards[0].setAttribute('data-replay-visible', '');
+    status.textContent = 'A clear request starts the work.';
+    await wait(360);
+    if (token !== run) return;
+
+    for (let step = 0; step < 2; step++) {
+      const source = cards[step];
+      const target = cards[step + 1];
+      if (innerWidth <= 650) {
+        const targetBox = target.getBoundingClientRect();
+        await scrollToPosition(window.scrollY + targetBox.top - innerHeight * .46, 460, token);
+      }
+      if (token !== run) return;
+      const sourceBox = source.getBoundingClientRect();
+      const targetBox = target.getBoundingClientRect();
+      const mobile = innerWidth <= 650;
+      const fromX = mobile ? Math.max(18, innerWidth * .12) : sourceBox.left + Math.min(sourceBox.width * .24, 92);
+      const fromY = mobile ? innerHeight * .49 : sourceBox.top + 22;
+      const toX = mobile ? Math.min(innerWidth - 190, innerWidth * .43) : targetBox.left + Math.min(targetBox.width * .24, 92);
+      const toY = mobile ? innerHeight * .63 : targetBox.top + 22;
+      cardToken.textContent = source.querySelector('h3').textContent.replace(/^\s*0\d\s*/, '').trim();
+      cardToken.style.transition = 'none';
+      cardToken.style.setProperty('--card-x', `${Math.round(fromX)}px`);
+      cardToken.style.setProperty('--card-y', `${Math.round(fromY)}px`);
+      cardToken.classList.add('is-visible');
+      const lead = agents[(step + 3) % agents.length];
+      moveAgentTo(lead, fromX + 8, fromY + 8);
+      agents.forEach((agent, worker) => {
+        if (agent === lead) return;
+        const box = worker % 2 ? targetBox : sourceBox;
+        moveAgentTo(agent, Math.max(12, Math.min(innerWidth - 150, box.left + box.width * (.15 + (worker % 3) * .2))), Math.max(100, Math.min(innerHeight - 50, box.top + 28 + (worker % 2) * 28)));
+      });
+      await wait(180);
+      if (token !== run) return;
+      cardToken.style.transition = '';
+      cardToken.style.setProperty('--card-x', `${Math.round(toX)}px`);
+      cardToken.style.setProperty('--card-y', `${Math.round(toY)}px`);
+      moveAgentTo(lead, toX + 8, toY + 8, 580);
+      status.textContent = step === 0 ? 'The request becomes a question.' : 'The question makes room for an early warning.';
+      await wait(610);
+      if (token !== run) return;
+      target.dataset.replayDirection = step === 0 ? 'right' : 'top';
+      target.setAttribute('data-replay-visible', '');
+      cardToken.textContent = target.querySelector('h3').textContent.replace(/^\s*0\d\s*/, '').trim();
+      await wait(260);
+      if (token !== run) return;
+      cardToken.classList.remove('is-visible');
+      await wait(120);
+    }
   }
 
   async function forgeMoment(token) {
@@ -214,6 +289,7 @@
     frame.classList.remove('is-visible', 'is-dragging');
     clipboard.classList.remove('is-visible');
     guide.classList.remove('is-visible');
+    cardToken.classList.remove('is-visible');
     status.textContent = 'The cursors scatter and carry on.';
     agents.forEach((agent, index) => {
       agent.style.transitionDelay = `${index * 25}ms`;
@@ -260,12 +336,14 @@
     frame.classList.remove('is-visible', 'is-dragging');
     clipboard.classList.remove('is-visible');
     guide.classList.remove('is-visible');
+    cardToken.classList.remove('is-visible');
     launch.hidden = false;
     agents.forEach(agent => {
       agent.classList.remove('is-visible', 'is-dragging', 'is-working');
       agent.style.transitionDelay = '';
       agent.style.removeProperty('--x');
       agent.style.removeProperty('--y');
+      agent.style.removeProperty('--travel-duration');
     });
     if (!completed) {
       document.documentElement.style.scrollBehavior = 'auto';
@@ -305,7 +383,9 @@
       if (section || box.bottom > innerHeight - 36) {
         const top = window.scrollY + box.top - (section ? 82 : innerHeight * .35);
         const distance = Math.abs(top - window.scrollY);
-        const duration = index >= sequence.length - 2
+        const duration = index === sequence.length - 1
+          ? Math.min(1050, Math.max(620, distance * .45))
+          : index === sequence.length - 2
           ? Math.min(700, Math.max(360, distance * .3))
           : Math.min(1600, Math.max(520, distance * .42));
         await scrollToPosition(top, duration, token);
@@ -313,6 +393,10 @@
       if (token !== run) return;
       if (index >= sequence.length - 2) {
         await buildEnding(element, index, token);
+        continue;
+      }
+      if (element.matches('.communication-section')) {
+        await buildCommunication(element, token);
         continue;
       }
       status.textContent = label;
@@ -326,7 +410,7 @@
       if (token !== run) return;
       element.dataset.replayDirection = ['left', 'top', 'right', 'bottom'][index % 4];
       element.setAttribute('data-replay-visible', '');
-      await wait(section ? 650 : 390);
+      await wait(section ? 650 : index < 9 ? 230 : 390);
       if (index === 8 && token === run) await forgeMoment(token);
     }
     if (token === run) finish(true);
