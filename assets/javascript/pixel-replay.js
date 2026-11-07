@@ -22,6 +22,7 @@
   cardToken.className = 'pixel-replay-card-token';
   cardToken.setAttribute('aria-hidden', 'true');
   overlay.appendChild(cardToken);
+  const communication = document.querySelector('[data-communication]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const sequence = [
     ['.site-nav', 'A new path appears.'],
@@ -55,6 +56,8 @@
   let run = 0;
   let startScroll = 0;
   let previousScrollBehavior = '';
+  let communicationWasResolved = false;
+  let communicationReplayResolved = false;
 
   function wait(ms) {
     return new Promise(resolve => { window.setTimeout(resolve, ms); });
@@ -196,9 +199,74 @@
     await wait(footer ? 460 : 180);
   }
 
+  function prepareCommunicationReplay(element) {
+    communicationWasResolved = element.classList.contains('is-story-active') || element.classList.contains('is-story-resolved');
+    communicationReplayResolved = false;
+    element.dataset.replayStory = 'active';
+    element.classList.remove('is-story-active', 'is-story-resolved', 'is-pm-vanishing');
+    element.classList.add('is-replay-story');
+  }
+
+  function resolveCommunicationStory(element) {
+    element.classList.remove('is-story-active', 'is-replay-story', 'is-pm-vanishing');
+    element.classList.add('is-story-resolved');
+    delete element.dataset.replayStory;
+    element.dispatchEvent(new Event('communication:story-resolved'));
+  }
+
+  async function cuePmDeparture(element, token) {
+    const stage = element.querySelector('.communication-stage');
+    const pm = element.querySelector('.character-pm');
+    if (!stage || !pm) return;
+    element.dataset.replayStory = 'active';
+    element.classList.add('is-replay-story');
+    element.classList.remove('is-story-active', 'is-story-resolved', 'is-pm-vanishing');
+    element.setAttribute('data-replay-visible', '');
+    if (innerWidth <= 760) {
+      const stageBox = stage.getBoundingClientRect();
+      await scrollToPosition(window.scrollY + stageBox.top - innerHeight * .2, 520, token);
+    }
+    if (token !== run) return;
+
+    status.textContent = 'The whole team starts together.';
+    const user = element.querySelector('.character-user').getBoundingClientRect();
+    const pmBox = pm.getBoundingClientRect();
+    const developer = element.querySelector('.character-dev').getBoundingClientRect();
+    const question = element.querySelector('.communication-object').getBoundingClientRect();
+    const stations = [user, pmBox, developer, question, user, developer, pmBox, question];
+    agents.forEach((agent, index) => {
+      agent.style.transitionDelay = `${index * 24}ms`;
+      const box = stations[index];
+      moveAgentTo(agent,
+        Math.max(12, Math.min(innerWidth - 28, box.left + box.width * (index % 2 ? .72 : .28))),
+        Math.max(102, Math.min(innerHeight - 32, box.top + box.height * (index % 2 ? .28 : .72))));
+    });
+    await wait(560);
+    if (token !== run) return;
+
+    const lead = agents[0];
+    lead.style.transitionDelay = '';
+    status.textContent = 'Watch the PM leave the scene.';
+    moveAgentTo(lead,
+      Math.max(10, Math.min(innerWidth - 28, pmBox.left + pmBox.width * .5)),
+      Math.max(102, Math.min(innerHeight - 34, pmBox.top + 8)), 420);
+    await wait(480);
+    if (token !== run) return;
+
+    element.classList.add('is-pm-vanishing');
+    await wait(reducedMotion.matches ? 80 : 860);
+    if (token !== run) return;
+    resolveCommunicationStory(element);
+    communicationReplayResolved = true;
+    status.textContent = 'The work continues with a clear request.';
+    await wait(420);
+  }
+
   async function buildCommunication(element, token) {
     const cards = [...element.querySelectorAll('.communication-comic')];
     if (cards.length !== 3) return;
+    await cuePmDeparture(element, token);
+    if (token !== run) return;
     cards.forEach(card => card.setAttribute('data-replay-piece', ''));
     element.dataset.replayDirection = 'left';
     element.setAttribute('data-replay-visible', '');
@@ -252,6 +320,25 @@
       cardToken.classList.remove('is-visible');
       await wait(120);
     }
+    communicationReplayResolved = true;
+  }
+
+  async function playReducedCommunicationBeat(token) {
+    if (!communication) return;
+    prepareCommunicationReplay(communication);
+    const stage = communication.querySelector('.communication-stage');
+    const top = window.scrollY + stage.getBoundingClientRect().top - Math.max(16, innerHeight * .14);
+    window.scrollTo({ top, behavior: 'instant' });
+    status.textContent = 'The team is together.';
+    await wait(650);
+    if (token !== run) return;
+    communication.classList.add('is-pm-vanishing');
+    await wait(120);
+    if (token !== run) return;
+    resolveCommunicationStory(communication);
+    communicationReplayResolved = true;
+    status.textContent = 'The PM steps away. The cards show what comes next.';
+    await wait(900);
   }
 
   async function forgeMoment(token) {
@@ -331,6 +418,13 @@
       piece.removeAttribute('data-replay-visible');
       piece.removeAttribute('data-replay-direction');
     });
+    if (communication?.classList.contains('is-replay-story')) {
+      const resolved = communicationReplayResolved || communicationWasResolved;
+      communication.classList.remove('is-replay-story', 'is-pm-vanishing', 'is-story-active', 'is-story-resolved');
+      communication.removeAttribute('data-replay-story');
+      if (resolved) communication.classList.add('is-story-resolved');
+      communication.dispatchEvent(new Event('communication:story-replay-end'));
+    }
     overlay.hidden = true;
     sword.classList.remove('is-visible');
     frame.classList.remove('is-visible', 'is-dragging');
@@ -357,6 +451,8 @@
     if (active) return;
     active = true;
     const token = ++run;
+    communicationWasResolved = false;
+    communicationReplayResolved = false;
     startScroll = window.scrollY;
     previousScrollBehavior = document.documentElement.style.scrollBehavior;
     document.documentElement.style.scrollBehavior = 'auto';
@@ -364,8 +460,10 @@
     launch.hidden = true;
     skip.focus({ preventScroll: true });
     if (reducedMotion.matches) {
+      if (communication) await playReducedCommunicationBeat(token);
+      if (token !== run) return;
       status.textContent = 'Secret build is ready. Motion is reduced on this device.';
-      await wait(1600);
+      await wait(700);
       if (token === run) finish(true);
       return;
     }
@@ -379,6 +477,7 @@
       if (token !== run) return;
       const [element, label] = sequence[index];
       const section = element.matches('main > section, .site-footer');
+      if (element.matches('.communication-section')) prepareCommunicationReplay(element);
       const box = element.getBoundingClientRect();
       if (section || box.bottom > innerHeight - 36) {
         const top = window.scrollY + box.top - (section ? 82 : innerHeight * .35);

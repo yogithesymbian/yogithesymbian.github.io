@@ -115,6 +115,18 @@ a:focus-visible, button:focus-visible, video:focus-visible { outline: 3px solid 
 .communication-section.is-story-active .character-pm span, .communication-section.is-story-active .character-pm i { animation: pm-pixel-vanish 720ms steps(5, end) 520ms forwards; }
 .communication-section.is-story-active .character-pm::before { animation: pm-smoke-left 760ms steps(5, end) 600ms both; }
 .communication-section.is-story-active .character-pm::after { animation: pm-smoke-right 680ms steps(4, end) 680ms both; }
+.communication-section.is-replay-story .character-pm span,
+.communication-section.is-replay-story .character-pm i { animation: none; opacity: 1; transform: none; }
+.communication-section.is-replay-story .character-pm::before,
+.communication-section.is-replay-story .character-pm::after { animation: none; opacity: 0; }
+.communication-section.is-replay-story.is-pm-vanishing .character-pm span,
+.communication-section.is-replay-story.is-pm-vanishing .character-pm i { animation: pm-pixel-vanish 720ms steps(5, end) 80ms forwards; }
+.communication-section.is-replay-story.is-pm-vanishing .character-pm::before { animation: pm-smoke-left 760ms steps(5, end) 140ms both; }
+.communication-section.is-replay-story.is-pm-vanishing .character-pm::after { animation: pm-smoke-right 680ms steps(4, end) 180ms both; }
+.communication-section.is-story-resolved .character-pm span,
+.communication-section.is-story-resolved .character-pm i { opacity: 0; transform: translateY(-11px) scale(.72); }
+.communication-section.is-story-resolved .character-pm::before,
+.communication-section.is-story-resolved .character-pm::after { opacity: 0; }
 .character-dev i { height: 74px; background: repeating-linear-gradient(0deg, #62645f 0 14px, #20231f 14px 20px); }
 .communication-object { position: absolute; z-index: 1; top: 40%; left: 50%; display: grid; width: 48px; aspect-ratio: 1; place-items: center; border: 2px dashed var(--muted); background: var(--paper); color: var(--muted); font: 1.2rem var(--pixel-font); transform: translate(-50%, -50%); }
 .communication-object.is-resolved { border-style: solid; background: var(--ink); color: var(--paper); }
@@ -194,6 +206,8 @@ a:focus-visible, button:focus-visible, video:focus-visible { outline: 3px solid 
 @media (prefers-reduced-motion: reduce) {
   .communication-comic *, .communication-comic *::before, .communication-comic *::after { animation: none !important; }
   .communication-section.is-story-active .character-pm span, .communication-section.is-story-active .character-pm i { animation: pm-fade 160ms linear 200ms forwards; }
+  .communication-section.is-replay-story.is-pm-vanishing .character-pm span,
+  .communication-section.is-replay-story.is-pm-vanishing .character-pm i { animation: none; opacity: 0; transform: none; }
   .character-pm::before, .character-pm::after { display: none; }
 }
 
@@ -749,7 +763,9 @@ body { line-height: 1.75; }
   .hero h1 { font-size: clamp(2rem, 8vw, 2.75rem); }
   .hero-visual { max-width: 340px; justify-self: center; }
   .hero-visual img { height: 200px; }
-  .hero-signals { display: none; }
+  .hero-signals { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .hero-signals span { min-width: 0; padding: 9px 4px; font-size: clamp(.48rem, 2.25vw, .62rem); text-align: center; white-space: nowrap; }
+  .hero-signals span::before { content: ""; }
   .hero-actions { flex-direction: row; }
   .button { padding-inline: 16px; font-size: .8125rem; gap: 10px; }
   .proof-rail div { padding: 14px 16px; }

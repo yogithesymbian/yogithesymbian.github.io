@@ -2,9 +2,19 @@
   const communication = document.querySelector('[data-communication]');
 
   if (communication) {
+    let storyObserver = null;
+    communication.addEventListener('communication:story-resolved', () => storyObserver?.disconnect());
+    communication.addEventListener('communication:story-replay-end', () => {
+      if (communication.classList.contains('is-story-resolved')) storyObserver?.disconnect();
+    });
     if ('IntersectionObserver' in window) {
-      const storyObserver = new IntersectionObserver(entries => {
+      storyObserver = new IntersectionObserver(entries => {
         if (!entries.some(entry => entry.isIntersecting)) return;
+        if (communication.dataset.replayStory === 'active') return;
+        if (communication.classList.contains('is-story-resolved')) {
+          storyObserver.disconnect();
+          return;
+        }
         communication.classList.add('is-story-active');
         storyObserver.disconnect();
       }, { threshold: 0.35 });
