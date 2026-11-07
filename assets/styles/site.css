@@ -883,6 +883,27 @@ body { line-height: 1.75; }
 @media(forced-colors: active) { .journey-background { display: none; } .journey-stops button[aria-current] { outline: 3px solid Highlight; outline-offset: -4px; } }
 /* Keep the default hero still; motion belongs to the explicitly opened journey. */
 .hero-meta, .hero-identity, .hero-visual, .proof-rail { animation: none; }
+
+/* The optional build sequence uses real page sections, with a persistent launch control. */
+.pixel-replay-launch { position: fixed; z-index: 60; right: max(16px, var(--gutter)); bottom: 42px; display: inline-flex; min-height: 48px; padding: 8px 14px; align-items: center; border: 2px solid var(--ink); background: var(--ink); color: var(--paper); box-shadow: 4px 4px 0 #20231f44; font: 400 .75rem var(--pixel-font); cursor: pointer; }
+.pixel-replay-launch:hover { background: var(--paper); color: var(--ink); }
+.pixel-replay-overlay { position: fixed; z-index: 90; inset: 0; pointer-events: none; }
+.pixel-replay-controls { position: absolute; top: 88px; right: max(16px, var(--gutter)); display: flex; max-width: calc(100vw - 32px); padding: 8px; align-items: center; gap: 12px; border: 2px solid var(--ink); background: var(--paper); box-shadow: 4px 4px 0 #20231f44; pointer-events: auto; }
+.pixel-replay-status { max-width: 24ch; font: 400 .75rem/1.4 var(--pixel-font); }
+.pixel-replay-skip { min-height: 44px; padding: 7px 10px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); font: 400 .75rem var(--pixel-font); cursor: pointer; }
+.pixel-replay-skip:hover { background: var(--paper); color: var(--ink); }
+.pixel-replay-agent { position: absolute; top: 0; left: 0; display: flex; align-items: flex-start; gap: 3px; opacity: 0; transform: translate3d(var(--x, 0px), var(--y, 0px), 0); transition: transform .72s cubic-bezier(.2,.75,.25,1), opacity .16s ease; will-change: transform; }
+.pixel-replay-agent.is-visible { opacity: 1; }
+.pixel-replay-pointer { display: block; width: 22px; height: 26px; background: var(--ink); clip-path: polygon(0 0, 0 100%, 27% 75%, 43% 100%, 58% 94%, 43% 68%, 82% 68%); filter: drop-shadow(1px 1px 0 var(--paper)); }
+.pixel-replay-agent b { padding: 4px 6px; border: 1px solid var(--paper); background: var(--ink); color: var(--paper); font: 400 .65rem var(--pixel-font); white-space: nowrap; }
+.agent-b .pixel-replay-pointer, .agent-b b { background: #62645f; }
+.agent-c .pixel-replay-pointer, .agent-c b { background: #414943; }
+body.is-pixel-replaying .site-nav, body.is-pixel-replaying .hero-meta, body.is-pixel-replaying .hero-identity > .section-code, body.is-pixel-replaying .hero h1, body.is-pixel-replaying .hero-statement, body.is-pixel-replaying .hero-description, body.is-pixel-replaying .hero-actions, body.is-pixel-replaying .hero-visual, body.is-pixel-replaying .proof-rail, body.is-pixel-replaying main > section, body.is-pixel-replaying .site-footer { opacity: 0; }
+body.is-pixel-replaying [data-replay-visible] { opacity: 1; animation: pixel-build-in .5s cubic-bezier(.2,.75,.25,1) both; }
+body.is-pixel-replaying .site-nav { z-index: 50; }
+@keyframes pixel-build-in { from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translateY(8px); } to { opacity: 1; clip-path: inset(0); transform: translateY(0); } }
+@media (max-width: 650px) { .pixel-replay-launch { right: 14px; bottom: 36px; min-height: 44px; font-size: .72rem; } .pixel-replay-controls { top: auto; right: 12px; bottom: 14px; left: 12px; justify-content: space-between; } .pixel-replay-status { font-size: .75rem; } .pixel-replay-agent b { font-size: .68rem; } }
+@media (prefers-reduced-motion: reduce) { .pixel-replay-agent { transition: none; } body.is-pixel-replaying [data-replay-visible] { animation: none; } }
 /* Container sizing also handles browser/text zoom inside the modal. */
 .journey-dialog { container-type: inline-size; }
 @container (max-width: 760px) {

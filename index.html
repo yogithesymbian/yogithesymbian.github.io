@@ -53,6 +53,7 @@
   <script src="assets/javascript/comic-help.js?v=20261107-pm-vanish" defer></script>
   <script src="assets/javascript/showcase.js?v=20261103-mobile-star-1" defer></script>
   <script src="assets/javascript/scroll-progress.js?v=4" defer></script>
+  <script src="assets/javascript/pixel-replay.js" defer></script>
   <script data-goatcounter="https://yogithesymbian.goatcounter.com/count" async
     src="https://gc.zgo.at/count.js"></script>
 </head>
@@ -67,6 +68,7 @@
   <div class="scroll-progress" aria-hidden="true">
     <svg class="scroll-dino" viewBox="0 0 32 32" shape-rendering="crispEdges"><path fill="currentColor" d="M18 2h10v2h2v9h-4v2h-7v4h-4v3h-4v-2H8v-2H5v-2H2v-3H0v-3h2v2h3v2h3v2h7V7h3zM21 17h3v2h-3z"/><path fill="var(--paper)" d="M25 5h2v2h-2zM25 11h5v2h-5z"/><path class="dino-leg-a" fill="currentColor" d="M11 21h4v6h-2v3H9v-2h2zM19 19h4v7h-2v4h-4v-2h2z"/><path class="dino-leg-b" fill="currentColor" d="M11 21h4v7h-2v2H9v-3h2zM19 19h4v6h-2v5h-4v-2h2z"/></svg>
   </div>
+  <button class="pixel-replay-launch" type="button" hidden aria-label="Play the secret pixel build">▶ Secret build</button>
   <nav class="site-nav" aria-label="Main navigation">
     <a class="site-mark" href="#top" aria-label="YA/W — Yogi Arif Widodo, back to top">YA<span
         aria-hidden="true">/</span>W</a>
@@ -477,6 +479,13 @@
     <button class="journey-retry" type="button" hidden>Retry loading</button>
     <div class="journey-experience" hidden></div>
   </dialog>
+
+  <div class="pixel-replay-overlay" hidden>
+    <div class="pixel-replay-controls"><span class="pixel-replay-status" role="status" aria-live="polite">Preparing the secret build…</span><button class="pixel-replay-skip" type="button">Skip animation ×</button></div>
+    <div class="pixel-replay-agent agent-a" aria-hidden="true"><span class="pixel-replay-pointer"></span><b>PIXEL / LAYOUT</b></div>
+    <div class="pixel-replay-agent agent-b" aria-hidden="true"><span class="pixel-replay-pointer"></span><b>BYTE / BUILD</b></div>
+    <div class="pixel-replay-agent agent-c" aria-hidden="true"><span class="pixel-replay-pointer"></span><b>GHOST / POLISH</b></div>
+  </div>
 
   <dialog class="showcase" id="showcase" aria-labelledby="showcase-title">
     <div class="showcase-shell">
