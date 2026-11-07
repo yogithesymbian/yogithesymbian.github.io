@@ -1,0 +1,50 @@
+Yogi Arif Widodo Portfolio Reuse & Attribution License 1.0
+Copyright (c) 2026 Yogi Arif Widodo
+
+Public source repository:
+https://github.com/yogithesymbian/yogithesymbian.github.io
+
+1. Scope
+
+This license applies only to original website code and original interface artwork
+authored by Yogi Arif Widodo in this portfolio, to the extent Yogi owns the
+rights to them. This includes the original HTML page structure, CSS, JavaScript,
+and original pixel interface elements in the public repository (the "Covered
+Material").
+
+It does not license personal photographs or likeness, the CV, article text,
+project screenshots and videos, client or organization names and logos, fonts,
+third-party data or assets, or any material with its own notice or license.
+Those items require permission from their respective rights holders. The
+required attribution below does not grant a right to claim Yogi's identity or
+endorsement.
+
+2. Permission and required attribution
+
+You may copy, modify, and redistribute the Covered Material if you meet all
+of these conditions:
+
+  a. If you publish a website using a substantial part of the Covered Material,
+     display a readable credit in its footer or in a credits page linked from
+     its footer. The credit must link to the public source repository above.
+     Suggested text: "Interface based on Yogi Arif Widodo's portfolio".
+
+  b. If you redistribute covered source files, retain this license and the
+     copyright notice with those files, and include the repository URL above
+     in accompanying documentation or notices.
+
+  c. State that you changed the Covered Material when you publish a modified
+     version.
+     Do not imply that Yogi Arif Widodo sponsors, endorses, or operates your
+     version.
+
+3. Other rights and warranty
+
+No rights are granted to material outside Section 1. This license does not
+override any third-party license, copyright exception, or other applicable
+right. The covered material is provided "as is", without warranties of any
+kind, to the extent permitted by law.
+
+This is a custom reuse-and-attribution license. It permits reuse under these
+specific conditions but is not the MIT License, Creative Commons license,
+CPAL-1.0, or an OSI-approved open-source license.
