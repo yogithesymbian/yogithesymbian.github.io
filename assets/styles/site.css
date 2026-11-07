@@ -943,3 +943,68 @@ body.is-pixel-replaying .site-nav { z-index: 50; }
   .journey-stops { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .journey-dialog .journey-stops button { padding: 8px; font-size: .7rem; }
 }
+
+/* Persistent light/dark choice, shared by the portfolio and Writing pages. */
+.site-nav { grid-template-columns: auto 1fr auto auto; }
+.theme-toggle { display: inline-flex; min-width: 102px; min-height: 44px; padding: 6px 10px; align-items: center; justify-content: center; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font: 400 .7rem var(--pixel-font); cursor: pointer; white-space: nowrap; }
+.theme-toggle:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+:root.is-theme-switching *, :root.is-theme-switching *::before, :root.is-theme-switching *::after { transition-duration: 0s !important; }
+.blog-masthead { grid-template-columns: auto 1fr auto auto; gap: 12px; }
+@media (min-width: 821px) and (max-width: 1040px) { .site-nav { grid-template-columns: auto 1fr auto; } .theme-toggle { justify-self: end; } }
+@media (max-width: 820px) { .site-nav { display: flex; gap: 12px; } .site-nav .theme-toggle { margin-left: auto; } }
+@media (max-width: 560px) { .blog-masthead { display: flex; justify-content: space-between; gap: 8px; padding-inline: 16px; } .blog-masthead > span { display: none; } .theme-toggle { min-width: 88px; font-size: .65rem; } }
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --black: #0c0f0c;
+  --black-raised: #1b211b;
+  --ink: #e8eee4;
+  --paper: #151915;
+  --accent: #e8eee4;
+  --action: #e5ede0;
+  --action-hover: #cad8c3;
+  --accent-ink: #e8eee4;
+  --muted: #b3bdb0;
+  --muted-light: #899386;
+  --line: #404a3f;
+  --line-dark: #404a3f;
+}
+:root[data-theme='dark'] .button-primary,
+:root[data-theme='dark'] .site-nav-links .nav-contact,
+:root[data-theme='dark'] .tab-button.is-active { color: #151915; }
+:root[data-theme='dark'] .button-secondary:hover,
+:root[data-theme='dark'] .button-on-dark:hover,
+:root[data-theme='dark'] .theme-toggle:hover { color: #151915; }
+:root[data-theme='dark'] .site-nav-links a:hover { background: #e8eee4; color: #151915; }
+:root[data-theme='dark'] .hero-signals,
+:root[data-theme='dark'] .writing-featured { background: #202620; }
+:root[data-theme='dark'] .hero-visual { background: #777f74; }
+:root[data-theme='dark'] .communication-section,
+:root[data-theme='dark'] .comic-explanation,
+:root[data-theme='dark'] .comic-frame,
+:root[data-theme='dark'] .case-media,
+:root[data-theme='dark'] .journey-map-wrap { background: #222922; }
+:root[data-theme='dark'] .communication-sky { background: repeating-linear-gradient(0deg, transparent 0 31px, rgb(232 238 228 / 6%) 31px 32px), linear-gradient(#252c25, #1b211b); }
+:root[data-theme='dark'] .character-user i { background: repeating-linear-gradient(0deg, #737d71 0 10px, #a8b2a3 10px 15px); }
+:root[data-theme='dark'] .comic-object { background: var(--paper); }
+:root[data-theme='dark'] .archive-trigger:hover { background: #222922; }
+:root[data-theme='dark'] .credential-grid article,
+:root[data-theme='dark'] .client-card { background: #e9ebe4; color: #20231f; }
+:root[data-theme='dark'] .credential-grid article p,
+:root[data-theme='dark'] .client-card span { color: #454d43; }
+:root[data-theme='dark'] .post-content p,
+:root[data-theme='dark'] .post-content li { color: var(--ink); }
+:root[data-theme='dark'] .post-content code { background: #303830; color: var(--ink); }
+:root[data-theme='dark'] .post-content pre code { background: none; color: inherit; }
+:root[data-theme='dark'] .journey-background { filter: invert(1); opacity: .22; }
+:root[data-theme='dark'] .journey-dialog::backdrop { background: rgb(0 0 0 / 82%); }
+:root[data-theme='dark'] .pixel-replay-frame { background: rgb(232 238 228 / 8%); }
+:root[data-theme='dark'] .pixel-replay-sword path:first-child { fill: #e8eee4; }
+:root[data-theme='dark'] .pixel-replay-sword path:last-child { fill: #151915; }
+:root[data-theme='dark'] .agent-b .pixel-replay-pointer,
+:root[data-theme='dark'] .agent-b b,
+:root[data-theme='dark'] .agent-extra .pixel-replay-pointer { background: #aab5a6; }
+:root[data-theme='dark'] .agent-c .pixel-replay-pointer,
+:root[data-theme='dark'] .agent-c b { background: #d3ddce; }
+:root[data-theme='dark'] .agent-b b,
+:root[data-theme='dark'] .agent-c b { color: #151915; }
