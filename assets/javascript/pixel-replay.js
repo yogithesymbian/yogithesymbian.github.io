@@ -47,6 +47,15 @@
   aircraftSvg.appendChild(aircraftStripe);
   aircraft.appendChild(aircraftSvg);
   overlay.appendChild(aircraft);
+  const thankYou = document.createElement('div');
+  thankYou.className = 'pixel-replay-thank-you';
+  thankYou.setAttribute('aria-hidden', 'true');
+  ['ADA PROJECT?', 'YUK, GARAP BARENG.'].forEach(line => {
+    const textLine = document.createElement('span');
+    textLine.textContent = line;
+    thankYou.appendChild(textLine);
+  });
+  overlay.appendChild(thankYou);
   const communication = document.querySelector('[data-communication]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const sequence = [
@@ -242,8 +251,11 @@
 
     aircraft.style.setProperty('--aircraft-x', `${Math.round(startX)}px`);
     aircraft.style.setProperty('--aircraft-y', `${Math.round(startY)}px`);
+    agents.forEach(agent => agent.classList.add('is-morphing'));
     aircraft.classList.add('is-visible', 'is-flying');
-    agents.forEach(agent => agent.classList.remove('is-visible'));
+    await wait(180);
+    if (token !== run) return;
+    agents.forEach(agent => agent.classList.add('is-merged'));
     status.textContent = 'A pixel flight carries the build to the conversation.';
     const fromScroll = window.scrollY;
     const started = performance.now();
@@ -264,9 +276,65 @@
       requestAnimationFrame(frame);
     });
     if (token !== run) return;
-    await wait(150);
+
+    const pieces = [...contact.querySelectorAll('.contact-main > *, .official-profiles')];
+    aircraft.classList.remove('is-flying');
+    agents.forEach((agent, worker) => {
+      const piece = pieces[worker % pieces.length];
+      const box = piece.getBoundingClientRect();
+      const x = Math.max(16, Math.min(innerWidth - 155, box.left + box.width * (.2 + (worker % 3) * .22)));
+      const y = Math.max(100, Math.min(innerHeight - 54, box.top + box.height * (.2 + (worker % 2) * .4)));
+      agent.style.transitionDelay = `${worker * 24}ms`;
+      moveAgentTo(agent, x, y);
+      agent.classList.remove('is-merged');
+    });
+    await wait(180);
     if (token !== run) return;
-    aircraft.classList.remove('is-visible', 'is-flying');
+    aircraft.classList.remove('is-visible');
+    agents.forEach(agent => agent.classList.remove('is-morphing'));
+    await wait(390);
+    if (token !== run) return;
+    aircraft.classList.remove('is-flying');
+    agents.forEach(agent => { agent.style.transitionDelay = ''; });
+  }
+
+  async function thankYouMoment(token) {
+    const box = thankYou.getBoundingClientRect();
+    status.textContent = 'The crew gathers for one last message.';
+    agents.forEach((agent, worker) => {
+      const line = worker < 4 ? 0 : 1;
+      const slot = worker % 4;
+      const x = box.left + box.width * (.14 + slot * .24);
+      const y = box.top + box.height * (line ? .74 : .28);
+      agent.style.transitionDelay = `${worker * 28}ms`;
+      agent.classList.remove('is-morphing', 'is-merged', 'is-scattering');
+      agent.classList.add('is-lettering');
+      moveAgentTo(agent, x, y, 430);
+    });
+    await wait(460);
+    if (token !== run) return;
+    status.textContent = 'Ada project? Yuk, garap bareng.';
+    thankYou.classList.add('is-writing');
+    requestAnimationFrame(() => thankYou.classList.add('is-written'));
+    await wait(900);
+    if (token !== run) return;
+    await wait(520);
+    if (token !== run) return;
+
+    status.textContent = 'The crew scatters beyond the frame.';
+    const exits = [
+      [-24, innerHeight * .17], [innerWidth * .32, -28], [innerWidth * .67, -28], [innerWidth + 24, innerHeight * .22],
+      [-24, innerHeight * .78], [innerWidth * .3, innerHeight + 28], [innerWidth * .7, innerHeight + 28], [innerWidth + 24, innerHeight * .82]
+    ];
+    agents.forEach((agent, index) => {
+      agent.style.transitionDelay = `${index * 34}ms`;
+      agent.classList.add('is-scattering');
+      agent.classList.remove('is-lettering');
+      moveAgentTo(agent, exits[index][0], exits[index][1], 620 + (index % 3) * 55);
+    });
+    await wait(820);
+    if (token !== run) return;
+    agents.forEach(agent => agent.classList.remove('is-visible'));
     agents.forEach(agent => { agent.style.transitionDelay = ''; });
   }
 
@@ -449,6 +517,7 @@
     guide.classList.remove('is-visible');
     cardToken.classList.remove('is-visible');
     aircraft.classList.remove('is-visible', 'is-flying');
+    thankYou.classList.remove('is-writing', 'is-written');
     status.textContent = 'The cursors scatter and carry on.';
     agents.forEach((agent, index) => {
       agent.style.transitionDelay = `${index * 25}ms`;
@@ -504,9 +573,10 @@
     guide.classList.remove('is-visible');
     cardToken.classList.remove('is-visible');
     aircraft.classList.remove('is-visible', 'is-flying');
+    thankYou.classList.remove('is-writing', 'is-written');
     launch.hidden = false;
     agents.forEach(agent => {
-      agent.classList.remove('is-visible', 'is-dragging', 'is-working');
+      agent.classList.remove('is-visible', 'is-dragging', 'is-working', 'is-morphing', 'is-merged', 'is-lettering', 'is-scattering');
       agent.style.transitionDelay = '';
       agent.style.removeProperty('--x');
       agent.style.removeProperty('--y');
@@ -535,8 +605,9 @@
     if (reducedMotion.matches) {
       if (communication) await playReducedCommunicationBeat(token);
       if (token !== run) return;
-      status.textContent = 'Secret build is ready. Motion is reduced on this device.';
-      await wait(700);
+      status.textContent = 'Ada project? Yuk, garap bareng.';
+      thankYou.classList.add('is-written');
+      await wait(1200);
       if (token === run) finish(true);
       return;
     }
@@ -586,6 +657,7 @@
       if (index === 8 && token === run) await forgeMoment(token);
       if (index === 13 && token === run) await flyToContact(sequence[index + 1][0], token);
     }
+    if (token === run) await thankYouMoment(token);
     if (token === run) finish(true);
   }
 
