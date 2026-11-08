@@ -22,6 +22,31 @@
   cardToken.className = 'pixel-replay-card-token';
   cardToken.setAttribute('aria-hidden', 'true');
   overlay.appendChild(cardToken);
+  const aircraft = document.createElement('div');
+  aircraft.className = 'pixel-replay-aircraft';
+  aircraft.setAttribute('aria-hidden', 'true');
+  const aircraftSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  aircraftSvg.setAttribute('viewBox', '0 0 12 12');
+  aircraftSvg.setAttribute('shape-rendering', 'crispEdges');
+  const aircraftRows = ['.....##.....', '.....##.....', '....####....', '....####....', '..########..', '.##########.', '############', '..########..', '....####....', '...##..##...', '..##....##..', '............'];
+  aircraftRows.forEach((row, y) => [...row].forEach((cell, x) => {
+    if (cell !== '#') return;
+    const pixel = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    pixel.setAttribute('x', String(x));
+    pixel.setAttribute('y', String(y));
+    pixel.setAttribute('width', '1');
+    pixel.setAttribute('height', '1');
+    aircraftSvg.appendChild(pixel);
+  }));
+  const aircraftStripe = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  aircraftStripe.setAttribute('class', 'aircraft-stripe');
+  aircraftStripe.setAttribute('x', '5');
+  aircraftStripe.setAttribute('y', '3');
+  aircraftStripe.setAttribute('width', '2');
+  aircraftStripe.setAttribute('height', '5');
+  aircraftSvg.appendChild(aircraftStripe);
+  aircraft.appendChild(aircraftSvg);
+  overlay.appendChild(aircraft);
   const communication = document.querySelector('[data-communication]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const sequence = [
@@ -197,6 +222,52 @@
       pieces[part].setAttribute('data-replay-visible', '');
     }
     await wait(footer ? 460 : 180);
+  }
+
+  async function flyToContact(contact, token) {
+    const duration = 980;
+    const startX = innerWidth * .78;
+    const startY = innerHeight * .72;
+    const planeSlots = [
+      [0, -13], [-9, -8], [9, -8], [-15, 0], [15, 0], [-9, 8], [9, 8], [0, 13]
+    ];
+    status.textContent = 'The crew joins into a pixel flight.';
+    agents.forEach((agent, index) => {
+      agent.style.transitionDelay = `${index * 22}ms`;
+      agent.classList.remove('is-working', 'is-dragging');
+      moveAgentTo(agent, startX + planeSlots[index][0] * 2, startY + planeSlots[index][1] * 2, 360);
+    });
+    await wait(390);
+    if (token !== run) return;
+
+    aircraft.style.setProperty('--aircraft-x', `${Math.round(startX)}px`);
+    aircraft.style.setProperty('--aircraft-y', `${Math.round(startY)}px`);
+    aircraft.classList.add('is-visible', 'is-flying');
+    agents.forEach(agent => agent.classList.remove('is-visible'));
+    status.textContent = 'A pixel flight carries the build to the conversation.';
+    const fromScroll = window.scrollY;
+    const started = performance.now();
+    await new Promise(resolve => {
+      const frame = now => {
+        if (token !== run) { resolve(); return; }
+        const t = Math.min(1, (now - started) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const targetScroll = contact.getBoundingClientRect().top + window.scrollY - 82;
+        window.scrollTo({ top: fromScroll + (targetScroll - fromScroll) * eased, behavior: 'auto' });
+        const x = innerWidth * (.78 + (.31 - .78) * eased);
+        const y = innerHeight * (.72 + (.34 - .72) * eased) - Math.sin(Math.PI * eased) * Math.min(44, innerHeight * .055);
+        aircraft.style.setProperty('--aircraft-x', `${Math.round(x)}px`);
+        aircraft.style.setProperty('--aircraft-y', `${Math.round(y)}px`);
+        if (t < 1) requestAnimationFrame(frame);
+        else resolve();
+      };
+      requestAnimationFrame(frame);
+    });
+    if (token !== run) return;
+    await wait(150);
+    if (token !== run) return;
+    aircraft.classList.remove('is-visible', 'is-flying');
+    agents.forEach(agent => { agent.style.transitionDelay = ''; });
   }
 
   function prepareCommunicationReplay(element) {
@@ -377,6 +448,7 @@
     clipboard.classList.remove('is-visible');
     guide.classList.remove('is-visible');
     cardToken.classList.remove('is-visible');
+    aircraft.classList.remove('is-visible', 'is-flying');
     status.textContent = 'The cursors scatter and carry on.';
     agents.forEach((agent, index) => {
       agent.style.transitionDelay = `${index * 25}ms`;
@@ -431,6 +503,7 @@
     clipboard.classList.remove('is-visible');
     guide.classList.remove('is-visible');
     cardToken.classList.remove('is-visible');
+    aircraft.classList.remove('is-visible', 'is-flying');
     launch.hidden = false;
     agents.forEach(agent => {
       agent.classList.remove('is-visible', 'is-dragging', 'is-working');
@@ -511,6 +584,7 @@
       element.setAttribute('data-replay-visible', '');
       await wait(section ? 650 : index < 9 ? 230 : 390);
       if (index === 8 && token === run) await forgeMoment(token);
+      if (index === 13 && token === run) await flyToContact(sequence[index + 1][0], token);
     }
     if (token === run) finish(true);
   }
