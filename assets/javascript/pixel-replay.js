@@ -6,6 +6,67 @@
 
   const status = overlay.querySelector('.pixel-replay-status');
   const skip = overlay.querySelector('.pixel-replay-skip');
+  const sound = overlay.querySelector('.pixel-replay-sound');
+  const audio = new Audio('assets/audio/ascension-secret-build.mp3');
+  audio.preload = 'none';
+  let soundEnabled = true;
+  let audioGeneration = 0;
+  let audioFadeFrame = 0;
+  function updateSoundControl(label) {
+    sound.textContent = label || (soundEnabled ? 'Sound on' : 'Sound off');
+    sound.setAttribute('aria-pressed', String(soundEnabled));
+  }
+  function playAudio(reset = false) {
+    const token = ++audioGeneration;
+    cancelAnimationFrame(audioFadeFrame);
+    if (reset) {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.volume = .5;
+    }
+    if (!soundEnabled) return;
+    audio.muted = false;
+    // Run from the click handler before the visual sequence reaches its first await.
+    const result = audio.play();
+    result?.catch(() => {
+      if (token !== audioGeneration || !active) return;
+      soundEnabled = false;
+      if (audio.error) {
+        sound.disabled = true;
+        updateSoundControl('Sound unavailable');
+      } else updateSoundControl('Play sound');
+    });
+  }
+  function stopAudio(immediate = false) {
+    const token = ++audioGeneration;
+    cancelAnimationFrame(audioFadeFrame);
+    if (immediate || audio.paused) {
+      audio.pause();
+      audio.currentTime = 0;
+      return;
+    }
+    const from = audio.volume;
+    const started = performance.now();
+    const fade = now => {
+      if (token !== audioGeneration) return;
+      const progress = Math.min(1, (now - started) / 400);
+      audio.volume = from * (1 - progress);
+      if (progress < 1) audioFadeFrame = requestAnimationFrame(fade);
+      else { audio.pause(); audio.currentTime = 0; audio.volume = .5; }
+    };
+    audioFadeFrame = requestAnimationFrame(fade);
+  }
+  audio.addEventListener('error', () => {
+    soundEnabled = false;
+    sound.disabled = true;
+    updateSoundControl('Sound unavailable');
+  });
+  sound.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    if (soundEnabled) playAudio();
+    else { ++audioGeneration; audio.pause(); }
+    updateSoundControl();
+  });
   const agents = [...overlay.querySelectorAll('.pixel-replay-agent')];
   for (let index = 0; index < 5; index++) {
     const extra = agents[0].cloneNode(true);
@@ -546,6 +607,7 @@
 
   function finish(completed = false) {
     if (!active) return;
+    stopAudio(document.hidden);
     active = false;
     run++;
     document.documentElement.style.scrollBehavior = previousScrollBehavior;
@@ -593,6 +655,7 @@
   async function start() {
     if (active) return;
     active = true;
+    playAudio(true);
     const token = ++run;
     communicationWasResolved = false;
     communicationReplayResolved = false;

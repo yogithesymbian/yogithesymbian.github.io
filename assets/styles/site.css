@@ -938,8 +938,12 @@ body { line-height: 1.75; }
 .pixel-replay-launch { position: fixed; z-index: 60; right: max(16px, var(--gutter)); bottom: 42px; display: inline-flex; min-height: 48px; padding: 8px 14px; align-items: center; border: 2px solid var(--ink); background: var(--ink); color: var(--paper); box-shadow: 4px 4px 0 #20231f44; font: 400 .75rem var(--pixel-font); cursor: pointer; }
 .pixel-replay-launch:hover { background: var(--paper); color: var(--ink); }
 .pixel-replay-overlay { position: fixed; z-index: 90; inset: 0; pointer-events: none; }
-.pixel-replay-controls { position: absolute; top: 88px; right: max(16px, var(--gutter)); display: flex; max-width: calc(100vw - 32px); padding: 8px; align-items: center; gap: 12px; border: 2px solid var(--ink); background: var(--paper); box-shadow: 4px 4px 0 #20231f44; pointer-events: auto; }
+.pixel-replay-controls { position: absolute; top: 88px; right: max(16px, var(--gutter)); display: flex; max-width: calc(100vw - 32px); padding: 8px; align-items: center; flex-wrap: wrap; gap: 8px 12px; border: 2px solid var(--ink); background: var(--paper); box-shadow: 4px 4px 0 #20231f44; pointer-events: auto; }
 .pixel-replay-status { max-width: 24ch; font: 400 .75rem/1.4 var(--pixel-font); }
+.pixel-replay-track { color: var(--muted); font-size: .875rem; white-space: nowrap; }
+.pixel-replay-sound { min-height: 44px; padding: 7px 10px; border: 1px solid var(--ink); background: var(--paper); color: var(--ink); font: 400 .875rem var(--pixel-font); cursor: pointer; }
+.pixel-replay-sound:hover { background: var(--line); }
+.pixel-replay-sound:disabled { opacity: .55; cursor: default; }
 .pixel-replay-skip { min-height: 44px; padding: 7px 10px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); font: 400 .75rem var(--pixel-font); cursor: pointer; }
 .pixel-replay-skip:hover { background: var(--paper); color: var(--ink); }
 .pixel-replay-frame { position: absolute; top: var(--frame-y, 0px); left: var(--frame-x, 0px); width: var(--frame-w, 100px); height: var(--frame-h, 70px); border: 2px solid var(--ink); background: rgb(250 249 246 / 18%); opacity: 0; transform: scale(.12, .18); transform-origin: var(--frame-origin, 0 0); transition: transform var(--frame-duration, 480ms) cubic-bezier(.16,1,.3,1), opacity .12s linear; box-shadow: 0 0 0 1px var(--paper); }
@@ -997,7 +1001,7 @@ body.is-pixel-replaying [data-replay-direction='top'] { --replay-start: inset(10
 body.is-pixel-replaying [data-replay-direction='bottom'] { --replay-start: inset(0 0 100% 0); }
 body.is-pixel-replaying .site-nav { z-index: 50; }
 @keyframes pixel-build-in { from { opacity: 0; clip-path: var(--replay-start, inset(0 100% 0 0)); transform: translateY(8px); } to { opacity: 1; clip-path: inset(0); transform: translateY(0); } }
-@media (max-width: 650px) { .pixel-replay-launch { right: 14px; bottom: 36px; min-height: 44px; font-size: .72rem; } .pixel-replay-controls { top: auto; right: 12px; bottom: 14px; left: 12px; justify-content: space-between; } .pixel-replay-status { font-size: .75rem; } .pixel-replay-agent b, .agent-extra.is-working b { display: none; } .pixel-replay-clipboard { width: min(140px, 38vw); } .pixel-replay-aircraft { width: 68px; height: 68px; } .pixel-replay-thank-you { font-size: clamp(.9rem, 5vw, 1.8rem); letter-spacing: 0; } }
+@media (max-width: 650px) { .pixel-replay-launch { right: 14px; bottom: 36px; min-height: 44px; font-size: .72rem; } .pixel-replay-controls { top: auto; right: 12px; bottom: 14px; left: 12px; justify-content: space-between; } .pixel-replay-status { flex-basis: 100%; max-width: none; font-size: .75rem; } .pixel-replay-track { flex-basis: 100%; white-space: normal; } .pixel-replay-sound { min-height: 40px; } .pixel-replay-agent b, .agent-extra.is-working b { display: none; } .pixel-replay-clipboard { width: min(140px, 38vw); } .pixel-replay-aircraft { width: 68px; height: 68px; } .pixel-replay-thank-you { font-size: clamp(.9rem, 5vw, 1.8rem); letter-spacing: 0; } }
 @media (prefers-reduced-motion: reduce) { .pixel-replay-agent, .pixel-replay-sword, .pixel-replay-frame, .pixel-replay-clipboard, .pixel-replay-guide, .pixel-replay-card-token, .pixel-replay-aircraft, .pixel-replay-thank-you, .pixel-replay-pointer { transition: none; } body.is-pixel-replaying [data-replay-visible] { animation: none; } }
 /* Container sizing also handles browser/text zoom inside the modal. */
 .journey-dialog { container-type: inline-size; }
