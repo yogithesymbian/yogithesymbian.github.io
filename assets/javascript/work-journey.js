@@ -4,8 +4,8 @@ const stops = [
   { name: 'Australia', point: [134, -25], type: 'Recruitment platform', title: 'Connecting people with opportunities', copy: 'Worked on Casual Chase, an Australian recruitment platform with job discovery and subscription payment integration.', note: 'Laravel / Alpine.js / Payment API' },
   { name: 'India', point: [79, 22], type: 'Client collaboration', title: 'Small projects, lasting lessons', copy: 'Helped an Indian client migrate an Android Studio SDK. Clear communication and professional collaboration made this a memorable engagement.', note: 'Android tooling · Independent collaboration', href: 'writing/the-real-contract-pengalaman-berkesan.html', link: 'Read the collaboration story' },
   { name: 'Indonesia', point: [118, -3], type: 'Regional chapter', title: 'Building closer to home', copy: 'From web and mobile products to operational systems, this chapter brings the journey back to Indonesia—and closer to Kalimantan.', note: 'Products / Systems / Local connections', href: '#work', link: 'Explore selected work' },
-  { name: 'Balikpapan', point: [116.83, -1.24], type: 'Based here', title: 'A base in East Kalimantan', copy: 'Balikpapan is my base as a software engineer, working with teams in Indonesia and abroad.', note: 'East Kalimantan / Indonesia', href: '#contact', link: 'Start a conversation' },
-  { name: 'Samarinda', point: [117.15, -.50], type: 'Education platform', title: 'Software for academic workflows', copy: 'Built a web-based thesis management system for Universitas 17 Agustus 1945 Samarinda. The city is also part of my education story at Politeknik Negeri Samarinda.', note: 'React / Ant Design / Lumen / MySQL' }
+  { name: 'Samarinda', point: [117.15, -.50], type: 'Education platform', title: 'Software for academic workflows', copy: 'Built a web-based thesis management system for Universitas 17 Agustus 1945 Samarinda. The city is also part of my education story at Politeknik Negeri Samarinda.', note: 'React / Ant Design / Lumen / MySQL' },
+  { name: 'Balikpapan', point: [116.83, -1.24], type: 'Based here', title: 'A base in East Kalimantan', copy: 'Balikpapan is my base as a software engineer, working with teams in Indonesia and abroad.', note: 'East Kalimantan / Indonesia', href: '#contact', link: 'Start a conversation' }
 ];
 let land, countries;
 export async function prepare() {
@@ -20,12 +20,55 @@ export async function prepare() {
 }
 export function createJourney(dialog) {
   const root = dialog.querySelector('.journey-experience');
-  root.innerHTML = `<div class="journey-body"><div class="journey-map-wrap"><div class="journey-map-caption"><span>PROJECTS & CONNECTIONS</span><span class="journey-scale">WORLD VIEW</span></div><canvas class="journey-map" aria-hidden="true"></canvas><div class="journey-zoom"><button type="button" data-action="zoom-in" aria-label="Zoom in">+</button><button type="button" data-action="zoom-out" aria-label="Zoom out">−</button><button type="button" data-action="reset">Reset view</button></div><p class="journey-map-hint">Drag to explore · scroll to zoom<br>Routes represent collaborations, not physical travel.</p></div><section class="journey-story" aria-label="Location story" tabindex="0"><p class="journey-count"></p><p class="journey-type"></p><h3></h3><h4></h4><p class="journey-copy"></p><p class="journey-note"></p><a class="journey-project"></a></section></div><nav class="journey-stops" aria-label="Journey locations">${stops.map((s,i)=>`<button type="button" data-stop="${i}"><span>0${i+1}</span>${s.name}</button>`).join('')}</nav><footer class="journey-footer"><div class="journey-playback"><button type="button" data-action="previous" aria-label="Previous location">← Previous</button><button type="button" data-action="play">Pause</button><button type="button" data-action="next" aria-label="Next location">Next →</button><button type="button" data-action="skip">Skip tour</button><button type="button" data-action="replay" hidden>Replay</button></div><span class="journey-state" role="status" aria-live="polite"></span><a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener noreferrer">Map: Natural Earth ↗</a></footer>`;
+  root.innerHTML = `<div class="journey-body"><div class="journey-map-wrap"><div class="journey-map-caption"><span>PROJECTS & CONNECTIONS</span><span class="journey-scale">WORLD VIEW</span></div><canvas class="journey-map" aria-hidden="true"></canvas><div class="journey-zoom"><button type="button" data-action="zoom-in" aria-label="Zoom in">+</button><button type="button" data-action="zoom-out" aria-label="Zoom out">−</button><button type="button" data-action="reset">Reset view</button></div><p class="journey-map-hint">Drag to explore · scroll to zoom<br>Routes represent collaborations, not physical travel.</p><aside class="journey-guide" aria-label="Map guide" hidden><img src="assets/journey/yogi-guide.webp" width="1024" height="1536" alt="" decoding="async"><div class="journey-guide-content"><p class="journey-guide-progress"></p><p class="journey-guide-message"></p><div class="journey-guide-actions"><button type="button" data-guide="next">Next →</button><button type="button" data-guide="start" hidden>Start tour</button><button type="button" data-guide="explore" hidden>Explore myself</button><button type="button" data-guide="dismiss">Skip guide</button><button type="button" data-guide="never">Don’t show again</button></div></div></aside></div><section class="journey-story" aria-label="Location story" tabindex="0"><p class="journey-count"></p><p class="journey-type"></p><h3></h3><h4></h4><p class="journey-copy"></p><p class="journey-note"></p><a class="journey-project"></a></section></div><nav class="journey-stops" aria-label="Journey locations">${stops.map((s,i)=>`<button type="button" data-stop="${i}"><span>0${i+1}</span>${s.name}</button>`).join('')}</nav><footer class="journey-footer"><div class="journey-playback"><button type="button" data-action="previous" aria-label="Previous location">← Previous</button><button type="button" data-action="play">Pause</button><button type="button" data-action="next" aria-label="Next location">Next →</button><button type="button" data-action="skip">Skip tour</button><button type="button" data-action="replay" hidden>Replay</button><button type="button" data-action="guide">Show guide</button></div><span class="journey-state" role="status" aria-live="polite"></span><div class="journey-progress" aria-hidden="true"><span class="journey-progress-label">NEXT STOP</span><span class="journey-progress-track"><span class="journey-progress-fill"></span></span></div><a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener noreferrer">Map: Natural Earth ↗</a></footer>`;
   const $ = selector => root.querySelector(selector);
   const canvas = $('.journey-map'), ctx = canvas.getContext('2d');
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   let index = 0, active = false, started = false, playing = false, finished = false;
+  const guideKey = 'yogi-work-journey-guide-hidden-v2';
+  const guideMessages = [
+    'Hi, I’m Yogi in pixels. Let me show you the collaborations behind my work.',
+    'Choose a location to read its story. Drag the map to explore and scroll to zoom.',
+    'These routes connect collaborations, not physical trips. Ready to take the tour?'
+  ];
+  let guideStep = 0;
+  let guideTimer = 0;
+  const guideIsHidden = () => { try { return localStorage.getItem(guideKey) === 'yes'; } catch { return false; } };
+  const hideGuideForever = () => { try { localStorage.setItem(guideKey, 'yes'); } catch { /* Storage may be unavailable. */ } };
+  function renderGuide() {
+    clearTimeout(guideTimer);
+    $('.journey-guide-progress').textContent = `GUIDE ${guideStep + 1} / ${guideMessages.length}`;
+    $('.journey-guide-message').textContent = guideMessages[guideStep];
+    $('[data-guide="next"]').hidden = guideStep === guideMessages.length - 1;
+    $('[data-guide="start"]').hidden = guideStep !== guideMessages.length - 1 || motion.matches;
+    $('[data-guide="explore"]').hidden = guideStep !== guideMessages.length - 1;
+    $('[data-guide="dismiss"]').hidden = guideStep === guideMessages.length - 1;
+    if (guideStep < guideMessages.length - 1 && !motion.matches) {
+      guideTimer = setTimeout(() => {
+        if (!active || $('.journey-guide').hidden) return;
+        guideStep++;
+        renderGuide();
+      }, 3400);
+    }
+  }
+  function showGuide() {
+    pause();
+    guideStep = 0;
+    renderGuide();
+    $('.journey-guide').hidden = false;
+    controls();
+    $('[data-guide="next"]').focus({ preventScroll: true });
+  }
+  function hideGuide(startTour = false) {
+    clearTimeout(guideTimer);
+    $('.journey-guide').hidden = true;
+    if (startTour) { select(0); resume(); }
+    else { finished = true; controls(); }
+    $('[data-action="guide"]').focus({ preventScroll: true });
+  }
+  const stopDuration = 4500;
   let frame = 0, timer = 0, transition = null, drag = null, pulseStart = 0;
+  let remaining = stopDuration, deadline = 0;
   const pointers = new Map();
   let pinch = null;
   let view = { x: 20, y: 12, span: 340 }, width = 800, height = 450;
@@ -176,6 +219,8 @@ export function createJourney(dialog) {
     $('[data-action="previous"]').disabled = index===0;
     $('[data-action="next"]').disabled = index===stops.length-1;
     $('.journey-state').textContent = `${motion.matches ? 'Manual exploration' : playing ? 'Playing' : finished ? 'Explore freely' : 'Paused'} · ${stops[index].name}`;
+    $('.journey-progress').hidden = finished || motion.matches || !$('.journey-guide').hidden;
+    $('.journey-progress-label').textContent = index === stops.length - 1 ? 'FINISHING' : 'NEXT STOP';
   }
   function story() {
     const s=stops[index];
@@ -228,45 +273,52 @@ export function createJourney(dialog) {
   function tick(now) {
     frame=0;if(!active||!playing)return;
     if(transition){const t=Math.min(1,(now-transition.start)/1200),e=t*t*(3-2*t);for(const k of ['x','y','span'])view[k]=transition.view[k]+(transition.target[k]-transition.view[k])*e;base();if(t===1)transition=null;}
-    draw(now);if(transition||now-pulseStart<2000)frame=requestAnimationFrame(tick);
+    $('.journey-progress-fill').style.transform = `scaleX(${Math.min(1, (stopDuration - Math.max(0, deadline - now)) / stopDuration)})`;
+    if(transition||now-pulseStart<2000)draw(now);
+    if(now<deadline)frame=requestAnimationFrame(tick);
   }
   function schedule() {
     if(!playing||!active)return;
-    pulseStart=performance.now();frame=requestAnimationFrame(tick);
-    timer=setTimeout(()=>{timer=0;if(index===stops.length-1){playing=false;finished=true;cancel();controls();draw();}else select(index+1,true);},11000);
+    pulseStart=performance.now();deadline=pulseStart+remaining;frame=requestAnimationFrame(tick);
+    timer=setTimeout(()=>{timer=0;if(index===stops.length-1){playing=false;finished=true;cancel();controls();draw();}else select(index+1,true);},remaining);
   }
   function pause() {
     if(!playing)return;
+    remaining=Math.max(0,deadline-performance.now());
     playing=false;cancel();transition=null;controls();draw();
   }
   function select(i,auto=false) {
     const from=index;if(!auto)pause();cancel();index=Math.max(0,Math.min(stops.length-1,i));
+    remaining=stopDuration;$('.journey-progress-fill').style.transform='scaleX(0)';
     const target=fit(index);
     if(auto&&!motion.matches&&active){transition={from,view:{...view},target,start:performance.now()};}
     else {transition=null;view=target;base();}
     hover=-1;canvas.style.cursor='grab';updateRelief();story();draw();if(playing)schedule();
   }
-  function resume() {if(motion.matches||!active||document.hidden)return;playing=true;finished=false;controls();schedule();}
+  function resume() {if(motion.matches||!active||document.hidden||playing)return;playing=true;finished=false;controls();schedule();}
   function resize(){if(!active)return;const r=canvas.getBoundingClientRect();width=r.width;height=r.height;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);base();draw();}
   function zoom(factor,x=width/2,y=height/2){pause();setHover(-1);const span=Math.max(1.8,Math.min(380,view.span*factor));view.x+=(x-width/2)*(view.span-span)/width;view.y-=(y-height/2)*(view.span-span)/width;view.span=span;base();draw();}
   root.addEventListener('click',e=>{
     const b=e.target.closest('button');if(!b)return;
+    if (b.dataset.guide) {
+      if (b.dataset.guide === 'next') { guideStep++; renderGuide(); (guideStep === guideMessages.length - 1 ? $('[data-guide="explore"]') : $('[data-guide="next"]')).focus({ preventScroll: true }); }
+      else if (b.dataset.guide === 'never') { hideGuideForever(); hideGuide(); }
+      else hideGuide(b.dataset.guide === 'start');
+      return;
+    }
     if(b.dataset.stop!==undefined){select(Number(b.dataset.stop));return;}
     switch(b.dataset.action){
       case 'previous':select(index-1);break;
       case 'next':select(index+1);break;
-      case 'play':playing?pause():resume();break;
+      case 'play':if(!$('.journey-guide').hidden){clearTimeout(guideTimer);$('.journey-guide').hidden=true;}playing?pause():resume();break;
       case 'skip':pause();finished=true;controls();break;
       case 'replay':pause();finished=false;select(0);resume();break;
+      case 'guide':showGuide();break;
       case 'reset':pause();view=fit(index);base();draw();break;
       case 'zoom-in':zoom(.75);break;
       case 'zoom-out':zoom(1.3);break;
     }
   });
-  $('.journey-story').addEventListener('pointerdown',pause);
-  $('.journey-story').addEventListener('focusin',pause);
-  $('.journey-story').addEventListener('wheel',pause,{passive:true});
-  $('.journey-story').addEventListener('touchstart',pause,{passive:true});
   $('.journey-project').addEventListener('click',()=>{pause();dialog.close();});
   canvas.addEventListener('wheel',e=>{e.preventDefault();const r=canvas.getBoundingClientRect();zoom(e.deltaY>0?1.15:.87,e.clientX-r.left,e.clientY-r.top);},{passive:false});
   canvas.addEventListener('pointerdown',e=>{pause();setHover(-1);pointers.set(e.pointerId,[e.clientX,e.clientY]);if(pointers.size===2){const [a,b]=[...pointers.values()];pinch={distance:Math.hypot(a[0]-b[0],a[1]-b[1]),span:view.span};drag=null;canvas.setPointerCapture(e.pointerId);return;}drag={id:e.pointerId,x:e.clientX,y:e.clientY,view:{...view},moved:false};canvas.setPointerCapture(e.pointerId);});
@@ -278,7 +330,7 @@ export function createJourney(dialog) {
   const reduced=()=>{if(motion.matches){pause();hover=-1;updateRelief(true);view=fit(index);base();draw();}controls();};
   const observer=new ResizeObserver(resize);
   return {
-    open(){active=true;root.hidden=false;document.addEventListener('visibilitychange',visibility);motion.addEventListener('change',reduced);observer.observe(canvas);resize();updateRelief(true);story();if(!started){started=true;select(0);resume();}controls();const focus=playing?$('[data-action="play"]'):$('.journey-story');focus.focus({preventScroll:true});},
-    close(){pause();active=false;hover=-1;updateRelief(true);cancel();transition=null;drag=null;pinch=null;pointers.clear();observer.disconnect();document.removeEventListener('visibilitychange',visibility);motion.removeEventListener('change',reduced);}
+    open(){active=true;root.hidden=false;document.addEventListener('visibilitychange',visibility);motion.addEventListener('change',reduced);observer.observe(canvas);resize();updateRelief(true);story();if(!started){started=true;select(0);}if(!guideIsHidden())showGuide();else if(!finished)resume();controls();if($('.journey-guide').hidden){const focus=playing?$('[data-action="play"]'):$('.journey-story');focus.focus({preventScroll:true});}},
+    close(){clearTimeout(guideTimer);$('.journey-guide').hidden=true;pause();active=false;hover=-1;updateRelief(true);cancel();transition=null;drag=null;pinch=null;pointers.clear();observer.disconnect();document.removeEventListener('visibilitychange',visibility);motion.removeEventListener('change',reduced);}
   };
 }
