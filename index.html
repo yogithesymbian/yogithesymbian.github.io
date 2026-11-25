@@ -48,13 +48,14 @@
   }
   </script>
   <link rel="preload" as="image" href="assets/journey/world.svg">
-  <script src="assets/javascript/theme.js?v=20261108-control-1"></script>
-  <link rel="stylesheet" href="assets/styles/site.css?v=20261111-director-hud-15">
+  <link rel="preload" as="font" href="assets/fonts/silkscreen-regular.ttf" type="font/ttf" crossorigin>
+  <script src="assets/javascript/theme.js?v=20261126-a11y-1"></script>
+  <link rel="stylesheet" href="assets/styles/site.css?v=20261126-modern-web-1">
   <script src="assets/javascript/journey-loader.js?v=20261110-journey-flow-3" defer></script>
   <script src="assets/javascript/comic-help.js?v=20261108-pm-spotlight-1" defer></script>
   <script src="assets/javascript/showcase.js?v=20261103-mobile-star-1" defer></script>
-  <script src="assets/javascript/scroll-progress.js?v=4" defer></script>
-  <script src="assets/javascript/pixel-replay.js?v=20261111-mobile-comics-17" defer></script>
+  <script src="assets/javascript/scroll-progress.js?v=5" defer></script>
+  <script src="assets/javascript/pixel-replay-loader.js?v=20261126-intent-1" defer></script>
   <script data-goatcounter="https://yogithesymbian.goatcounter.com/count" async
     src="https://gc.zgo.at/count.js"></script>
 </head>
@@ -69,7 +70,7 @@
   <div class="scroll-progress" aria-hidden="true">
     <svg class="scroll-dino" viewBox="0 0 32 32" shape-rendering="crispEdges"><path fill="currentColor" d="M18 2h10v2h2v9h-4v2h-7v4h-4v3h-4v-2H8v-2H5v-2H2v-3H0v-3h2v2h3v2h3v2h7V7h3zM21 17h3v2h-3z"/><path fill="var(--paper)" d="M25 5h2v2h-2zM25 11h5v2h-5z"/><path class="dino-leg-a" fill="currentColor" d="M11 21h4v6h-2v3H9v-2h2zM19 19h4v7h-2v4h-4v-2h2z"/><path class="dino-leg-b" fill="currentColor" d="M11 21h4v7h-2v2H9v-3h2zM19 19h4v6h-2v5h-4v-2h2z"/></svg>
   </div>
-  <button class="pixel-replay-launch" type="button" hidden aria-label="Play the secret pixel build">▶ Secret build</button>
+  <button class="pixel-replay-launch" type="button" hidden aria-label="Secret build — play the pixel build">▶ Secret build</button>
   <nav class="site-nav" aria-label="Main navigation">
     <a class="site-mark" href="#top" aria-label="YA/W — Yogi Arif Widodo, back to top">YA<span
         aria-hidden="true">/</span>W</a>
@@ -147,7 +148,7 @@
           <h2 id="communication-title">Good software starts with understanding.</h2>
           <p>Three small moments from software work: a clear request, a question worth asking, and a risk shared early.</p>
         </div>
-        <div class="communication-stage" aria-label="Pixel comic scene transitioning from customer, project manager, and developer to a direct customer and developer conversation">
+        <div class="communication-stage" role="img" aria-label="Pixel comic scene transitioning from customer, project manager, and developer to a direct customer and developer conversation">
           <div class="communication-art" aria-hidden="true">
             <div class="communication-sky"></div>
             <div class="pixel-character character-user"><span>USER</span><i></i></div>

@@ -13,15 +13,16 @@
     const y = window.scrollY;
     const max = document.documentElement.scrollHeight - window.innerHeight;
     const progress = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
+    const indicatorWidth = indicator.offsetWidth;
+    const cactusBounds = reducedMotion.matches ? [] : cacti.map(cactus => cactus.getBoundingClientRect());
 
-    const x = 12 + progress * Math.max(0, window.innerWidth - indicator.offsetWidth - 24);
+    const x = 12 + progress * Math.max(0, window.innerWidth - indicatorWidth - 24);
     indicator.style.left = `${x}px`;
 
     let jump = 0;
     if (!reducedMotion.matches) {
-      const dinoCenter = x + indicator.offsetWidth / 2;
-      for (const cactus of cacti) {
-        const bounds = cactus.getBoundingClientRect();
+      const dinoCenter = x + indicatorWidth / 2;
+      for (const bounds of cactusBounds) {
         const distance = Math.abs(dinoCenter - (bounds.left + bounds.width / 2));
         if (distance < 44) jump = Math.max(jump, 34 * Math.sin(Math.PI * (1 - distance / 44) / 2));
       }
