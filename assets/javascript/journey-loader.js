@@ -78,7 +78,7 @@
     status.textContent = 'Opening the world map…';
     retry.hidden = true;
     try {
-      const module = await import('./work-journey.js?v=20261110-flow-4');
+      const module = await import('./work-journey.js?v=20261128-journey-paths-1');
       await module.prepare();
       if (token !== generation || !dialog.open) return;
       controller ||= module.createJourney(dialog);

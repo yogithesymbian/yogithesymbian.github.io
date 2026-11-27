@@ -19,10 +19,8 @@
     });
   }
 
-  apply(manual ? saved : system.matches ? 'dark' : 'light');
-  system.addEventListener('change', event => {
-    if (!manual) apply(event.matches ? 'dark' : 'light');
-  });
+  // Dark is the portfolio's intentional baseline; visitors can still switch manually.
+  apply(manual ? saved : 'dark');
 
   function mount() {
     const header = document.querySelector('.site-nav, .blog-masthead');
