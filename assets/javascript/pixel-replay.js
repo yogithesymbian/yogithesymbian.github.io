@@ -8,7 +8,7 @@
   const phase = overlay.querySelector('.pixel-replay-phase');
   const skip = overlay.querySelector('.pixel-replay-skip');
   const sound = overlay.querySelector('.pixel-replay-sound');
-  const audio = new Audio('assets/audio/ascension-secret-build.mp3');
+  const audio = new Audio(new URL('../assets/audio/ascension-secret-build.mp3', document.baseURI).href);
   audio.preload = 'none';
   let soundEnabled = true;
   let audioGeneration = 0;

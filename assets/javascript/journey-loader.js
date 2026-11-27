@@ -53,7 +53,7 @@
     spotlightStep = step;
     spotlight = document.createElement('div');
     spotlight.className = 'journey-spotlight';
-    spotlight.innerHTML = '<div class="journey-spotlight-frame" aria-hidden="true"></div><div class="journey-spotlight-note" role="status"><img src="assets/journey/yogi-guide.webp" alt="" width="1024" height="1536"><div><p>SIDE QUEST 1 / 2</p><span>Explore the projects and collaborations behind my work.</span><div class="journey-spotlight-actions"><button type="button" data-spotlight="next">Next</button><button type="button" data-spotlight="never">Don’t show again</button></div></div></div>';
+    spotlight.innerHTML = `<div class="journey-spotlight-frame" aria-hidden="true"></div><div class="journey-spotlight-note" role="status"><img src="${new URL('../assets/journey/yogi-guide.webp', document.baseURI).href}" alt="" width="1024" height="1536"><div><p>SIDE QUEST 1 / 2</p><span>Explore the projects and collaborations behind my work.</span><div class="journey-spotlight-actions"><button type="button" data-spotlight="next">Next</button><button type="button" data-spotlight="never">Don’t show again</button></div></div></div>`;
     spotlight.querySelector('.journey-spotlight-note p').textContent = spotlightSteps[step].title;
     spotlight.querySelector('.journey-spotlight-note span').textContent = spotlightSteps[step].message;
     spotlight.querySelector('[data-spotlight="next"]').textContent = step === 0 ? 'Next' : 'Close';

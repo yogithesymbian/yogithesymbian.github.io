@@ -4,6 +4,7 @@ const closeButton = document.querySelector("[data-showcase-close]");
 const tabs = [...document.querySelectorAll("[data-tab]")];
 const panels = [...document.querySelectorAll("[data-panel]")];
 let showcaseInitialized = false;
+const assetUrl = path => new URL(`../${path}`, document.baseURI).href;
 
 const projects = [
   {
@@ -246,15 +247,15 @@ function makeProjectCard(project) {
     media = document.createElement("video");
     media.controls = true;
     media.preload = "none";
-    if (project.image) media.dataset.poster = `assets/projects/${project.image}`;
+    if (project.image) media.dataset.poster = assetUrl(`assets/projects/${project.image}`);
     media.setAttribute("aria-label", `${project.title} video`);
     const source = document.createElement("source");
-    source.dataset.src = `assets/projects/${project.video}`;
+    source.dataset.src = assetUrl(`assets/projects/${project.video}`);
     source.type = "video/webm";
     media.append(source, "Your browser does not support WebM video.");
   } else if (project.image) {
     media = document.createElement("img");
-    media.src = `assets/projects/${project.image}`;
+    media.src = assetUrl(`assets/projects/${project.image}`);
     media.alt = project.alt;
     media.loading = "lazy";
     media.decoding = "async";
@@ -353,7 +354,7 @@ function makeClientCard(client) {
   const card = document.createElement("div");
   card.className = "client-card";
   const image = document.createElement("img");
-  image.src = client.file;
+  image.src = assetUrl(client.file);
   image.alt = client.name;
   image.loading = "lazy";
   image.decoding = "async";

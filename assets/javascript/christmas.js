@@ -25,7 +25,7 @@
   if (!enabled) return;
   document.documentElement.dataset.season = 'christmas';
   const script = document.createElement('script');
-  script.src = 'assets/javascript/kiro-signal-world.js?v=20261126-distill-1';
+  script.src = new URL('../assets/javascript/kiro-signal-world.js?v=20261126-distill-1', document.baseURI).href;
   script.defer = true;
   document.head.append(script);
 })();

@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://gc.zgo.at 'sha256-vPgCjYvQlZPjDx6SjTprc7ghE/+a52jWdHcA7RCN5JU='; style-src 'self'; img-src 'self' data: https://yogithesymbian.goatcounter.com; media-src 'self'; font-src 'self'; connect-src 'self' https://yogithesymbian.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://gc.zgo.at 'sha256-vPgCjYvQlZPjDx6SjTprc7ghE/+a52jWdHcA7RCN5JU=' 'sha256-6B1N4H3w3oA5WRjJfQoFwOEREHs8F59Pmn+RvdTcToA='; style-src 'self'; img-src 'self' data: https://yogithesymbian.goatcounter.com; media-src 'self'; font-src 'self'; connect-src 'self' https://yogithesymbian.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests; frame-ancestors 'none'
   Strict-Transport-Security: max-age=31536000
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
