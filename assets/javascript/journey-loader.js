@@ -10,7 +10,6 @@
     { target: launch, title: 'SIDE QUEST 1 / 2', message: 'Explore the projects and collaborations behind my work.' },
     { target: secretLaunch, title: 'SIDE QUEST 2 / 2', message: 'Try Secret build to watch this page assemble itself, pixel by pixel.' }
   ];
-  const motion = matchMedia('(prefers-reduced-motion: reduce)');
   let spotlightTimer = 0;
   let spotlight;
   let spotlightStep = 0;
@@ -67,13 +66,9 @@
     spotlight.querySelector('[data-spotlight="never"]').addEventListener('click', hideSpotlightForever);
     spotlightTimer = setTimeout(step === 0 ? advanceSpotlight : closeSpotlight, step === 0 ? 4500 : 5000);
   }
-  if (!spotlightIsHidden()) {
-    spotlightTimer = setTimeout(() => {
-      if (dialog.open || document.hidden || spotlightIsHidden()) return;
-      const rect = launch.getBoundingClientRect();
-      if (!motion.matches && rect.top >= 80 && rect.bottom <= innerHeight - 32) showSpotlight();
-    }, 1200);
-  }
+  // Offer the tour on intent, not during initial rendering or by moving the page.
+  launch.addEventListener('pointerenter', () => showSpotlight());
+  launch.addEventListener('focus', () => showSpotlight());
   const status = dialog.querySelector('.journey-loading');
   const retry = dialog.querySelector('.journey-retry');
   let controller, generation = 0, previousOverflow = '';
