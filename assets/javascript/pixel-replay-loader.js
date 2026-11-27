@@ -9,7 +9,7 @@
     if (runtime) return runtime;
     runtime = new Promise((resolve, reject) => {
       const script = document.createElement('script');
-      script.src = 'assets/javascript/pixel-replay.js?v=20261111-mobile-comics-17';
+      script.src = 'assets/javascript/pixel-replay.js?v=20261127-comics-scroll-2';
       script.onload = resolve;
       script.onerror = reject;
       document.body.append(script);

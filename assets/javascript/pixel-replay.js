@@ -121,6 +121,7 @@
   });
   overlay.appendChild(thankYou);
   const communication = document.querySelector('[data-communication]');
+  const communicationDetails = communication?.querySelector('.communication-details');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const sequence = [
     ['.site-nav', 'A new path appears.'],
@@ -165,6 +166,7 @@
   let previousScrollBehavior = '';
   let communicationWasResolved = false;
   let communicationReplayResolved = false;
+  let communicationDetailsWasOpen = false;
   let replayStep = -1;
 
   function wait(ms) {
@@ -816,9 +818,10 @@
     element.dataset.replayDirection = 'left';
     element.setAttribute('data-replay-visible', '');
     const mobile = innerWidth <= 650;
-    if (mobile) {
-      const first = cards[0].getBoundingClientRect();
-      await scrollToPosition(window.scrollY + first.top - 108, 280, token);
+    const stories = element.querySelector('.communication-details > summary');
+    if (stories) {
+      const top = window.scrollY + stories.getBoundingClientRect().top - (mobile ? 108 : 120);
+      await scrollToPosition(top, mobile ? 340 : 480, token);
     }
     if (token !== run) return;
     status.textContent = 'Three conversations build at once.';
@@ -958,6 +961,7 @@
       if (resolved) communication.classList.add('is-story-resolved');
       communication.dispatchEvent(new Event('communication:story-replay-end'));
     }
+    if (communicationDetails) communicationDetails.open = communicationDetailsWasOpen;
     overlay.hidden = true;
     sword.classList.remove('is-visible');
     frame.classList.remove('is-visible', 'is-dragging');
@@ -991,6 +995,8 @@
     const token = ++run;
     communicationWasResolved = false;
     communicationReplayResolved = false;
+    communicationDetailsWasOpen = Boolean(communicationDetails?.open);
+    if (communicationDetails) communicationDetails.open = true;
     startScroll = window.scrollY;
     previousScrollBehavior = document.documentElement.style.scrollBehavior;
     document.documentElement.style.scrollBehavior = 'auto';

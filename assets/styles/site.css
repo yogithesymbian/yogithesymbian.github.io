@@ -134,6 +134,13 @@ a:focus-visible, button:focus-visible, video:focus-visible { outline: 3px solid 
 .character-dev i { height: 74px; background: repeating-linear-gradient(0deg, #62645f 0 14px, #20231f 14px 20px); }
 .communication-object { position: absolute; z-index: 1; top: 40%; left: 50%; display: grid; width: 48px; aspect-ratio: 1; place-items: center; border: 2px dashed var(--muted); background: var(--paper); color: var(--muted); font: 1.2rem var(--pixel-font); transform: translate(-50%, -50%); }
 .communication-object.is-resolved { border-style: solid; background: var(--ink); color: var(--paper); }
+.communication-details { width: min(var(--canvas), 100%); margin: 26px auto 0; }
+.communication-details > summary { width: fit-content; min-height: 48px; padding: 10px 16px; border: 2px solid var(--ink); background: var(--ink); color: var(--paper); font: .8rem/1.5 var(--pixel-font); cursor: pointer; list-style: none; }
+.communication-details > summary::-webkit-details-marker { display: none; }
+.communication-details > summary span { display: inline-block; margin-left: 12px; transition: transform .2s ease; }
+.communication-details[open] > summary span { transform: rotate(90deg); }
+.communication-details > summary:hover { background: var(--paper); color: var(--ink); }
+.communication-details > summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
 .communication-comics { display: grid; width: min(var(--canvas), 100%); margin: 26px auto 0; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .communication-comic { min-width: 0; padding: 12px; border: 2px solid var(--ink); background: var(--paper); box-shadow: 4px 4px 0 var(--line); }
 .comic-heading { display: flex; min-height: 34px; margin-bottom: 10px; align-items: center; justify-content: space-between; gap: 8px; }
