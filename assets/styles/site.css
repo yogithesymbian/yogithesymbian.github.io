@@ -870,7 +870,7 @@ body { line-height: 1.75; }
 .hero { isolation: isolate; position: relative; }
 .journey-background { position: absolute; inset: 56px 0 0; z-index: 0; pointer-events: none; background: url('../journey/world.svg') center 45% / max(1100px, 100%) auto no-repeat; opacity: .55; mask-image: linear-gradient(90deg, transparent 3%, #000 75%); }
 .journey-background { overflow: hidden; }
-.hero-map-relief { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; pointer-events: none; }
+
 .journey-flight { position: absolute; top: 12%; left: 4%; width: min(58vw, 820px); height: auto; overflow: visible; opacity: .52; }
 .journey-flight-route { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 5 9; opacity: .7; }
 .journey-flight-stop { fill: var(--paper); stroke: var(--accent); stroke-width: 3; }
