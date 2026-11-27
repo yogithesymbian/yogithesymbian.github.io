@@ -47,11 +47,11 @@
     }
   }
   </script>
-  <link rel="preload" as="image" href="assets/journey/world.svg">
+  <link rel="preload" as="image" href="assets/journey/world.svg" fetchpriority="high">
   <link rel="preload" as="font" href="assets/fonts/silkscreen-regular.ttf" type="font/ttf" crossorigin>
   <script src="assets/javascript/theme.js?v=20261126-a11y-1"></script>
   <link rel="stylesheet" href="assets/styles/site.css?v=20261126-modern-web-1">
-  <script src="assets/javascript/journey-loader.js?v=20261110-journey-flow-3" defer></script>
+  <script src="assets/javascript/journey-loader.js?v=20261127-no-autoscroll-1" defer></script>
   <script src="assets/javascript/comic-help.js?v=20261108-pm-spotlight-1" defer></script>
   <script src="assets/javascript/showcase.js?v=20261103-mobile-star-1" defer></script>
   <script src="assets/javascript/scroll-progress.js?v=5" defer></script>
@@ -114,7 +114,7 @@
         <div class="hero-visual">
           <p class="avatar-label" aria-hidden="true">YOGI / SOFTWARE ENGINEER</p>
           <div class="signal-corner" aria-hidden="true"></div>
-          <img src="assets/profile/yogi-arif-widodo.webp" width="1024" height="1536"
+          <img src="assets/profile/yogi-arif-widodo.webp" srcset="assets/profile/yogi-arif-widodo-640.webp 640w, assets/profile/yogi-arif-widodo.webp 1024w" sizes="(max-width: 700px) 340px, 555px" width="1024" height="1536"
             alt="Portrait of Yogi Arif Widodo" decoding="async" fetchpriority="high">
           <div class="hero-signals" aria-label="Engineering focus">
             <span>Product</span><span>Systems</span><span>Cloud</span><span>Applied AI</span>

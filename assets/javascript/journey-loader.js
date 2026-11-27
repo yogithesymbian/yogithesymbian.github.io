@@ -71,10 +71,7 @@
     spotlightTimer = setTimeout(() => {
       if (dialog.open || document.hidden || spotlightIsHidden()) return;
       const rect = launch.getBoundingClientRect();
-      if ((rect.top < 80 || rect.bottom > innerHeight - 32) && !motion.matches && scrollY < 80) {
-        launch.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        spotlightTimer = setTimeout(showSpotlight, 850);
-      } else showSpotlight();
+      if (!motion.matches && rect.top >= 80 && rect.bottom <= innerHeight - 32) showSpotlight();
     }, 1200);
   }
   const status = dialog.querySelector('.journey-loading');
